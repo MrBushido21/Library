@@ -1,0 +1,133 @@
+++++ httpd-0.1 PASSED
+++++ httpd-0.2 PASSED
+++++ httpd-0.2.1.1a PASSED
+++++ httpd-0.2.1.1c PASSED
+++++ httpd-0.2.2.4 PASSED
+++++ httpd-0.2.3.1 PASSED
+++++ httpd-0.2.4.1 PASSED
+++++ httpd-0.2.4.2 PASSED
+++++ httpd-0.2.5.2 PASSED
+++++ httpd-0.2.5.4 PASSED
+++++ httpd-0.2.6.1 PASSED
+++++ httpd-0.2.7.1 PASSED
+++++ httpd-0.2.8.1 PASSED
+++++ httpd-0.2.8.2 PASSED
+++++ httpd-0.2.9.1 PASSED
+++++ httpd-0.2.10.1 PASSED
+++++ httpd-0.2.10.2 PASSED
+++++ httpdonline-0.1 PASSED
+++++ httpdonline-1.0 PASSED
+++++ httpdonline-1.1.0 PASSED
+++++ httpdonline-1.1.1 PASSED
+++++ httpdonline-1.1.2 PASSED
+++++ httpdonline-1.1.3 PASSED
+
+
+==== httpdonline-1.1.4 found gif content FAILED
+==== Contents of test case:
+
+    parseresponse content [testquery http://localhost:$port/data/test.gif]
+
+---- Result was:
+
+---- Result should have been (exact matching):
+test
+==== httpdonline-1.1.4 FAILED
+
+++++ httpdonline-1.1.5 PASSED
+
+
+==== httpdonline-1.1.6 simple post FAILED
+==== Contents of test case:
+
+    parseresponse result [testquery http://localhost:$port {} {querydata}]
+
+---- Result was:
+HTTP/1.0 500 Internal Server Error
+---- Result should have been (exact matching):
+HTTP/1.0 404 Not Found
+==== httpdonline-1.1.6 FAILED
+
+
+
+==== httpdonline-1.2.1 simple notfound html FAILED
+==== Contents of test case:
+
+    parseresponse result [testquery http://localhost:$port/data/missing.html]
+
+---- Result was:
+HTTP/1.0 500 Internal Server Error
+---- Result should have been (exact matching):
+HTTP/1.0 404 Not Found
+==== httpdonline-1.2.1 FAILED
+
+++++ httpdonline-1.2.2 PASSED
+++++ httpdonline-1.99 PASSED
+++++ aserv-0.1 PASSED
+++++ aserv-0.3.1 PASSED
+++++ aserv-0.3.2 PASSED
+++++ aserv-0.3.3 PASSED
+++++ aserv-0.3.4 PASSED
+++++ aserv-0.3.5 PASSED
+++++ aserv-0.3.6 PASSED
+++++ aserv-0.3.7 PASSED
+++++ aserv-0.3.8 PASSED
+++++ aserv-0.3.9 PASSED
+++++ aserv-0.3.10 PASSED
+++++ aserv-0.3.12 PASSED
+++++ aserv-0.4.1 PASSED
+++++ aserv-1.0.1 PASSED
+++++ aserv-3.0 PASSED
+++++ aserv-3.0.1 PASSED
+++++ aserv-3.0.2 PASSED
+++++ aserv-3.0.3 PASSED
+++++ aserv-3.99 PASSED
+++++ aserv-test-0.1 PASSED
+++++ aserv-test-1.0 PASSED
+++++ aserv-test-1.0.1 PASSED
+++++ aserv-test-1.1.0 PASSED
+++++ aserv-test-1.1.1 PASSED
+++++ aserv-test-1.1.2 PASSED
+++++ aserv-test-1.2 PASSED
+++++ aserv-test-1.2.1 PASSED
+++++ aserv-test-1.2.2 PASSED
+++++ aserv-test-1.3.0 PASSED
+++++ aserv-test-1.3.1 PASSED
+++++ aserv-test-1.3.99 PASSED
+++++ aserv-test-99.0 PASSED
+++++ aserv-sqlite-0.1 PASSED
+
+
+==== aserv-sqlite-1.0 init source test FAILED
+==== Contents of test case:
+
+   aserv::sourceinit sqlite [file join [testsDirectory] data test.dat]
+
+---- Test generated error; Return code was: 1
+---- Return code should have been one of: 0 2
+---- errorInfo: couldn't load library "Z:/tmp/oleg/httpd/aserv/test/../../../bin/abonsql.dll": this library or a dependent library could not be found in library path
+    while executing
+"load Z:/tmp/oleg/httpd/aserv/test/../../../bin/abonsql.dll sqlite3"
+    ("package ifneeded sqlite 3.0" script)
+    invoked from within
+"package require sqlite 3"
+    (procedure "::aserv::source::sqlite::init" line 2)
+    invoked from within
+"::aserv::source::sqlite::init Z:/tmp/oleg/httpd/aserv/test/data/test.dat"
+    ("eval" body line 1)
+    invoked from within
+"eval [list ::aserv::source::${sourcetype}::init] $args"
+    (procedure "aserv::sourceinit" line 8)
+    invoked from within
+"aserv::sourceinit sqlite [file join [testsDirectory] data test.dat]"
+    ("uplevel" body line 2)
+    invoked from within
+"uplevel 1 $script"
+---- errorCode: WIN_LOAD MOD_NOT_FOUND
+==== aserv-sqlite-1.0 FAILED
+
+++++ aserv-sqlite-1.0.1 PASSED
+++++ aserv-sqlite-1.1.0 PASSED
+all.tcl:	Total	65	Passed	61	Skipped	0	Failed	4
+Sourced 0 Test Files.
+Files with failing tests: 01-httpdonline.test 04-aserv-sqlite.test

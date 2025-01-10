@@ -1,0 +1,53 @@
+<html> <head>
+<title>Miscellany</title>
+</head>
+
+<body>
+<center><h1>Tkinspect Startup</h1></center>
+
+<b>tkinspect</b> sources <tt>~/.tkinspect_opts</tt> after it has
+initialized various defaults, but before it creates any windows.  Here
+you may place <tt>option add</tt> commands and the like to customize
+<b>tkinspect</b>'s look and function.<p>
+
+<b>tkinspect</b> then creates a main window, and sources
+<tt>.tkinspect_init</tt> (in the current directory).  Here you might
+put commands that automatically selects an interpreter, opens a
+command line, sets up variable traces, etc.<p>
+
+<center><h1>Tkinspect Interface</h1></center>
+
+The following functions are available for controlling <b>tkinspect</b>
+or for use in startup files:
+
+<ul>
+  <li> <tt>tkinspect_set_target target</tt> sets <tt>target</tt> as
+       the current interpreter.<p>
+  <li> <tt>tkinspect_select type name</tt> selects a <a
+       href=Procs.html>proc</a>, <a href=Globals.html>global</a>,
+       <a href=Windows.html>window</a>, <a href=Images.html>image</a>, <a
+       href=Menus.html>menu</a>, or <a
+       href=Canvases.html>canvas</a>.  <tt>type</tt> should be
+       <tt>proc</tt>, <tt>global</tt>, <tt>window</tt>, <tt>image</tt>,
+       <tt>menu</tt>, or <tt>canvas</tt>.
+       <tt>name</tt> should be the name of the thing.<p>
+  <li> <tt>tkinspect_create_cmdline</tt> creates a command line
+       interface.<p>
+  <li> <tt>tkinspect_help ?topic?</tt> brings up the help window
+       containing <tt>topic</tt>.  <tt>topic</tt> defaults to
+       <b>Intro</b>.<p>
+  <li> <tt>tkinspect_value_text_widget</tt> returns the name of the text
+       widget in the <a href=Value.html>value</a>.<p>
+  <li> <tt>tkinspect_send_value</tt> sends the current value.<p>
+  <li> <tt>tkinspect_detach_value</tt> detaches the value window.<p>
+  <li> <tt>tkinspect_trace_global var</tt> creates a trace on the
+       global variable <tt>var</tt>.<p>
+  <li> <tt>tkinspect_display_image image</tt> displays the image
+       <tt>image</tt>.<p>
+</ul>
+
+<hr>
+<!-- hhmts start -->
+Last modified: Fri Jun 23 00:59:53 1995
+<!-- hhmts end -->
+</body> </html>

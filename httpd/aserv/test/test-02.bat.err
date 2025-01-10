@@ -1,0 +1,107 @@
+GET /ping HTTP/1.0
+ASERV 3 {{httpd sock508 {Connect 127.0.0.1 64787}} {
+}}
+ASERV 3 {{httpd sock508 {Request 25 {GET /ping HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock508 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock508}} {
+}}
+ASERV 5 {{handler {loadrequest sock508 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /ping ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#0 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock508 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock508 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock508 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock508}} {
+}}
+ASERV 3 {{httpd sock508 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock508 {Respond completed ok}} {
+}}
+GET /ping?bla-bla-bla HTTP/1.0
+ASERV 3 {{httpd sock516 {Connect 127.0.0.1 64788}} {
+}}
+ASERV 3 {{httpd sock516 {Request 25 {GET /ping?bla-bla-bla HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock516 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock516}} {
+}}
+ASERV 5 {{handler {loadrequest sock516 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /ping ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#1 protocol http left 25 outputheaders {} version 0 query bla-bla-bla} query {}}} {
+}}
+ASERV 3 {{httpd sock516 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock516 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock516 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock516}} {
+}}
+ASERV 3 {{httpd sock516 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock516 {Respond completed ok}} {
+}}
+GET /ping?bla-bla-$bla HTTP/1.0
+ASERV 3 {{httpd sock524 {Connect 127.0.0.1 64789}} {
+}}
+ASERV 3 {{httpd sock524 {Request 25 {GET /ping?bla-bla-$bla HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock524 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock524}} {
+}}
+ASERV 5 {{handler {loadrequest sock524 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /ping ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#2 protocol http left 25 outputheaders {} version 0 query {bla-bla-$bla}} query {}}} {
+}}
+ASERV 3 {{httpd sock524 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock524 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock524}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock524 {Respond completed ok}} {
+}}
+--> creating node domNode01EFFEC0
+--> creating node domNode01EFFEC0
+--> creating node domNode01F399A8
+--> creating node domNode01F399A8
+--> tcldom_docTrace c0 01ECEF90
+--> tcldom_docTrace delete doc 01ECEF90
+--> tcldom_docCmdDeleteProc doc 01ECEF90
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"
+--> creating node domNode01F7BFE0
+--> creating node domNode01F7BFE0
+--> creating node domNode01F8B1A0
+--> creating node domNode01F8B1A0
+--> tcldom_docTrace c0 01F383C8
+--> tcldom_docTrace delete doc 01F383C8
+--> tcldom_docCmdDeleteProc doc 01F383C8
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"
+--> creating node domNode01F7BFE0
+--> creating node domNode01F7BFE0
+--> creating node domNode01F8B1A0
+--> creating node domNode01F8B1A0
+--> tcldom_docTrace c0 01F32588
+--> tcldom_docTrace delete doc 01F32588
+--> tcldom_docCmdDeleteProc doc 01F32588
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"
+--> creating node domNode01F7BFE0
+--> creating node domNode01F7BFE0
+--> creating node domNode01F8B1A0
+--> creating node domNode01F8B1A0
+--> tcldom_docTrace c0 01F32C70
+--> tcldom_docTrace delete doc 01F32C70
+--> tcldom_docCmdDeleteProc doc 01F32C70
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"

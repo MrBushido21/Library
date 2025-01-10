@@ -1,0 +1,93 @@
+
+
+License and copyright
+=====================
+
+This software is copyrighted by Ramon Rib� (RAMSAN) ramsan@cimne.upc.es.
+(http://gid.cimne.upc.es/ramsan) The following terms apply to all files
+associated with the software unless explicitly disclaimed in individual files.
+See license.terms for details.
+
+Introduction
+============
+
+RamDebugger is a graphical debugger for the scripting lenguage Tcl-TK.
+With RamDebugger, it is possible to make Local Debugging, where the debugger
+starts the program to be debugged. and Remote debugging, where the program to
+debug is already started and RamDebugger connects to it.
+
+RamDebugger has additional capabilities like:
+
+ * Editing the code. It is possible to edit the code inside its own editor and
+resend the new code without closing the debugged program.
+
+ * The TCL-TK source code is colorized and supports automatic indentation.
+
+ * When stopping the debugger is one source code line, it is possible to view all
+the variables and expression values, as well as change them.
+
+ * It has additional options to measure execution times in the debugged program.
+Works in Linux and Windows
+
+ * Includes additional packages, like Tkcon and VisualRegexp, developed by third
+party people, as a convenience for RamDebugger users.
+
+ * The same program is an IDE for compiling and debugging c and c++
+
+Note: RamDebugger can also be an IDE for compiling and debugging c/c++
+code. It uses GDB as a backend. See *Note Compiling/Debugging c++::
+for details.
+
+Changes
+=======
+
+* See list of changes in ramdebugger html help
+
+web page
+========
+
+RamDebugger web page is at: http://www.compassis.com/ramdebugger
+
+
+Download
+========
+
+RamDebugger can be download from
+
+* ftp://ftp.compassis.com/pub/ramdebugger
+
+
+Installation and prerequisites
+==============================
+
+The only prerequisite before executing RamDebugger is to have Tcl-Tk
+installed. The tested version is Tcl-Tk8.4 and 8.5 They can be obtained from
+http://www.tcl.tk.
+
+RamDebugger has been tested on Windows and on Linux. For other UNIXes
+and MAC, it is necessary to obtain, separately, the package Tkhtml
+compiled for the platform. Without it, the help cannot be visualized.
+
+All the additional packages that RamDebugger uses, are already
+contained in the distribution.
+
+The distribution comes in a ZIP file. Once it is unpacked in one
+directory, RamDebugger is ready to begin to work.
+
+*Note:* Text files inside ZIP files have Windows line-ends. UNIX and
+Linux users may want to unzip using something like `unzip -a ...' in
+order to change the line-ends to Unix ones. After doing this and after
+changing the program to executable with `chmod +x RamDebugger.tcl', it
+is possible to start the program by just writing `RamDebugger.tcl'
+
+Starting RamDebugger
+====================
+
+To start RamDebugger on Windows, double-click over RamDebugger.tcl.
+
+To start Ramdebugger on UNIX, in the command line use something
+similar to: wish RamDebugger.tcl
+
+or just: RamDebugger.tcl if you followed the instructions in *Note
+Installation and prerequisites::.
+

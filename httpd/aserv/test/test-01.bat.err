@@ -1,0 +1,248 @@
+GET /data/test.html HTTP/1.0
+ASERV 3 {{httpd sock508 {Connect 127.0.0.1 64768}} {
+}}
+ASERV 3 {{httpd sock508 {Request 25 {GET /data/test.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock508 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock508}} {
+}}
+ASERV 5 {{handler {loadrequest sock508 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/test.html ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#0 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock508 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock508 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock508 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock508}} {
+}}
+ASERV 3 {{httpd sock508 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock508 {Respond completed ok}} {
+}}
+GET /data/test.html HTTP/1.0
+ASERV 3 {{httpd sock524 {Connect 127.0.0.1 64769}} {
+}}
+ASERV 3 {{httpd sock524 {Request 25 {GET /data/test.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock524 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock524}} {
+}}
+ASERV 5 {{handler {loadrequest sock524 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/test.html ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#1 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock524 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock524 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock524}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock524 {Respond completed ok}} {
+}}
+GET /data/teste.html HTTP/1.0
+ASERV 3 {{httpd sock532 {Connect 127.0.0.1 64770}} {
+}}
+ASERV 3 {{httpd sock532 {Request 25 {GET /data/teste.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock532 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock532}} {
+}}
+ASERV 5 {{handler {loadrequest sock532 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/teste.html ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#2 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock532 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock532 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock532 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock532}} {
+}}
+ASERV 3 {{httpd sock532 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock532 {Respond completed ok}} {
+}}
+GET /data/test3.html HTTP/1.0
+ASERV 3 {{httpd sock528 {Connect 127.0.0.1 64771}} {
+}}
+ASERV 3 {{httpd sock528 {Request 25 {GET /data/test3.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock528 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock528}} {
+}}
+ASERV 5 {{handler {loadrequest sock528 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/test3.html ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#3 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock528 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock528 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock528 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock528}} {
+}}
+ASERV 3 {{httpd sock528 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock528 {Respond completed ok}} {
+}}
+GET /data/test.gif HTTP/1.0
+ASERV 3 {{httpd sock524 {Connect 127.0.0.1 64772}} {
+}}
+ASERV 3 {{httpd sock524 {Request 25 {GET /data/test.gif HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock524 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock524}} {
+}}
+ASERV 5 {{handler {loadrequest sock524 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/test.gif ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#4 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock524 {HttpdReturnFile start C:/Projects/abn/lib/aserv1.2/test/data/test.gif data/test.gif image/gif 1525357731 1 -static}} {
+}}
+ASERV 3 {{httpd sock524 {HttpdCopyDone 4 bytes}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock524 {Error {aborting download on file1fe3820 can not find channel named "file1fe3820"}}} {
+can not find channel named "file1fe3820"
+    while executing
+"close $data(fcopy-fd)"}}
+ASERV 3 {{httpd sock524 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock524}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock524 {HttpdReturnFile done}} {
+}}
+ASERV 3 {{httpd sock524 {Respond completed ok}} {
+}}
+ASERV 3 {{httpd sock524 {{Return had not been called during request processing; closing connection.  data=final}}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock524}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone return}} {
+}}
+GET /data/test.html HTTP/1.0
+Connection: close
+
+ASERV 3 {{httpd sock528 {Connect 127.0.0.1 64774}} {
+}}
+ASERV 3 {{httpd sock528 {Request 25 {GET /data/test.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock528 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock528}} {
+}}
+ASERV 5 {{handler {loadrequest sock528 data query}} {
+}}
+ASERV 4 {{handler {request {state mime key connection url /data/test.html inprogress 1 ipaddr 127.0.0.1 proto GET linemode 1 cancel after#5 protocol http left 25 mime,connection close outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock528 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock528 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock528 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock528}} {
+}}
+ASERV 3 {{httpd sock528 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock528 {Respond completed ok}} {
+}}
+POST / HTTP/1.0
+Content-Length: 9
+
+querydata
+ASERV 3 {{httpd sock528 {Connect 127.0.0.1 64775}} {
+}}
+ASERV 3 {{httpd sock528 {Request 25 {POST / HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock528 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock528}} {
+}}
+ASERV 5 {{handler {loadrequest sock528 data query}} {
+}}
+ASERV 4 {{handler {request {count 0 state mime key content-length url / inprogress 1 ipaddr 127.0.0.1 proto POST linemode 0 cancel after#6 postdata querydata protocol http left 25 outputheaders {} mime,content-length 9 version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock528 {Respond completed error {couldn't open "C:/Projects/abn/lib/aserv1.2/test/index.html": no such file or directory}}} \ncouldn't\ open\ \"C:/Projects/abn/lib/aserv1.2/test/index.html\":\ no\ such\ file\ or\ directory\n\ \ \ \ while\ executing\n\"open\ \[file\ join\ \$aserv::root\ \$filename\]\"\n\ \ \ \ (procedure\ \"filecontents\"\ line\ 2)\n\ \ \ \ invoked\ from\ within\n\"filecontents\ index.html\"\n\ \ \ \ (\"\"\ arm\ line\ 1)\n\ \ \ \ invoked\ from\ within\n\"switch\ -glob\ --\ \$path\ \{\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \"trap*\"\ \ \{httpd\ return\ \$sock\ \[getmnctrap\ data\ \[array\ get\ query\]\ \[httpd\ headers\ \$sock\]\]\ -mimetype\ \"text/pla...\"\n\ \ \ \ (procedure\ \"::aserv::handler\"\ line\ 9)\n\ \ \ \ invoked\ from\ within\n\"::aserv::handler\ handle\ sock528\"\n\ \ \ \ (\"uplevel\"\ body\ line\ 1)\n\ \ \ \ invoked\ from\ within\n\"uplevel\ #0\ \$Httpd(responsehandler)\ handle\ \$sock\"}
+ASERV 3 {{httpd sock528 {SockDone start 1}} \ncouldn't\ open\ \"C:/Projects/abn/lib/aserv1.2/test/index.html\":\ no\ such\ file\ or\ directory\n\ \ \ \ while\ executing\n\"open\ \[file\ join\ \$aserv::root\ \$filename\]\"\n\ \ \ \ (procedure\ \"filecontents\"\ line\ 2)\n\ \ \ \ invoked\ from\ within\n\"filecontents\ index.html\"\n\ \ \ \ (\"\"\ arm\ line\ 1)\n\ \ \ \ invoked\ from\ within\n\"switch\ -glob\ --\ \$path\ \{\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \"trap*\"\ \ \{httpd\ return\ \$sock\ \[getmnctrap\ data\ \[array\ get\ query\]\ \[httpd\ headers\ \$sock\]\]\ -mimetype\ \"text/pla...\"\n\ \ \ \ (procedure\ \"::aserv::handler\"\ line\ 9)\n\ \ \ \ invoked\ from\ within\n\"::aserv::handler\ handle\ sock528\"\n\ \ \ \ (\"uplevel\"\ body\ line\ 1)\n\ \ \ \ invoked\ from\ within\n\"uplevel\ #0\ \$Httpd(responsehandler)\ handle\ \$sock\"}
+ASERV 3 {{httpd sock528 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock528}} {
+}}
+ASERV 3 {{httpd sock528 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock528 {Error 500 {Internal Server Error} {{Error processing request}} {} /}} {
+}}
+{Error processing handler for /:
+}
+GET /data/missing.html HTTP/1.0
+ASERV 3 {{httpd sock524 {Connect 127.0.0.1 64776}} {
+}}
+ASERV 3 {{httpd sock524 {Request 25 {GET /data/missing.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock524 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock524}} {
+}}
+ASERV 5 {{handler {loadrequest sock524 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/missing.html ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#7 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock524 {Respond completed error {couldn't open "C:/Projects/abn/lib/aserv1.2/test/data/missing.html": no such file or directory}}} \ncouldn't\ open\ \"C:/Projects/abn/lib/aserv1.2/test/data/missing.html\":\ no\ such\ file\ or\ directory\n\ \ \ \ while\ executing\n\"open\ \[file\ join\ \$aserv::root\ \$filename\]\"\n\ \ \ \ (procedure\ \"filecontents\"\ line\ 2)\n\ \ \ \ invoked\ from\ within\n\"filecontents\ \$path\"\n\ \ \ \ (\"*.html\"\ arm\ line\ 1)\n\ \ \ \ invoked\ from\ within\n\"switch\ -glob\ --\ \$path\ \{\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \"trap*\"\ \ \{httpd\ return\ \$sock\ \[getmnctrap\ data\ \[array\ get\ query\]\ \[httpd\ headers\ \$sock\]\]\ -mimetype\ \"text/pla...\"\n\ \ \ \ (procedure\ \"::aserv::handler\"\ line\ 9)\n\ \ \ \ invoked\ from\ within\n\"::aserv::handler\ handle\ sock524\"\n\ \ \ \ (\"uplevel\"\ body\ line\ 1)\n\ \ \ \ invoked\ from\ within\n\"uplevel\ #0\ \$Httpd(responsehandler)\ handle\ \$sock\"}
+ASERV 3 {{httpd sock524 {SockDone start 1}} \ncouldn't\ open\ \"C:/Projects/abn/lib/aserv1.2/test/data/missing.html\":\ no\ such\ file\ or\ directory\n\ \ \ \ while\ executing\n\"open\ \[file\ join\ \$aserv::root\ \$filename\]\"\n\ \ \ \ (procedure\ \"filecontents\"\ line\ 2)\n\ \ \ \ invoked\ from\ within\n\"filecontents\ \$path\"\n\ \ \ \ (\"*.html\"\ arm\ line\ 1)\n\ \ \ \ invoked\ from\ within\n\"switch\ -glob\ --\ \$path\ \{\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \"trap*\"\ \ \{httpd\ return\ \$sock\ \[getmnctrap\ data\ \[array\ get\ query\]\ \[httpd\ headers\ \$sock\]\]\ -mimetype\ \"text/pla...\"\n\ \ \ \ (procedure\ \"::aserv::handler\"\ line\ 9)\n\ \ \ \ invoked\ from\ within\n\"::aserv::handler\ handle\ sock524\"\n\ \ \ \ (\"uplevel\"\ body\ line\ 1)\n\ \ \ \ invoked\ from\ within\n\"uplevel\ #0\ \$Httpd(responsehandler)\ handle\ \$sock\"}
+ASERV 3 {{httpd sock524 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock524}} {
+}}
+ASERV 3 {{httpd sock524 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock524 {Error 500 {Internal Server Error} {{Error processing request}} {} /data/missing.html}} {
+}}
+{Error processing handler for /data/missing.html:
+}
+GET /data/missing.unknown HTTP/1.0
+ASERV 3 {{httpd sock512 {Connect 127.0.0.1 64777}} {
+}}
+ASERV 3 {{httpd sock512 {Request 25 {GET /data/missing.unknown HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock512 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock512}} {
+}}
+ASERV 5 {{handler {loadrequest sock512 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/missing.unknown ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#8 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock512 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock512 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock512}} {
+}}
+ASERV 3 {{httpd sock512 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock512 {Error 404 {Not Found} {{}} {} /data/missing.unknown}} {
+}}
+ASERV 3 {{httpd sock512 {Respond completed ok}} {
+}}

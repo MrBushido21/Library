@@ -1,0 +1,387 @@
+<html>
+<head>
+<link rel="stylesheet" href="manpage.css"><title>TCLLIB - Tcl Standard Library: docidx_fmt</title><meta name="xsl-processor" content="Jochen Loewer et. al. (loewerj@hotmail.com)"><meta name="generator" content="$RCSfile: docidx_fmt.html,v $ $Revision: 1.2 $">
+</head><body>
+<div class="header">
+<div class="navbar" align="center">
+<a href="#SECTnode890">NAME</a> · <a href="#SECTnode899">SYNOPSIS</a> · <a href="#SECTnode974">DESCRIPTION</a> · <a href="#SECTnode1022">OVERVIEW</a> · <a href="#SECTnode1037">FORMATTING COMMANDS</a> · <a href="#SECTnode1276">NOTES</a> · <a href="#SECTnode1294">EXAMPLE</a> · <a href="#SECTnode1309">SEE ALSO</a> · <a href="#SECTnode1324">KEYWORDS</a>
+</div><hr class="navsep">
+</div><div class="body">
+
+
+
+<h2><a name="SECTnode890">NAME</a></h2><p class="namesection">
+<b class="names">docidx_fmt - </b><br>Specification of simple tcl markup for an index</p>
+
+
+
+
+<h2><a name="SECTnode899">SYNOPSIS</a></h2><pre class="syntax">
+<b class="cmd"><a href="doctoc_fmt.html">vset</a></b> <i class="m">varname</i> <i class="m">value</i>
+<b class="cmd"><a href="doctoc_fmt.html">vset</a></b> <i class="m">varname</i>
+<b class="cmd"><a href="doctoc_fmt.html">include</a></b> <i class="m">filename</i>
+<b class="cmd"><a href="doctoc_fmt.html">comment</a></b> <i class="m">text</i>
+<b class="cmd"><a href="doctoc_fmt.html">lb</a></b>
+<b class="cmd"><a href="doctoc_fmt.html">rb</a></b>
+<b class="cmd">index_begin</b> <i class="m">text</i> <i class="m">title</i>
+<b class="cmd">index_end</b>
+<b class="cmd">key</b> <i class="m">text</i>
+<b class="cmd">manpage</b> <i class="m">file</i> <i class="m">label</i>
+<b class="cmd">url</b> <i class="m">url</i> <i class="m">label</i>
+</pre>
+<h2><a name="SECTnode974">DESCRIPTION</a></h2><p>
+
+This manpage specifies a documentation format for indices. It is
+intended to complement both the <b class="syscmd"><a href="doctools.html">doctools</a></b> format for writing
+manpages and the <b class="syscmd"><a href="doctoc.html">doctoc</a></b> format for writing tables of
+contents. See <b class="syscmd"><a href="doctools_fmt.html">doctools_fmt</a></b> and <b class="syscmd"><a href="doctoc_fmt.html">doctoc_fmt</a></b> for the
+specification of these two formats.
+
+</p><p>
+
+This format is called <b class="syscmd"><a href="docidx.html">docidx</a></b>.
+
+It provides all the necessary commands to write an index for a group
+of manpages.
+
+Like for the <b class="syscmd"><a href="doctools.html">doctools</a></b> and <b class="syscmd"><a href="doctoc.html">doctoc</a></b> formats a package
+is provided implementing a generic framework for the conversion of
+<b class="syscmd"><a href="docidx.html">docidx</a></b> to a number of different output formats, like HTML,
+TMML, nroff, LaTeX, etc.
+
+The package is called <b class="package">doctools::idx</b>, its documentation can
+be found in <b class="syscmd"><a href="docidx.html">docidx</a></b>.
+
+People wishing to write a formatting engine for the conversion of
+<b class="syscmd"><a href="docidx.html">docidx</a></b> into a new output format have to read
+<b class="syscmd"><a href="docidx_api.html">docidx_api</a></b>. This manpage will explain the interface between
+the generic package and such engines.
+
+
+</p>
+<h2><a name="SECTnode1022">OVERVIEW</a></h2><b class="syscmd"><a href="docidx.html">docidx</a></b> is similar to LaTex in that it consists primarily of
+text, with markup commands embedded into it. The format used to mark
+something as command is different from LaTeX however. All text between
+matching pairs of [ and ] is a command, possibly with
+arguments. Note that both brackets have to be on the same line for a
+command to be recognized.
+
+
+<p>
+
+In this format plain text is not allowed, except for whitespace, which
+can be used to separate the formatting commands described in the next
+section (<a href="#SECTnode1037">FORMATTING COMMANDS</a>).
+
+
+</p>
+<h2><a name="SECTnode1037">FORMATTING COMMANDS</a></h2>
+
+First a number of generic commands useable anywhere in a
+<b class="syscmd"><a href="docidx.html">docidx</a></b> file.
+
+
+<dl>
+
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">vset</a></b> <i class="m">varname</i> <i class="m">value</i>
+</dt>
+<dd>
+
+Sets the formatter variable <i class="m">varname</i> to the specified
+<i class="m">value</i>. Returns the empty string.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">vset</a></b> <i class="m">varname</i>
+</dt>
+<dd>
+
+Returns the value associated with the formatter variable
+<i class="m">varname</i>.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">include</a></b> <i class="m">filename</i>
+</dt>
+<dd>
+
+Instructs the system to insert the expanded contents of the file named
+<i class="m">filename</i> in its own place.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">comment</a></b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a comment.
+
+</dd>
+
+
+</dl>
+
+
+Commands to insert special plain text. These bracket commands are
+necessary as plain brackets are used to denote the beginnings and
+endings of the formatting commands and thus cannot be used as normal
+characters anymore.
+
+
+<dl>
+
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">lb</a></b> </dt>
+<dd>
+
+Introduces a left bracket into the output.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">rb</a></b> </dt>
+<dd>
+
+Introduces a right bracket into the output.
+
+</dd>
+
+
+</dl>
+
+
+
+And now the relevant markup commands.
+
+
+<dl>
+
+
+
+<dt>
+<b class="cmd">index_begin</b> <i class="m">text</i> <i class="m">title</i>
+</dt>
+<dd>
+
+This command starts an index. It has to be the very first
+
+<b class="term">markup</b> command in a <b class="syscmd"><a href="docidx.html">docidx</a></b> file. Plain text is not
+allowed to come before this command. Only the generic commands (see
+above: <b class="cmd"><a href="doctoc_fmt.html">vset</a></b>, <b class="cmd"><a href="doctoc_fmt.html">include</a></b>, <b class="cmd"><a href="doctoc_fmt.html">comment</a></b>) can be used before
+it.
+
+<br>
+
+The <i class="m">text</i> argument provides a label for the whole group of
+manpages the index refers to. Often this is the name of the package
+(or extension) the manpages belong to.
+
+<br>
+
+The <i class="m">title</i> argument provides the title for the index.
+
+<br>
+
+Each index has to contain at least one <b class="cmd">key</b>.
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">index_end</b> </dt>
+<dd>
+
+This command closes an index. Nothing is allowed to follow it.
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">key</b> <i class="m">text</i>
+</dt>
+<dd>
+
+This commands starts the list of manpages and other entities which
+refer to the keyword named by the argument <i class="m">text</i>.
+
+<br>
+
+Each key section has to contain at least one index element, either
+<b class="cmd">manpage</b> or <b class="cmd">url</b>.
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">manpage</b> <i class="m">file</i> <i class="m">label</i>
+</dt>
+<dd>
+
+This command describes an individual index element. Each such element
+belongs to the last occurence of a <b class="cmd">key</b> command coming before the
+index.
+
+<br>
+
+The <i class="m">file</i> argument refers to the file containing the actual
+manpage refering to that key. The second argument is used to label the
+reference.
+
+<br>
+
+To preserve convertibility of this format to various output formats
+the filename argument <i class="m">file</i> is considered to contain a symbolic
+name. The actual name of the file will be inserted by the formatting
+engine used to convert the input, based on a mapping from symbolic to
+actual names given to it.
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">url</b> <i class="m">url</i> <i class="m">label</i>
+</dt>
+<dd>
+
+This is the second command to describe an index element. The
+association to the key it belongs to is done in the same way as for
+the <b class="cmd">manpage</b> command. The first however is not the symbolic name
+of the file refering to that key, but an url describing the exact
+location of the document indexed here.
+
+</dd>
+
+
+</dl>
+<h2><a name="SECTnode1276">NOTES</a></h2><ol>
+
+<li>
+
+Using an appropriate formatting engine and some glue code it is
+possible to automatically generate a document in <b class="syscmd"><a href="docidx.html">docidx</a></b>
+format from a collection of manpages in <b class="syscmd"><a href="doctools.html">doctools</a></b> format.
+
+
+</li>
+
+</ol>
+<h2><a name="SECTnode1294">EXAMPLE</a></h2>
+
+As an example an index for all manpages belonging to this module
+(doctools) of package <b class="package">tcllib</b>.
+
+
+<p>
+
+</p><pre class="example">
+[index_begin tcllib/doctools {Documentation tools}]
+ [key HTML]
+  [manpage didxengine]
+  [manpage didxformat]
+  [manpage doctools]
+  [manpage dtformat]
+  [manpage dtformatter]
+  [manpage dtocengine]
+  [manpage dtocformat]
+  [manpage mpexpand]
+ [key TMML]
+  [manpage didxengine]
+  [manpage didxformat]
+  [manpage doctools]
+  [manpage dtformat]
+  [manpage dtformatter]
+  [manpage dtocengine]
+  [manpage dtocformat]
+  [manpage mpexpand]
+ [key conversion]
+  [manpage didxengine]
+  [manpage didxformat]
+  [manpage doctools]
+  [manpage dtformat]
+  [manpage dtformatter]
+  [manpage dtocengine]
+  [manpage dtocformat]
+  [manpage mpexpand]
+ [key documentation]
+  [manpage doctools]
+  [manpage dtformatter]
+ [key index]
+  [manpage didxengine]
+  [manpage didxformat]
+  [manpage doctools]
+  [manpage dtformat]
+  [manpage dtocformat]
+ [key interface]
+  [manpage didxengine]
+  [manpage dtformatter]
+  [manpage dtocengine]
+ [key manpage]
+  [manpage didxengine]
+  [manpage didxformat]
+  [manpage doctools]
+  [manpage dtformat]
+  [manpage dtformatter]
+  [manpage dtocengine]
+  [manpage dtocformat]
+  [manpage mpexpand]
+ [key markup]
+  [manpage didxengine]
+  [manpage didxformat]
+  [manpage doctools]
+  [manpage dtformat]
+  [manpage dtformatter]
+  [manpage dtocengine]
+  [manpage dtocformat]
+  [manpage mpexpand]
+ [key nroff]
+  [manpage didxengine]
+  [manpage didxformat]
+  [manpage doctools]
+  [manpage dtformat]
+  [manpage dtformatter]
+  [manpage dtocengine]
+  [manpage dtocformat]
+  [manpage mpexpand]
+ [key {table of contents}]
+  [manpage didxformat]
+  [manpage doctools]
+  [manpage dtformat]
+  [manpage dtocengine]
+  [manpage dtocformat]
+ [key toc]
+  [manpage didxformat]
+  [manpage doctools]
+  [manpage dtformat]
+  [manpage dtocengine]
+  [manpage dtocformat]
+[index_end]
+
+</pre>
+<h2><a name="SECTnode1309">SEE ALSO</a></h2><p class="seealso">
+<a href="doctools_fmt.html">doctools_fmt</a>, <a href="doctoc_fmt.html">doctoc_fmt</a>, <a href="docidx_api.html">docidx_api</a>, <a href="docidx.html">docidx</a>
+</p>
+<h2><a name="SECTnode1324">KEYWORDS</a></h2><p class="keywords">
+<a class="keyword" href="keyword-index.html#KW-markup">markup</a>, <a class="keyword" href="keyword-index.html#KW-genericmarkup">generic markup</a>, <a class="keyword" href="keyword-index.html#KW-index">index</a>, <a class="keyword" href="keyword-index.html#KW-keywords">keywords</a>, <a class="keyword" href="keyword-index.html#KW-TMML">TMML</a>, <a class="keyword" href="keyword-index.html#KW-HTML">HTML</a>, <a class="keyword" href="keyword-index.html#KW-nroff">nroff</a>, <a class="keyword" href="keyword-index.html#KW-LaTeX">LaTeX</a>
+</p>
+
+</div><hr class="navsep"><div class="navbar" align="center">
+<a class="navaid" href="http://tmml.sourceforge.net/search.php">Search</a> · <a class="navaid" href="index.html">Contents</a> · <a class="navaid" href="category-index.html">Index</a> · <a class="navaid" href="keyword-index.html">Keywords</a> · <a class="navaid" href="http://tmml.sourceforge.net/coredocs.html">About...</a>
+</div>
+</body>
+</html>

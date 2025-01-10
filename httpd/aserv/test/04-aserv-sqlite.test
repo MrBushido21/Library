@@ -1,0 +1,25 @@
+#
+
+source $::tcltest::testsDirectory/def.tcl
+
+set debug 9
+set port 8010
+
+test aserv-sqlite-0.1 {load aserv} {
+    package require aserv
+} {1.2}
+
+test aserv-sqlite-1.0 {init source test} {
+   aserv::sourceinit sqlite [file join [testsDirectory] data test.dat]
+} true                        
+
+test aserv-sqlite-1.0.1 {get list} {
+   lsort [aserv::sourceeval sqlite list]
+} {account-accounts agreements bankaccounts banks flat-accounts ping reports scripts services streets towns}
+
+test aserv-sqlite-1.1.0 {ping} {
+   stripxmlstamp [aserv::sourceeval sqlite get-ping]
+} {<mnc version="1.0" STAMP>pong</mnc>
+}
+
+::tcltest::cleanupTests

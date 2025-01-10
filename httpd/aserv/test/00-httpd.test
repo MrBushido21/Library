@@ -1,0 +1,76 @@
+#
+
+source $::tcltest::testsDirectory/def.tcl
+
+set debug 9
+set port 8010
+
+test httpd-0.1 {load aserv} {
+    package require aserv
+} {1.2}
+
+test httpd-0.2 {decode trivial} {
+    aserv::HttpdDecode {}
+} {}
+
+test httpd-0.2.1.1a {basic operation} {
+    aserv::HttpdDecode [HttpSource__encodeurl ""]
+} {}
+
+test httpd-0.2.1.1c {basic operation} {
+    aserv::HttpdDecode [HttpSource__encodeurl --]
+} {--}
+
+test httpd-0.2.2.4 {basic operation} {
+    aserv::HttpdDecode [HttpSource__encodeurl "1"]
+} {1}
+
+test httpd-0.2.3.1 {unreserved characters} {
+    aserv::HttpdDecode [HttpSource__encodeurl $encodeurl_unreservedChars]
+} $encodeurl_unreservedChars
+
+test httpd-0.2.4.1 {multiple args} {
+    aserv::HttpdDecode [HttpSource__encodeurl 1/2/3]
+} {1/2/3}
+
+test httpd-0.2.4.2 {multiple args} {
+    aserv::HttpdDecode [HttpSource__encodeurl 1&2&3]
+} {1&2&3}
+
+test httpd-0.2.5.2 {spaces and plus signs} {
+    aserv::HttpdDecode [HttpSource__encodeurl +]
+} "+" ;# {%2B}
+
+test httpd-0.2.5.4 {spaces and plus signs} {
+    aserv::HttpdDecode [HttpSource__encodeurl " "]
+} " " ;# {%20}
+
+test httpd-0.2.6.1 {rfc2396 section 2.4.3 URI 'delim' characters} {
+    aserv::HttpdDecode [HttpSource__encodeurl "<>\#%\""]
+} "<>\#%\"" ;# {%3C%3E%23%25%22}
+
+test httpd-0.2.7.1 {rfc2396 section 2.4.3 URI 'unwise' characters} {
+    aserv::HttpdDecode [HttpSource__encodeurl {{}|\^[]`}]
+} {{}|\^[]`} ;# {%7B%7D%7C%5C%5E%5B%5D%60}
+
+test httpd-0.2.8.1 {rfc2396 section 3.3 URI path component reserved characters ???} {
+    aserv::HttpdDecode [HttpSource__encodeurl {/?;=&$,-.!~*'()}]
+} {/?;=&$,-.!~*'()}
+
+test httpd-0.2.8.2 {path component unreserved characters ???} {
+    aserv::HttpdDecode [HttpSource__encodeurl {:@+}]
+} {:@+} ;# {%3A%40%2B}
+
+test httpd-0.2.9.1 {rfc2396 section 3.4 URI query component reserved characters} {
+    aserv::HttpdDecode [HttpSource__encodeurl {;/?:@&=+,$}]
+} {;/?:@&=+,$}
+
+test httpd-0.2.10.1 {charset decode utf8} {
+    aserv::HttpdDecode [HttpSource__encodeurl $russian_A]
+} $russian_A ;# {%D0%90}
+
+test httpd-0.2.10.2 {charset decode cp1251} {
+    encoding convertfrom cp1251 [aserv::HttpdDecode [HttpSource__encodeurl $russian_A cp1251]]
+} $russian_A ;# {%C0}
+
+::tcltest::cleanupTests

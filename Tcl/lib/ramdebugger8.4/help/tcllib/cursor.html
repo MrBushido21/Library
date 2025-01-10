@@ -1,0 +1,87 @@
+<html>
+<head>
+<link rel="stylesheet" href="manpage.css"><title>TCLLIB - Tcl Standard Library: cursor</title><meta name="xsl-processor" content="Jochen Loewer et. al. (loewerj@hotmail.com)"><meta name="generator" content="$RCSfile: cursor.html,v $ $Revision: 1.2 $">
+</head><body>
+<div class="header">
+<div class="navbar" align="center">
+<a href="#SECTnode890">NAME</a> · <a href="#SECTnode899">SYNOPSIS</a> · <a href="#SECTnode940">DESCRIPTION</a> · <a href="#SECTnode949">COMMANDS</a> · <a href="#SECTnode1020">SEE ALSO</a> · <a href="#SECTnode1032">KEYWORDS</a>
+</div><hr class="navsep">
+</div><div class="body">
+
+
+
+<h2><a name="SECTnode890">NAME</a></h2><p class="namesection">
+<b class="names">cursor - </b><br>Procedures to handle CURSOR data</p>
+
+
+
+
+
+
+
+<h2><a name="SECTnode899">SYNOPSIS</a></h2><pre class="syntax">
+package require <b class="package">Tk</b>
+package require <b class="package">cursor</b>  ? 0.1 ?
+<b class="cmd">::cursor::propagate</b> <i class="m">widget</i> <i class="m">cursor</i>
+<b class="cmd">::cursor::restore</b> <i class="m">widget</i>  ? <i class="m">cursor</i> ?
+<b class="cmd">::cursor::display</b>  ? <i class="m">parent</i> ?
+</pre>
+<h2><a name="SECTnode940">DESCRIPTION</a></h2>
+
+The <b class="package">cursor</b> package provides commands to handle Tk cursors.
+
+
+<h2><a name="SECTnode949">COMMANDS</a></h2>
+
+The following commands are available:
+
+
+<dl>
+
+
+
+<dt>
+<b class="cmd">::cursor::propagate</b> <i class="m">widget</i> <i class="m">cursor</i>
+</dt>
+<dd>
+
+Sets the cursor for the specified <i class="m">widget</i> and all its descendants
+to <i class="m">cursor</i>.
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::cursor::restore</b> <i class="m">widget</i>  ? <i class="m">cursor</i> ? </dt>
+<dd>
+
+Restore the original or previously set cursor for the specified
+<i class="m">widget</i> and all its descendants.  If <i class="m">cursor</i> is specified,
+that will be used if on any widget that did not have a preset cursor
+(set by a previous call to <b class="cmd">::cursor::propagate</b>).
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::cursor::display</b>  ? <i class="m">parent</i> ? </dt>
+<dd>
+
+Pops up a dialog with a listbox containing all the cursor names.
+Selecting a cursor name will display it in that dialog.  This is
+simply for viewing any available cursors on the platform.
+
+</dd>
+
+
+</dl>
+<h2><a name="SECTnode1020">SEE ALSO</a></h2><p class="seealso">cursors(n), options(n), Tk_GetCursor(3)</p>
+<h2><a name="SECTnode1032">KEYWORDS</a></h2><p class="keywords"><a class="keyword" href="keyword-index.html#KW-cursor">cursor</a></p>
+
+</div><hr class="navsep"><div class="navbar" align="center">
+<a class="navaid" href="http://tmml.sourceforge.net/search.php">Search</a> · <a class="navaid" href="index.html">Contents</a> · <a class="navaid" href="category-index.html">Index</a> · <a class="navaid" href="keyword-index.html">Keywords</a> · <a class="navaid" href="http://tmml.sourceforge.net/coredocs.html">About...</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<html>
+<head>
+<link rel="stylesheet" href="manpage.css"><title>TCLLIB - Tcl Standard Library: ipentry</title><meta name="xsl-processor" content="Jochen Loewer et. al. (loewerj@hotmail.com)"><meta name="generator" content="$RCSfile: ipentry.html,v $ $Revision: 1.2 $">
+</head><body>
+<div class="header">
+<div class="navbar" align="center">
+<a href="#SECTnode885">NAME</a> · <a href="#SECTnode894">SYNOPSIS</a> · <a href="#SECTnode974">DESCRIPTION</a> · <a href="#SECTnode1104">WIDGET OPTIONS</a> · <a href="#SECTnode1365">KEYWORDS</a>
+</div><hr class="navsep">
+</div><div class="body">
+
+<h2><a name="SECTnode885">NAME</a></h2><p class="namesection">
+<b class="names">ipentry - </b><br>An IP address entry widget</p>
+
+
+
+
+
+<h2><a name="SECTnode894">SYNOPSIS</a></h2><pre class="syntax">
+package require <b class="package">Tcl</b> 8.4
+package require <b class="package">ipentry</b>  ? 0.1 ?
+<b class="cmd">::ipentry::ipentry</b> <i class="m">pathName</i>  ? <i class="m">option</i> <i class="m">value</i>... ?
+<i class="m">pathName</i> <b class="method">complete</b>
+<i class="m">pathName</i> <b class="method"><a href="queue.html">get</a></b>
+<i class="m">pathName</i> <b class="method">insert</b> <i class="m">iplist</i>
+<i class="m">pathName</i> <b class="method">icursor</b> <i class="m">index</i>
+<i class="m">pathName</i> <b class="method">configure</b> <i class="m">option</i> <i class="m">value</i>...
+<i class="m">pathName</i> <b class="method">cget</b> <i class="m">option</i>
+</pre>
+<h2><a name="SECTnode974">DESCRIPTION</a></h2>
+
+This package provides a widget for the entering of a IP address.  It
+guarantees a valid address at all times.
+
+
+<p>
+
+</p><dl>
+
+
+
+<dt>
+<b class="cmd">::ipentry::ipentry</b> <i class="m">pathName</i>  ? <i class="m">option</i> <i class="m">value</i>... ? </dt>
+<dd>
+
+Creates a new ipentry widget and configures it with the given options and their values.
+
+</dd>
+
+
+</dl>
+
+
+Each widget created with the command above supports the following methods:
+
+
+<dl>
+
+
+
+<dt>
+<i class="m">pathName</i> <b class="method">complete</b>
+</dt>
+<dd>
+
+Returns a boolean value. True indicates that the entry contains a
+complete IP address, meaning all 4 fields have a value.
+
+</dd>
+
+
+<dt>
+<i class="m">pathName</i> <b class="method"><a href="queue.html">get</a></b>
+</dt>
+<dd>
+
+Returns the contents of the entry as a list consisting of 4 elements.
+
+</dd>
+
+
+<dt>
+<i class="m">pathName</i> <b class="method">insert</b> <i class="m">iplist</i>
+</dt>
+<dd>
+
+Takes a list of 4 elements and inserts one into each quad of the entry, in order.
+All values in the list must be integers. Values outside the range 0 to 255
+are modified to be within the range.
+
+</dd>
+
+
+<dt>
+<i class="m">pathName</i> <b class="method">icursor</b> <i class="m">index</i>
+</dt>
+<dd>
+
+Sets the position of the widgets insertion cursor. Only integer values between
+0 and 15 are valid. Because of the way the widget works, setting the icursor
+will only have an effect if the widget already has the input focus.
+
+</dd>
+
+
+<dt>
+<i class="m">pathName</i> <b class="method">configure</b> <i class="m">option</i> <i class="m">value</i>...</dt>
+<dd>
+
+Modifies the configuration of the widget. For options and
+their meaning see the widget options section.
+
+</dd>
+
+
+<dt>
+<i class="m">pathName</i> <b class="method">cget</b> <i class="m">option</i>
+</dt>
+<dd>
+
+Returns information about the current configuration of the widget, for
+the specified option. For options and their meaning see the widget
+options section.
+
+</dd>
+
+
+</dl>
+<h2><a name="SECTnode1104">WIDGET OPTIONS</a></h2><div class="table"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Name</th><th width="40%">Database name</th><th width="40%">Database class</th>
+</tr></thead><tr class="syntax">
+<td width="20%" align="left"><a name="option_-state">-state</a></td><td width="40%" align="left">state</td><td width="40%" align="left">State</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+
+Specifies one of three states for the entry: <tt class="l">normal</tt>,
+<tt class="l">disabled</tt>, or <tt class="l">readonly</tt>.
+
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-font">-font</a></td><td width="40%" align="left">font</td><td width="40%" align="left">Font</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-bd">-bd</a></td><td width="40%" align="left">borderWidth</td><td width="40%" align="left">BorderWidth</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-fg">-fg</a></td><td width="40%" align="left">foreground</td><td width="40%" align="left">Foreground</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-bg">-bg</a></td><td width="40%" align="left">background</td><td width="40%" align="left">Background</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-relief">-relief</a></td><td width="40%" align="left">relief</td><td width="40%" align="left">Relief</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-highlightthickness">-highlightthickness</a></td><td width="40%" align="left">highlightThickness</td><td width="40%" align="left">HighlightThickness</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-highlightcolor">-highlightcolor</a></td><td width="40%" align="left">highlightColor</td><td width="40%" align="left">HighlightColor</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-highlightbackground">-highlightbackground</a></td><td width="40%" align="left">highlightBackground</td><td width="40%" align="left">HighlightBackground</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-selectbackground">-selectbackground</a></td><td width="40%" align="left">selectBackground</td><td width="40%" align="left">Background</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-selectforeground">-selectforeground</a></td><td width="40%" align="left">selectForeground</td><td width="40%" align="left">Foreground</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-selectborderwidth">-selectborderwidth</a></td><td width="40%" align="left">selectBorderWidth</td><td width="40%" align="left">BorderWidth</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-disabledbackground">-disabledbackground</a></td><td width="40%" align="left">disabledBackground</td><td width="40%" align="left">DisabledBackground</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-disabledforeground">-disabledforeground</a></td><td width="40%" align="left">disabledForeground</td><td width="40%" align="left">DisabledForeground</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-readonlybackground">-readonlybackground</a></td><td width="40%" align="left">readonlyBackground</td><td width="40%" align="left">ReadonlyBackground</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+</td>
+</tr><tr class="syntax">
+<td width="20%" align="left"><a name="option_-insertbackground">-insertbackground</a></td><td width="40%" align="left">insertBackground</td><td width="40%" align="left">Background</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+
+Standard widget options. See <b class="cmd">options</b> for a description of their
+meanings and values.
+
+</td>
+</tr>
+</table></div>
+
+<h2><a name="SECTnode1365">KEYWORDS</a></h2><p class="keywords">
+<a class="keyword" href="keyword-index.html#KW-entry">entry</a>, <a class="keyword" href="keyword-index.html#KW-ipaddress">ip address</a>
+</p>
+
+</div><hr class="navsep"><div class="navbar" align="center">
+<a class="navaid" href="http://tmml.sourceforge.net/search.php">Search</a> · <a class="navaid" href="index.html">Contents</a> · <a class="navaid" href="category-index.html">Index</a> · <a class="navaid" href="keyword-index.html">Keywords</a> · <a class="navaid" href="http://tmml.sourceforge.net/coredocs.html">About...</a>
+</div>
+</body>
+</html>

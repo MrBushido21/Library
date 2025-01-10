@@ -1,0 +1,21 @@
+++++ aserv-0.1 PASSED
+++++ aserv-0.3.1 PASSED
+++++ aserv-0.3.2 PASSED
+++++ aserv-0.3.3 PASSED
+++++ aserv-0.3.4 PASSED
+++++ aserv-0.3.5 PASSED
+++++ aserv-0.3.6 PASSED
+++++ aserv-0.3.7 PASSED
+++++ aserv-0.3.8 PASSED
+++++ aserv-0.3.9 PASSED
+++++ aserv-0.3.10 PASSED
+++++ aserv-0.3.12 PASSED
+++++ aserv-0.4.1 PASSED
+++++ aserv-1.0.1 PASSED
+++++ aserv-3.0 PASSED
+++++ aserv-3.0.1 PASSED
+++++ aserv-3.0.2 PASSED
+++++ aserv-3.0.3 PASSED
+++++ aserv-3.99 PASSED
+all.tcl:	Total	19	Passed	19	Skipped	0	Failed	0
+Sourced 0 Test Files.

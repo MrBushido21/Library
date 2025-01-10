@@ -1,0 +1,851 @@
+<html>
+<head>
+<link rel="stylesheet" href="manpage.css"><title>TCLLIB - Tcl Standard Library: doctools_fmt</title><meta name="xsl-processor" content="Jochen Loewer et. al. (loewerj@hotmail.com)"><meta name="generator" content="$RCSfile: doctools_fmt.html,v $ $Revision: 1.2 $">
+</head><body>
+<div class="header">
+<div class="navbar" align="center">
+<a href="#SECTnode892">NAME</a> · <a href="#SECTnode901">SYNOPSIS</a> · <a href="#SECTnode1210">DESCRIPTION</a> · <a href="#SECTnode1258">OVERVIEW</a> · <a href="#SECTnode1276">FORMATTING COMMANDS</a> · <a href="#SECTnode1473">COMMANDS</a> · <a href="#SECTnode2420">EXAMPLE</a> · <a href="#SECTnode2429">SEE ALSO</a> · <a href="#SECTnode2444">KEYWORDS</a>
+</div><hr class="navsep">
+</div><div class="body">
+
+
+
+
+<h2><a name="SECTnode892">NAME</a></h2><p class="namesection">
+<b class="names">doctools_fmt - </b><br>Specification of simple tcl markup for manpages</p>
+
+
+
+
+
+<h2><a name="SECTnode901">SYNOPSIS</a></h2><pre class="syntax">
+<b class="cmd"><a href="doctoc_fmt.html">vset</a></b> <i class="m">varname</i> <i class="m">value</i>
+<b class="cmd"><a href="doctoc_fmt.html">vset</a></b> <i class="m">varname</i>
+<b class="cmd"><a href="doctoc_fmt.html">include</a></b> <i class="m">filename</i>
+<b class="cmd">manpage_begin</b> <i class="m">command</i> <i class="m">section</i> <i class="m">version</i>
+<b class="cmd">manpage_end</b>
+<b class="cmd">moddesc</b> <i class="m">desc</i>
+<b class="cmd">titledesc</b> <i class="m">desc</i>
+<b class="cmd">copyright</b> <i class="m">text</i>
+<b class="cmd">description</b>
+<b class="cmd">require</b> <i class="m">pkg</i>  ? <i class="m">version</i> ?
+<b class="cmd">section</b> <i class="m">name</i>
+<b class="cmd">para</b>
+<b class="cmd">see_also</b> <i class="m">args</i>
+<b class="cmd">keywords</b> <i class="m">args</i>
+<b class="cmd">arg</b> <i class="m">text</i>
+<b class="cmd">cmd</b> <i class="m">text</i>
+<b class="cmd">opt</b> <i class="m">text</i>
+<b class="cmd">emph</b> <i class="m">text</i>
+<b class="cmd">strong</b> <i class="m">text</i>
+<b class="cmd"><a href="doctoc_fmt.html">comment</a></b> <i class="m">text</i>
+<b class="cmd">sectref</b> <i class="m">text</i>
+<b class="cmd">syscmd</b> <i class="m">text</i>
+<b class="cmd">method</b> <i class="m">text</i>
+<b class="cmd"><a href="stack.html">option</a></b> <i class="m">text</i>
+<b class="cmd">widget</b> <i class="m">text</i>
+<b class="cmd">fun</b> <i class="m">text</i>
+<b class="cmd">type</b> <i class="m">text</i>
+<b class="cmd">package</b> <i class="m">text</i>
+<b class="cmd">class</b> <i class="m">text</i>
+<b class="cmd">var</b> <i class="m">text</i>
+<b class="cmd">file</b> <i class="m">text</i>
+<b class="cmd">uri</b> <i class="m">text</i>
+<b class="cmd">term</b> <i class="m">text</i>
+<b class="cmd">const</b> <i class="m">text</i>
+<b class="cmd">nl</b>
+<b class="cmd"><a href="doctoc_fmt.html">lb</a></b>
+<b class="cmd"><a href="doctoc_fmt.html">rb</a></b>
+<b class="cmd">example_begin</b>
+<b class="cmd">example_end</b>
+<b class="cmd">example</b> <i class="m">text</i>
+<b class="cmd">list_begin</b> <i class="m">what</i>
+<b class="cmd">list_end</b>
+<b class="cmd">bullet</b>
+<b class="cmd">enum</b>
+<b class="cmd">lst_item</b> <i class="m">text</i>
+<b class="cmd">call</b> <i class="m">args</i>
+<b class="cmd">arg_def</b> <i class="m">type</i> <i class="m">name</i>  ? <i class="m">mode</i> ?
+<b class="cmd">opt_def</b> <i class="m">name</i>  ? <i class="m">arg</i> ?
+<b class="cmd">cmd_def</b> <i class="m">command</i>
+<b class="cmd">tkoption_def</b> <i class="m">name</i> <i class="m">dbname</i> <i class="m">dbclass</i>
+<b class="cmd">usage</b> <i class="m">args</i>
+</pre>
+<h2><a name="SECTnode1210">DESCRIPTION</a></h2><p>
+
+This manpage specifies a documentation format for manpages. It is
+intended to complement both the <b class="syscmd"><a href="doctoc.html">doctoc</a></b> format for writing
+tables of contents and the <b class="syscmd"><a href="docidx.html">docidx</a></b> format for writing indices.
+See <b class="syscmd"><a href="doctoc_fmt.html">doctoc_fmt</a></b> and <b class="syscmd"><a href="docidx_fmt.html">docidx_fmt</a></b> for the specification
+of these two formats.
+
+
+</p><p>
+
+This format is called <b class="syscmd"><a href="doctools.html">doctools</a></b>.
+
+It provides all the necessary commands to write manpages.
+
+Like for the <b class="syscmd"><a href="doctoc.html">doctoc</a></b> and <b class="syscmd"><a href="docidx.html">docidx</a></b> formats a package is
+provided implementing a generic framework for the conversion of
+<b class="syscmd"><a href="doctools.html">doctools</a></b> to a number of different output formats, like HTML,
+TMML, nroff, LaTeX, etc.
+
+The package is called <b class="package"><a href="doctools.html">doctools</a></b>, its documentation can be
+found in <b class="syscmd"><a href="doctools.html">doctools</a></b>.
+
+People wishing to write a formatting engine for the conversion of
+<b class="syscmd"><a href="doctools.html">doctools</a></b> into a new output format have to read
+<b class="syscmd"><a href="doctools_api.html">doctools_api</a></b>. This manpage will explain the interface between
+the generic package and such engines.
+
+
+</p>
+<h2><a name="SECTnode1258">OVERVIEW</a></h2><b class="syscmd"><a href="doctoc.html">doctoc</a></b> is similar to LaTex in that it consists primarily of
+text, with markup commands embedded into it. The format used to mark
+something as command is different from LaTeX however. All text between
+matching pairs of [ and ] is a command, possibly with
+arguments. Note that both brackets have to be on the same line for a
+command to be recognized.
+
+
+<p>
+
+In contrast to both <b class="syscmd"><a href="doctoc.html">doctoc</a></b> and <b class="syscmd"><a href="docidx.html">docidx</a></b> this format
+does allow plain text beyond white space. This plain text will be the
+contents of the described manpage.
+
+
+</p>
+<h2><a name="SECTnode1276">FORMATTING COMMANDS</a></h2><ul>
+
+<li>
+
+The main commands are <b class="cmd">manpage_begin</b>, <b class="cmd">manpage_end</b>,
+<b class="cmd">moddesc</b>, <b class="cmd">titledesc</b>, and <b class="cmd">description</b>. Four of these
+five are required for a manpage. The optional command is
+<b class="cmd">titledesc</b>. The first two are the first and last commands in a
+manpage. Neither text nor other commands may precede
+<b class="cmd">manpage_begin</b> nor follow <b class="cmd">manpage_end</b>.  The command
+<b class="cmd">description</b> separates header and body of the manpage and may not
+be omitted.
+
+<br>
+
+The remaining commands (<b class="cmd">moddesc</b> and <b class="cmd">titledesc</b>) provide
+one-line descriptions of module and specific title respectively.
+
+</li>
+<li>
+The only text allowed between <b class="cmd">manpage_begin</b> and
+<b class="cmd">description</b> is the command <b class="cmd">require</b>. Other commands or
+normal text are not permitted. <b class="cmd">require</b> is used to list the
+packages the described command(s) depend(s) on for its operation. This
+list can be empty.
+
+</li>
+<li>
+After <b class="cmd">description</b> text and all other commands are allowed. The
+text can be separated into highlevel blocks using named
+<b class="cmd">section</b>s.  Each block can be further divided into paragraphs via
+<b class="cmd">para</b>.
+
+</li>
+<li>
+The commands <b class="cmd">see_also</b> and <b class="cmd">keywords</b> define whole sections
+named <em>SEE ALSO</em> and <em>KEYWORDS</em>. They can occur everywhere
+in the manpage but making them the last section is the usual thing to
+do. They can be omitted.
+
+</li>
+<li>
+
+There are five commands available to markup words, <b class="cmd">arg</b>,
+
+<b class="cmd">cmd</b>, <b class="cmd">opt</b>, <b class="cmd">emph</b> and <b class="cmd">strong</b>. The first three are
+used to mark words as <em>command arguments</em>, as
+
+<em>command names</em> and as <em>optional</em>. The other two are
+visual markup to emphasize words. The term <em>words</em> is used in a
+loose sense here, i.e application of the commands to a sequence of
+words is entirely possible, if they are properly quoted. <em>Note</em>
+that usage of <b class="cmd">strong</b> is discouraged as this command is
+deprecated and only present for backwards compatibility
+
+</li>
+<li>
+
+Another set of commands is available to construct (possibly nested)
+lists. These are <b class="cmd">list_begin</b>, <b class="cmd">list_end</b>, <b class="cmd">lst_item</b>,
+<b class="cmd">bullet</b>, <b class="cmd">enum</b>, <b class="cmd">call</b>, <b class="cmd">arg_def</b>, <b class="cmd">opt_def</b>,
+<b class="cmd">cmd_def</b>, and <b class="cmd">tkoption_def</b>. The first two of these begin
+and end a list respectively.
+
+<br>
+
+The argument to the first command denotes the type of the list. The
+allowed values and their associated item command are explained later,
+in the section detailing the <a href="#SECTnode1473">Commands</a>.
+
+<br>
+
+The other commands start list items and each can be used only inside a
+list of their type. In other words, <b class="cmd">bullet</b> is allowed in
+bulletted lists but nowhere else, <b class="cmd">enum</b> in enumerated lists and
+<b class="cmd">lst_item</b> and <b class="cmd">call</b> are for definition lists. These two
+commands also have some text directly associated with the item
+although the major bulk of the item is the text following the item
+until the next list command.
+
+<br>
+
+The last list command, <b class="cmd">call</b> is special. It is used to describe
+the syntax of a command and its arguments. It should not only cause
+the appropriate markup of a list item at its place but also add the
+syntax to the table of contents (synopsis) if supported by the output
+format in question. nroff and HTML for example do. A format focused on
+logical markup, like TMML, may not.
+
+</li>
+<li>
+The command <b class="cmd">usage</b> is similar to <b class="cmd">call</b> in that it adds the
+syntax to the table of contents (synopsis) if supported by the output
+format. Unlike <b class="cmd">call</b>,  this command doesn't add any text to the
+output as a direct result of the command. Thus, it can be used
+anywhere within the document to add usage information. Typically it is
+used near the top of the document, in cases where it is not desireable
+to use <b class="cmd">call</b> elsewhere in the document, or where additional usage
+information is desired (e.g.: to document a &quot;package require&quot; command).
+
+</li>
+
+</ul>
+<h2><a name="SECTnode1473">COMMANDS</a></h2><dl>
+
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">vset</a></b> <i class="m">varname</i> <i class="m">value</i>
+</dt>
+<dd>
+
+Sets the formatter variable <i class="m">varname</i> to the specified
+<i class="m">value</i>. Returns the empty string.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">vset</a></b> <i class="m">varname</i>
+</dt>
+<dd>
+
+Returns the value associated with the formatter variable
+<i class="m">varname</i>.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">include</a></b> <i class="m">filename</i>
+</dt>
+<dd>
+
+Reads the file named <i class="m">filename</i>, runs it through the expansion
+process and returns the expanded result.
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">manpage_begin</b> <i class="m">command</i> <i class="m">section</i> <i class="m">version</i>
+</dt>
+<dd>
+
+This command begins a manpage. Nothing is allowed to precede
+it. Arguments are the name of the command described by the manpage,
+the section of the manpages this manpages lives in, and the version of
+the module containing the command. All have to fit on one line.
+
+</dd>
+
+
+<dt>
+<b class="cmd">manpage_end</b> </dt>
+<dd>
+
+This command closes a manpage. Nothing is allowed to follow it.
+
+</dd>
+
+
+<dt>
+<b class="cmd">moddesc</b> <i class="m">desc</i>
+</dt>
+<dd>
+
+This command is required and comes after <b class="cmd">manpage_begin</b>, but
+before either <b class="cmd">require</b> or <b class="cmd">description</b>. Its argument
+provides a one-line description of the module described by the manpage.
+
+</dd>
+
+
+<dt>
+<b class="cmd">titledesc</b> <i class="m">desc</i>
+</dt>
+<dd>
+
+This command is optional and comes after <b class="cmd">manpage_begin</b>, but
+before either <b class="cmd">require</b> or <b class="cmd">description</b>. Its argument
+provides a one-line expansion of the title for the manpage. If this
+command is not used the manpage processor has to use information from
+<b class="cmd">moddesc</b> instead.
+
+</dd>
+
+
+<dt>
+<b class="cmd">copyright</b> <i class="m">text</i>
+</dt>
+<dd>
+
+This command is optional and comes after <b class="cmd">manpage_begin</b>, but
+before either <b class="cmd">require</b> or <b class="cmd">description</b>. Its argument
+declares the copyright assignment for the manpage. When invoked more
+than once the assignments are accumulated.
+
+<br>
+
+A doctools processor is allowed to provide auch information too, but a
+formatting engine has to give the accumulated arguments of this
+command precedence over the data coming from the processor.
+
+</dd>
+
+
+<dt>
+<b class="cmd">description</b> </dt>
+<dd>
+
+This command separates the header part of the manpage from the main
+body. Only <b class="cmd">require</b>, <b class="cmd">moddesc</b>, or <b class="cmd">titledesc</b> may
+precede it.
+
+</dd>
+
+
+<dt>
+<b class="cmd">require</b> <i class="m">pkg</i>  ? <i class="m">version</i> ? </dt>
+<dd>
+
+May occur only between <b class="cmd">manpage_begin</b> and <b class="cmd">description</b>. Is
+used to list the packages which are required for the described command
+to be operational.
+
+</dd>
+
+
+<dt>
+<b class="cmd">section</b> <i class="m">name</i>
+</dt>
+<dd>
+
+Used to structure the body of the manpage into named sections. This
+command is not allowed inside of a list or example. It implicitly
+closes the last <b class="cmd">para</b>graph before the command and also implicitly
+opens the first paragraph of the new section.
+
+</dd>
+
+
+<dt>
+<b class="cmd">para</b> </dt>
+<dd>
+
+Used to structure sections into paragraphs. Must not be used inside of
+a list or example.
+
+</dd>
+
+
+<dt>
+<b class="cmd">see_also</b> <i class="m">args</i>
+</dt>
+<dd>
+
+Creates a section <em>SEE ALSO</em> containing the arguments as
+cross-references. Must not be used inside of a list or example.
+
+</dd>
+
+
+<dt>
+<b class="cmd">keywords</b> <i class="m">args</i>
+</dt>
+<dd>
+
+Creates a section <em>KEYWORDS</em> containing the arguments as words
+indexing the manpage. Must not be used inside of a list or example.
+
+</dd>
+
+
+<dt>
+<b class="cmd">arg</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is the name of a command argument.
+
+</dd>
+
+
+<dt>
+<b class="cmd">cmd</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is the name of a command.
+
+</dd>
+
+
+<dt>
+<b class="cmd">opt</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is something optional. Most often used
+in conjunction with <b class="cmd">arg</b> to denote optional command arguments.
+
+</dd>
+
+
+<dt>
+<b class="cmd">emph</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Emphasize the <i class="m">text</i>.
+
+</dd>
+
+
+<dt>
+<b class="cmd">strong</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Emphasize the <i class="m">text</i>. Same as <b class="cmd">emph</b>. Usage is
+discouraged. The command is deprecated and present only for backward
+compatibility.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">comment</a></b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a comment.
+
+</dd>
+
+
+<dt>
+<b class="cmd">sectref</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a section reference.
+
+</dd>
+
+
+<dt>
+<b class="cmd">syscmd</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a system command.
+
+</dd>
+
+
+<dt>
+<b class="cmd">method</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a object method.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="stack.html">option</a></b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a option.
+
+</dd>
+
+
+<dt>
+<b class="cmd">widget</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a widget.
+
+</dd>
+
+
+<dt>
+<b class="cmd">fun</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a function.
+
+</dd>
+
+
+<dt>
+<b class="cmd">type</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a data type.
+
+</dd>
+
+
+<dt>
+<b class="cmd">package</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a package.
+
+</dd>
+
+
+<dt>
+<b class="cmd">class</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a class.
+
+</dd>
+
+
+<dt>
+<b class="cmd">var</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a variable.
+
+</dd>
+
+
+<dt>
+<b class="cmd">file</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a file .
+
+</dd>
+
+
+<dt>
+<b class="cmd">uri</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a uri.
+
+</dd>
+
+
+<dt>
+<b class="cmd">term</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a unspecific terminology.
+
+</dd>
+
+
+<dt>
+<b class="cmd">const</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Declares that the marked <i class="m">text</i> is a constant value.
+
+</dd>
+
+
+<dt>
+<b class="cmd">nl</b> </dt>
+<dd>
+
+Vertical space to separate text without breaking it into a new
+paragraph.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">lb</a></b> </dt>
+<dd>
+
+Introduces a left bracket into the output.
+
+</dd>
+
+
+<dt>
+<b class="cmd"><a href="doctoc_fmt.html">rb</a></b> </dt>
+<dd>
+
+Introduces a right bracket into the output. The bracket commands are
+necessary as plain brackets are used to denote the beginnings and
+endings of the formatting commands.
+
+</dd>
+
+
+<dt>
+<b class="cmd">example_begin</b> </dt>
+<dd>
+Formats subsequent text as a code sample:
+line breaks, spaces, and tabs are preserved and,
+where appropriate, text is presented in a fixed-width font.
+
+</dd>
+
+
+<dt>
+<b class="cmd">example_end</b> </dt>
+<dd>
+End of a code sample block.
+
+</dd>
+
+
+<dt>
+<b class="cmd">example</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Formats <i class="m">text</i> as a multi-line block of sample code.
+<i class="m">text</i> should be enclosed in braces.
+
+</dd>
+
+
+<dt>
+<b class="cmd">list_begin</b> <i class="m">what</i>
+</dt>
+<dd>
+
+Starts new list of type <i class="m">what</i>. The allowed types (and their
+associated item commands) are:
+
+
+<dl>
+
+
+<dt><em>bullet</em></dt>
+<dd>
+<b class="cmd">bullet</b>
+
+</dd>
+
+
+<dt><em>enum</em></dt>
+<dd>
+<b class="cmd">enum</b>
+
+</dd>
+
+
+<dt><em>definitions</em></dt>
+<dd>
+<b class="cmd">lst_item</b> and <b class="cmd">call</b>
+
+</dd>
+
+
+<dt><em>arg</em></dt>
+<dd>
+<b class="cmd">arg_def</b>
+
+</dd>
+
+
+<dt><em>cmd</em></dt>
+<dd>
+<b class="cmd">cmd_def</b>
+
+</dd>
+
+
+<dt><em>opt</em></dt>
+<dd>
+<b class="cmd">opt_def</b>
+
+</dd>
+
+
+<dt><em>tkoption</em></dt>
+<dd>
+<b class="cmd">tkoption_def</b>
+
+</dd>
+
+
+</dl>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">list_end</b> </dt>
+<dd>
+
+Ends the list opened by the last <b class="cmd">list_begin</b>.
+
+</dd>
+
+
+<dt>
+<b class="cmd">bullet</b> </dt>
+<dd>
+
+Starts a new item in a bulletted list.
+
+</dd>
+
+
+<dt>
+<b class="cmd">enum</b> </dt>
+<dd>
+
+Starts a new item in an enumerated list.
+
+</dd>
+
+
+<dt>
+<b class="cmd">lst_item</b> <i class="m">text</i>
+</dt>
+<dd>
+
+Starts a new item in a definition list. The argument is the term to be
+defined.
+
+</dd>
+
+
+<dt>
+<b class="cmd">call</b> <i class="m">args</i>
+</dt>
+<dd>
+
+Starts a new item in a definition list, but the term defined by it is
+a command and its arguments.
+
+</dd>
+
+
+<dt>
+<b class="cmd">arg_def</b> <i class="m">type</i> <i class="m">name</i>  ? <i class="m">mode</i> ? </dt>
+<dd>
+
+Starts a new item in an argument list. Specifies the data-<i class="m">type</i>
+of the described argument, its <i class="m">name</i> and possibly its
+i/o-<i class="m">mode</i>.
+
+</dd>
+
+
+<dt>
+<b class="cmd">opt_def</b> <i class="m">name</i>  ? <i class="m">arg</i> ? </dt>
+<dd>
+
+Starts a new item in an option list. Specifies the <i class="m">name</i> of the
+option and possible (i.e. optional) <i class="m">arg</i>uments.
+
+</dd>
+
+
+<dt>
+<b class="cmd">cmd_def</b> <i class="m">command</i>
+</dt>
+<dd>
+
+Starts a new item in a command list. Specifies the name of the
+<i class="m">command</i>.
+
+</dd>
+
+
+<dt>
+<b class="cmd">tkoption_def</b> <i class="m">name</i> <i class="m">dbname</i> <i class="m">dbclass</i>
+</dt>
+<dd>
+
+Starts a new item in a widget option list.  Specifies the <i class="m">name</i>
+of the option, i.e.  the name used in scripts, name used by the option
+database, and the class (type) of the option.
+
+</dd>
+
+
+<dt>
+<b class="cmd">usage</b> <i class="m">args</i>
+</dt>
+<dd>
+
+Defines a term to be used in the table of contents or synopsis section,
+depending on the format. This command is <em>silent</em>, as it doesn't
+add any text to the output as a direct result of the call. It merely
+defines data to appear in another section.
+
+</dd>
+
+
+</dl>
+<h2><a name="SECTnode2420">EXAMPLE</a></h2>
+
+The tcl sources of this manpage can serve as an example for all of the
+markup described by it. Almost every possible construct (with the
+exception of <b class="cmd">require</b>) is used here.
+
+
+
+
+<h2><a name="SECTnode2429">SEE ALSO</a></h2><p class="seealso">
+<a href="doctoc_fmt.html">doctoc_fmt</a>, <a href="docidx_fmt.html">docidx_fmt</a>, <a href="doctools_api.html">doctools_api</a>, <a href="doctools.html">doctools</a>
+</p>
+<h2><a name="SECTnode2444">KEYWORDS</a></h2><p class="keywords">
+<a class="keyword" href="keyword-index.html#KW-markup">markup</a>, <a class="keyword" href="keyword-index.html#KW-genericmarkup">generic markup</a>, <a class="keyword" href="keyword-index.html#KW-manpage">manpage</a>, <a class="keyword" href="keyword-index.html#KW-TMML">TMML</a>, <a class="keyword" href="keyword-index.html#KW-HTML">HTML</a>, <a class="keyword" href="keyword-index.html#KW-nroff">nroff</a>, <a class="keyword" href="keyword-index.html#KW-LaTeX">LaTeX</a>
+</p>
+
+</div><hr class="navsep"><div class="navbar" align="center">
+<a class="navaid" href="http://tmml.sourceforge.net/search.php">Search</a> · <a class="navaid" href="index.html">Contents</a> · <a class="navaid" href="category-index.html">Index</a> · <a class="navaid" href="keyword-index.html">Keywords</a> · <a class="navaid" href="http://tmml.sourceforge.net/coredocs.html">About...</a>
+</div>
+</body>
+</html>

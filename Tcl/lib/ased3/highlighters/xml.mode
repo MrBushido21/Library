@@ -1,0 +1,50 @@
+proc ::Editor::mode_xml {win} {
+    global EditorData
+
+    ctext::clearHighlightClasses $win
+    ctext::disableComments $win
+    foreach tag [$win tag names] {
+        $win tag remove $tag "1.0" "end-1c"
+    }
+    # don't edit lines above
+    set EditorData(keywords) "
+    "
+
+    if {![info exists EditorData(options,fgcolor,attributes)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,attributes) orange
+    }
+    ctext::addHighlightClassForRegexp $win attributes \
+            $EditorData(options,fgcolor,attributes) {\ [^\=]+}
+
+    if {![info exists EditorData(options,fgcolor,opentags)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,opentags) blue
+    }
+    ctext::addHighlightClassForRegexp $win opentags \
+            $EditorData(options,fgcolor,opentags) {<[^>\ ]+[^\ ][\>\ \r\n\t]}
+
+    if {![info exists EditorData(options,fgcolor,closetags)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,closetags) blue
+    }
+    ctext::addHighlightClassForRegexp $win closetags \
+            $EditorData(options,fgcolor,closetags) {([\ \t]+[^>\ \=\"]*\>)|(\/\>)}
+
+    if {![info exists EditorData(options,fgcolor,strings)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,strings) blue
+    }
+    ctext::addHighlightClassForRegexp $win strings \
+            $EditorData(options,fgcolor,strings) \
+            {\"\[^\"\]+\"}
+
+    if {![info exists EditorData(options,fgcolor,xmlcomment)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,xmlcomment) brown
+    }
+    ctext::addHighlightClassForRegexp $win xmlcomment \
+            $EditorData(options,fgcolor,xmlcomment) \
+            {^\[\ \t\]*<!--.*-->}
+    # ctext end
+}

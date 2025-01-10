@@ -1,0 +1,113 @@
+ASERV 1 {towns {
+}}
+ASERV 2 {{towns: 0 seconds} {
+}}
+ASERV 1 {towns {
+}}
+ASERV 2 {{towns: 0 seconds} {
+}}
+GET /mnc/towns HTTP/1.0
+ASERV 3 {{httpd sock508 {Connect 127.0.0.1 64809}} {
+}}
+ASERV 3 {{httpd sock508 {Request 25 {GET /mnc/towns HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock508 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock508}} {
+}}
+ASERV 5 {{handler {loadrequest sock508 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /mnc/towns ipaddr 127.0.0.1 proto GET inprogress 1 linemode 1 cancel after#0 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 2 {{getmncpath entry mnc/towns} {
+}}
+ASERV 3 {{getmncpath parse {hash {} form {} path {mnc towns}}} {
+}}
+ASERV 3 {{getmncpath call {::aserv::source::test::get-towns {{}}}} {
+}}
+ASERV 3 {{httpd sock508 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock508 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock508 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock508}} {
+}}
+ASERV 3 {{httpd sock508 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock508 {Respond completed ok}} {
+}}
+--> creating node domNode01F20C10
+--> creating node domNode01F20C10
+--> creating node domNode01F20C10
+--> creating node domNode01F39D48
+--> creating node domNode01F39D48
+--> tcldom_docTrace c0 01F05DB8
+--> tcldom_docTrace delete doc 01F05DB8
+--> tcldom_docCmdDeleteProc doc 01F05DB8
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"
+--> creating node domNode01F32450
+--> creating node domNode01F32450
+--> creating node domNode01F32450
+--> tcldom_docTrace c0 01F005F8
+--> tcldom_docTrace delete doc 01F005F8
+--> tcldom_docCmdDeleteProc doc 01F005F8
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"
+--> creating node domNode01F334D8
+--> creating node domNode01F334D8
+--> creating node domNode01F334D8
+--> tcldom_docTrace c0 01F00EE8
+--> tcldom_docTrace delete doc 01F00EE8
+--> tcldom_docCmdDeleteProc doc 01F00EE8
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"
+--> creating node domNode01F334D8
+--> creating node domNode01F334D8
+--> creating node domNode01F334D8
+--> creating node domNode01F33500
+--> creating node domNode01F33500
+--> creating node domNode01F33500
+--> creating node domNode01F69008
+--> creating node domNode01F69008
+--> creating node domNode01F33528
+--> creating node domNode01F33528
+--> creating node domNode01F33528
+--> creating node domNode01F69028
+--> creating node domNode01F69028
+--> tcldom_docTrace c0 01F01020
+--> tcldom_docTrace delete doc 01F01020
+--> tcldom_docCmdDeleteProc doc 01F01020
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"
+--> creating node domNode01F69018
+--> creating node domNode01F69018
+--> creating node domNode01F69018
+--> creating node domNode01F69040
+--> creating node domNode01F69040
+--> creating node domNode01F69040
+--> creating node domNode01F3ADD0
+--> creating node domNode01F3ADD0
+--> creating node domNode01F69068
+--> creating node domNode01F69068
+--> creating node domNode01F69068
+--> creating node domNode01F3ADF0
+--> creating node domNode01F3ADF0
+--> tcldom_docTrace c0 01F00E18
+--> tcldom_docTrace delete doc 01F00E18
+--> tcldom_docCmdDeleteProc doc 01F00E18
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"
+--> creating node domNode01FB2010
+--> creating node domNode01FB2010
+--> creating node domNode01FB2010
+--> creating node domNode01FB2038
+--> creating node domNode01FB2038
+--> creating node domNode01FB2038
+--> creating node domNode01FC11D0
+--> creating node domNode01FC11D0
+--> creating node domNode01FB2060
+--> creating node domNode01FB2060
+--> creating node domNode01FB2060
+--> creating node domNode01FC11F0
+--> creating node domNode01FC11F0
+--> tcldom_docTrace c0 01F854F8
+--> tcldom_docTrace delete doc 01F854F8
+--> tcldom_docCmdDeleteProc doc 01F854F8
+--> tcldom_docCmdDeleteProc calls Tcl_UntraceVar for "doc"

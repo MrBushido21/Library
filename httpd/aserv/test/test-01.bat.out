@@ -1,0 +1,37 @@
+++++ httpdonline-0.1 PASSED
+++++ httpdonline-1.0 PASSED
+++++ httpdonline-1.1.0 PASSED
+++++ httpdonline-1.1.1 PASSED
+++++ httpdonline-1.1.2 PASSED
+++++ httpdonline-1.1.3 PASSED
+++++ httpdonline-1.1.4 PASSED
+++++ httpdonline-1.1.5 PASSED
+
+==== httpdonline-1.1.6 simple post FAILED
+==== Contents of test case:
+
+    parseresponse result [testquery http://localhost:$port {} {querydata}]
+
+---- Result was:
+HTTP/1.0 500 Internal Server Error
+---- Result should have been (exact matching):
+HTTP/1.0 404 Not Found
+==== httpdonline-1.1.6 FAILED
+
+
+==== httpdonline-1.2.1 simple notfound html FAILED
+==== Contents of test case:
+
+    parseresponse result [testquery http://localhost:$port/data/missing.html]
+
+---- Result was:
+HTTP/1.0 500 Internal Server Error
+---- Result should have been (exact matching):
+HTTP/1.0 404 Not Found
+==== httpdonline-1.2.1 FAILED
+
+++++ httpdonline-1.2.2 PASSED
+++++ httpdonline-1.99 PASSED
+all.tcl:	Total	12	Passed	10	Skipped	0	Failed	2
+Sourced 0 Test Files.
+Files with failing tests: 01-httpdonline.test

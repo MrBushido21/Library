@@ -1,0 +1,570 @@
+GET /data/test.html HTTP/1.0
+ASERV 3 {{httpd sock00000277ED318B40 {Connect ::1 56782}} {
+}}
+ASERV 3 {{httpd sock00000277ED318B40 {Request 25 {GET /data/test.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED318B40 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED318B40}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED318B40 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/test.html ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#0 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED318B40 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock00000277ED318B40 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED318B40 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED318B40}} {
+}}
+ASERV 3 {{httpd sock00000277ED318B40 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED318B40 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Expires: now
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+
+test
+---
+GET /data/test.html HTTP/1.0
+ASERV 3 {{httpd sock00000277ED3275F0 {Connect ::1 56783}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {Request 25 {GET /data/test.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED3275F0}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED3275F0 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/test.html ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#1 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED3275F0}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Expires: now
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+
+test
+---
+GET /data/teste.html HTTP/1.0
+ASERV 3 {{httpd sock00000277ED326070 {Connect ::1 56784}} {
+}}
+ASERV 3 {{httpd sock00000277ED326070 {Request 25 {GET /data/teste.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED326070 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED326070}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED326070 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/teste.html ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#2 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED326070 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock00000277ED326070 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED326070 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED326070}} {
+}}
+ASERV 3 {{httpd sock00000277ED326070 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED326070 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Expires: now
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+
+тестЁ
+---
+GET /data/test3.html HTTP/1.0
+ASERV 3 {{httpd sock00000277ED367840 {Connect ::1 56785}} {
+}}
+ASERV 3 {{httpd sock00000277ED367840 {Request 25 {GET /data/test3.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED367840 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED367840}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED367840 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/test3.html ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#3 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED367840 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock00000277ED367840 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED367840 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED367840}} {
+}}
+ASERV 3 {{httpd sock00000277ED367840 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED367840 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Expires: now
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+
+test
+test
+test
+---
+GET /data/test.gif HTTP/1.0
+ASERV 3 {{httpd sock00000277ED3275F0 {Connect ::1 56786}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {Request 25 {GET /data/test.gif HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED3275F0}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED3275F0 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/test.gif ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#4 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {HttpdReturnFile start Z:/tmp/oleg/httpd/aserv/test/data/test.gif data/test.gif image/gif 1735888201 1 -static}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {HttpdCopyDone 4 bytes}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {Error {aborting download on file277ed346a30 can not find channel named "file277ed346a30"}}} {
+can not find channel named "file277ed346a30"
+    while executing
+"close $data(fcopy-fd)"}}
+ASERV 3 {{httpd sock00000277ED3275F0 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED3275F0}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {HttpdReturnFile done}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {Respond completed ok}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {{Return had not been called during request processing; closing connection.  data=final}}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED3275F0}} {
+}}
+ASERV 3 {{httpd sock00000277ED3275F0 {SockDone return}} {
+}}
+---
+HTTP/1.0 200 Data follows
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Content-Disposition: inline
+Last-Modified: Fri, 03 Jan 2025 07:10:01 GMT
+ETag: "1735888201"
+Expires: Sat, 04 Jan 2025 07:10:01 GMT
+Cache-Control: max-age=86400, must-revalidate
+Content-Type: image/gif
+Content-Length: 4
+Connection: close
+test
+---
+GET /data/test.html HTTP/1.0
+Connection: close
+
+ASERV 3 {{httpd sock00000277ED367E40 {Connect ::1 56787}} {
+}}
+ASERV 3 {{httpd sock00000277ED367E40 {Request 25 {GET /data/test.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED367E40 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED367E40}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED367E40 data query}} {
+}}
+ASERV 4 {{handler {request {state mime key connection url /data/test.html inprogress 1 ipaddr ::1 proto GET linemode 1 cancel after#5 protocol http left 25 mime,connection close outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED367E40 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock00000277ED367E40 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED367E40 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED367E40}} {
+}}
+ASERV 3 {{httpd sock00000277ED367E40 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED367E40 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Expires: now
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+
+test
+---
+POST / HTTP/1.0
+Content-Length: 9
+
+querydata
+ASERV 3 {{httpd sock00000277ED368A40 {Connect ::1 56788}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {Request 25 {POST / HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED368A40}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED368A40 data query}} {
+}}
+ASERV 4 {{handler {request {count 0 state mime key content-length url / inprogress 1 ipaddr ::1 proto POST linemode 0 cancel after#6 postdata querydata protocol http left 25 outputheaders {} version 0 query {} mime,content-length 9} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {Respond completed error {couldn't open "Z:/tmp/oleg/httpd/aserv/test/index.html": no such file or directory}}} {
+couldn't open "Z:/tmp/oleg/httpd/aserv/test/index.html": no such file or directory
+    while executing
+"open [file join $aserv::root $filename]"
+    (procedure "filecontents" line 2)
+    invoked from within
+"filecontents index.html"
+    (procedure "::aserv::handler" line 13)
+    invoked from within
+"::aserv::handler handle sock00000277ED368A40"
+    ("uplevel" body line 1)
+    invoked from within
+"uplevel #0 $Httpd(responsehandler) handle $sock"}}
+ASERV 3 {{httpd sock00000277ED368A40 {SockDone start 1}} {
+couldn't open "Z:/tmp/oleg/httpd/aserv/test/index.html": no such file or directory
+    while executing
+"open [file join $aserv::root $filename]"
+    (procedure "filecontents" line 2)
+    invoked from within
+"filecontents index.html"
+    (procedure "::aserv::handler" line 13)
+    invoked from within
+"::aserv::handler handle sock00000277ED368A40"
+    ("uplevel" body line 1)
+    invoked from within
+"uplevel #0 $Httpd(responsehandler) handle $sock"}}
+ASERV 3 {{httpd sock00000277ED368A40 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED368A40}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {Error 500 {Internal Server Error} {{Error processing request}} {} /}} {
+}}
+{Error processing handler for /:
+}
+---
+HTTP/1.0 500 Internal Server Error
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Content-Length: 137
+
+
+        <title>Error: 500</title>
+        Got the error: <b>Internal Server Error</b><br>
+        while trying to obtain <b>/</b>
+    
+
+---
+GET /data/missing.html HTTP/1.0
+ASERV 3 {{httpd sock00000277ED377280 {Connect ::1 56789}} {
+}}
+ASERV 3 {{httpd sock00000277ED377280 {Request 25 {GET /data/missing.html HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED377280 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED377280}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED377280 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/missing.html ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#7 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED377280 {Respond completed error {couldn't open "Z:/tmp/oleg/httpd/aserv/test/data/missing.html": no such file or directory}}} {
+couldn't open "Z:/tmp/oleg/httpd/aserv/test/data/missing.html": no such file or directory
+    while executing
+"open [file join $aserv::root $filename]"
+    (procedure "filecontents" line 2)
+    invoked from within
+"filecontents $path"
+    (procedure "::aserv::handler" line 20)
+    invoked from within
+"::aserv::handler handle sock00000277ED377280"
+    ("uplevel" body line 1)
+    invoked from within
+"uplevel #0 $Httpd(responsehandler) handle $sock"}}
+ASERV 3 {{httpd sock00000277ED377280 {SockDone start 1}} {
+couldn't open "Z:/tmp/oleg/httpd/aserv/test/data/missing.html": no such file or directory
+    while executing
+"open [file join $aserv::root $filename]"
+    (procedure "filecontents" line 2)
+    invoked from within
+"filecontents $path"
+    (procedure "::aserv::handler" line 20)
+    invoked from within
+"::aserv::handler handle sock00000277ED377280"
+    ("uplevel" body line 1)
+    invoked from within
+"uplevel #0 $Httpd(responsehandler) handle $sock"}}
+ASERV 3 {{httpd sock00000277ED377280 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED377280}} {
+}}
+ASERV 3 {{httpd sock00000277ED377280 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED377280 {Error 500 {Internal Server Error} {{Error processing request}} {} /data/missing.html}} {
+}}
+{Error processing handler for /data/missing.html:
+}
+---
+HTTP/1.0 500 Internal Server Error
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Content-Length: 154
+
+
+        <title>Error: 500</title>
+        Got the error: <b>Internal Server Error</b><br>
+        while trying to obtain <b>/data/missing.html</b>
+    
+
+---
+GET /data/missing.unknown HTTP/1.0
+ASERV 3 {{httpd sock00000277ED368A40 {Connect ::1 56790}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {Request 25 {GET /data/missing.unknown HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED368A40}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED368A40 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /data/missing.unknown ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#8 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED368A40}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {Error 404 {Not Found} {{}} {} /data/missing.unknown}} {
+}}
+ASERV 3 {{httpd sock00000277ED368A40 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 404 Not Found
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Content-Length: 145
+
+
+        <title>Error: 404</title>
+        Got the error: <b>Not Found</b><br>
+        while trying to obtain <b>/data/missing.unknown</b>
+    
+
+---
+GET /ping HTTP/1.0
+ASERV 3 {{httpd sock00000277ED378580 {Connect ::1 56791}} {
+}}
+ASERV 3 {{httpd sock00000277ED378580 {Request 25 {GET /ping HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED378580 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED378580}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED378580 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /ping ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#9 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED378580 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock00000277ED378580 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED378580 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED378580}} {
+}}
+ASERV 3 {{httpd sock00000277ED378580 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED378580 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 200 OK
+Content-Type: text/xml
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Expires: now
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+
+<ping stamp="2025-01-03 09:10:01">pong</ping>
+
+---
+GET /ping?bla-bla-bla HTTP/1.0
+ASERV 3 {{httpd sock00000277ED379000 {Connect ::1 56792}} {
+}}
+ASERV 3 {{httpd sock00000277ED379000 {Request 25 {GET /ping?bla-bla-bla HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED379000 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED379000}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED379000 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /ping ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#10 protocol http left 25 outputheaders {} version 0 query bla-bla-bla} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED379000 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock00000277ED379000 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED379000 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED379000}} {
+}}
+ASERV 3 {{httpd sock00000277ED379000 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED379000 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 200 OK
+Content-Type: text/xml
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Expires: now
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+
+<ping stamp="2025-01-03 09:10:01">pong</ping>
+
+---
+GET /ping?bla-bla-$bla HTTP/1.0
+ASERV 3 {{httpd sock00000277ED379080 {Connect ::1 56793}} {
+}}
+ASERV 3 {{httpd sock00000277ED379080 {Request 25 {GET /ping?bla-bla-$bla HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED379080 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED379080}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED379080 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /ping ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#11 protocol http left 25 outputheaders {} version 0 query {bla-bla-$bla}} query {}}} {
+}}
+ASERV 3 {{httpd sock00000277ED379080 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock00000277ED379080 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED379080 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED379080}} {
+}}
+ASERV 3 {{httpd sock00000277ED379080 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED379080 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 200 OK
+Content-Type: text/xml
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Expires: now
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+
+<ping stamp="2025-01-03 09:10:01">pong</ping>
+
+---
+ASERV 1 {towns {
+}}
+ASERV 2 {{towns: 0 seconds} {
+}}
+ASERV 1 {towns {
+}}
+ASERV 2 {{towns: 0 seconds} {
+}}
+GET /mnc/towns HTTP/1.0
+ASERV 3 {{httpd sock00000277ED37AB80 {Connect ::1 56794}} {
+}}
+ASERV 3 {{httpd sock00000277ED37AB80 {Request 25 {GET /mnc/towns HTTP/1.0}}} {
+}}
+ASERV 3 {{httpd sock00000277ED37AB80 {Respond start}} {
+}}
+ASERV 4 {{handler {handle sock00000277ED37AB80}} {
+}}
+ASERV 5 {{handler {loadrequest sock00000277ED37AB80 data query}} {
+}}
+ASERV 4 {{handler {request {state mime url /mnc/towns ipaddr ::1 proto GET inprogress 1 linemode 1 cancel after#12 protocol http left 25 outputheaders {} version 0 query {}} query {}}} {
+}}
+ASERV 2 {{getmncpath entry mnc/towns} {
+}}
+ASERV 3 {{getmncpath parse {hash {} form {} path {mnc towns}}} {
+}}
+ASERV 3 {{getmncpath call {::aserv::source::test::get-towns {{}}}} {
+}}
+ASERV 3 {{httpd sock00000277ED37AB80 HttpdReturn} {
+}}
+ASERV 3 {{httpd sock00000277ED37AB80 {SockDone start 1}} {
+}}
+ASERV 3 {{httpd sock00000277ED37AB80 {SockDone calling response handler}} {
+}}
+ASERV 4 {{handler {done sock00000277ED37AB80}} {
+}}
+ASERV 3 {{httpd sock00000277ED37AB80 {SockDone return}} {
+}}
+ASERV 3 {{httpd sock00000277ED37AB80 {Respond completed ok}} {
+}}
+---
+HTTP/1.0 200 OK
+Content-Type: text/xml
+Date: Fri, 03 Jan 2025 07:10:01 GMT
+Connection: close
+Expires: now
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+
+<mnc version="1.0" stamp="2025-01-03 09:10:01">
+<town town-id="1">Днепр</town>
+<town town-id="2">Кривой Рог</town>
+</mnc>
+
+---

@@ -1,0 +1,782 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html -->
+<HTML><HEAD><TITLE>Understanding TkTreeCtrl</TITLE>
+<META content="text/html; charset=ISO-8859-1" http-equiv=content-type>
+<META name=GENERATOR content="MSHTML 9.00.8112.16430"></HEAD>
+<BODY>
+<H1>Understanding TkTreeCtrl</H1>
+<H2>Table of Contents</H2>
+<UL>
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#Loading_the_treectrl_package">Loading 
+  the treectrl package</A> 
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#Creating_a_new_treectrl_window">Creating 
+  a new treectrl window</A> 
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#Adding_columns">Adding 
+  columns</A> 
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#Adding_items">Adding 
+  items</A> 
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#Modifying_the_hierarchy_of_items">Modifying 
+  the hierarchy of items</A> 
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#Specifying_the_appearance_of_items">Specifying 
+  the appearance of items</A> 
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#The_style_layout_options">The 
+  style layout options</A> 
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#How_items_are_arranged_on_screen">How 
+  items are arranged on screen</A> 
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#How_the_width_of_items_is_determined">How 
+  the width of items is determined</A> 
+  <LI><A 
+  href="http://tktreectrl.sourceforge.net/Understanding%20TkTreeCtrl.html#Adding_items_on_demand">Adding 
+  items on demand</A> </LI></UL>
+<H3><A name=Loading_the_treectrl_package></A>Loading the treectrl package</H3>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD><SPAN style="FONT-WEIGHT: bold">package require</SPAN> 
+  treectrl</TD></TR></TBODY></TABLE>
+<H3><A name=Creating_a_new_treectrl_window></A>Creating a new treectrl 
+window</H3>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>set T [<SPAN style="FONT-WEIGHT: bold">treectrl&nbsp;</SPAN> 
+      .myTreeCtrl <SPAN style="FONT-STYLE: italic">?option value 
+  ...?</SPAN>]</TD></TR></TBODY></TABLE>
+<H3><A name=Adding_columns></A>Adding columns</H3>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>set columnID [$T <SPAN style="FONT-WEIGHT: bold">column create</SPAN> 
+      <SPAN style="FONT-STYLE: italic">?option value 
+...?</SPAN>]</TD></TR></TBODY></TABLE><BR>The [$T column create] command not 
+only creates a new column but also adds that column to the list of columns 
+maintained by the treectrl window. The new column appears at the end of the list 
+of columns.<BR><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 600px; MARGIN-LEFT: 40px" border=0 
+cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD style="BACKGROUND-COLOR: rgb(255,255,204)"><SPAN 
+      style="FONT-WEIGHT: bold">Note</SPAN> &nbsp;There is a special column 
+      called the <SPAN style="FONT-WEIGHT: bold">tail</SPAN> column that is 
+      created when the treectrl window is created. The tail column always 
+      appears to the right of any other columns created by the [$T column 
+      create] command. It is not possible to delete the tail 
+  column.</TD></TR></TBODY></TABLE>
+<H3><A name=Adding_items></A>Adding items</H3>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>set itemID [$T <SPAN style="FONT-WEIGHT: bold">item create</SPAN> 
+      <SPAN style="FONT-STYLE: italic">?option value 
+...?</SPAN>]</TD></TR></TBODY></TABLE><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 600px; MARGIN-LEFT: 40px" border=0 
+cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD style="BACKGROUND-COLOR: rgb(255,255,204)"><SPAN 
+      style="FONT-WEIGHT: bold">Note&nbsp;</SPAN> The <SPAN 
+      style="FONT-WEIGHT: bold">root</SPAN> item is created when a treectrl 
+      window is created. It is not possible to delete the root 
+  item.</TD></TR></TBODY></TABLE>
+<H3><A name=Modifying_the_hierarchy_of_items></A>Modifying the hierarchy of 
+items</H3>There are 4 commands which set the parent-child relationship between 
+one item and another. You only need to use one of these commands to add an item 
+to another item's list of children.<BR><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 600px; MARGIN-LEFT: 40px" border=0 
+cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD style="BACKGROUND-COLOR: rgb(204,204,204)">$T <SPAN 
+      style="FONT-WEIGHT: bold">item firstchild</SPAN> $parent $child<BR>$T 
+      <SPAN style="FONT-WEIGHT: bold">item lastchild</SPAN> $parent $child<BR>$T 
+      <SPAN style="FONT-WEIGHT: bold">item nextsibling</SPAN> $item 
+      $sibling<BR>$T <SPAN style="FONT-WEIGHT: bold">item prevsibling</SPAN> 
+      $item $sibling</TD></TR></TBODY></TABLE><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 600px; MARGIN-LEFT: 40px" border=0 
+cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD style="BACKGROUND-COLOR: rgb(255,255,204)"><SPAN 
+      style="FONT-WEIGHT: bold">Note&nbsp;</SPAN> An item can only be a child of 
+      a single parent. Also, you cannot make the root item a child of another 
+      item.</TD></TR></TBODY></TABLE><BR>There is a 5th command which removes an item 
+from its parent's list of children.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>$T <SPAN style="FONT-WEIGHT: bold">item remove</SPAN> 
+  $item</TD></TR></TBODY></TABLE><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 600px; MARGIN-LEFT: 40px" border=0 
+cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD style="BACKGROUND-COLOR: rgb(255,255,204)"><SPAN 
+      style="FONT-WEIGHT: bold">Note</SPAN> &nbsp;An item without a parent is 
+      known as an <SPAN style="FONT-STYLE: italic">orphan</SPAN> and is never 
+      displayed in the treectrl window. You can get a list of orphan items using 
+      the command [$T orphans].</TD></TR></TBODY></TABLE>
+<H3><A name=Specifying_the_appearance_of_items></A>Specifying the appearance of 
+items</H3>Up to this point you have learned how to create a new treectrl window, 
+add columns, add&nbsp;items, and set the parent-child relationship between those 
+items. But what do those items look like on screen? How are the images, text, 
+fonts, colors etc specified for each item? In fact there is no default 
+appearance for items provided by a treectrl window. The good news is you have a 
+great deal of control over the appearance of items so you do not have to make 
+due with what the treectrl developer thought was best. The bad news is you have 
+to do a bit more work (i.e., typing) than you might like.<BR><BR>Lets start with 
+a basic question:&nbsp;what types of graphical information&nbsp;can be displayed 
+by an item? The answer is there are 6 types of graphical things that can be 
+displayed, namely&nbsp;bitmaps, 3D borders, 
+images,&nbsp;rectangles,&nbsp;strings of text, and other Tk windows. There can 
+be any number&nbsp;of these 6 graphical things displayed in each column of each 
+item. Each graphical thing has its own set of options to control its appearance, 
+such as the font used for strings of text, or the color used to fill a 
+rectangle. The graphical <SPAN style="FONT-STYLE: italic">things</SPAN> I have 
+been telling you about are called <SPAN 
+style="FONT-WEIGHT: bold">elements</SPAN>.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>$T <SPAN style="FONT-WEIGHT: bold">element create</SPAN> myElement1 
+      image <SPAN style="FONT-STYLE: italic">?option value...?<BR></SPAN>$T 
+      <SPAN style="FONT-WEIGHT: bold">element create</SPAN> myElement2 text 
+      <SPAN style="FONT-STYLE: italic">?option 
+value...?</SPAN></TD></TR></TBODY></TABLE><BR>So now you know there are bitmap 
+elements, 3D border elements, image elements, rectangle elements, text elements 
+and window elements. When you create a treectrl window you need to decide which 
+of these elements to use to display your data. You also need to decide how to 
+arrange these elements on screen. So how do you group elements together to 
+arrange them on screen? The answer is you use a <SPAN 
+style="FONT-WEIGHT: bold">style</SPAN>. A <SPAN 
+style="FONT-WEIGHT: bold">style</SPAN> is a thing that maintains layout 
+information for a list of elements.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>$T <SPAN style="FONT-WEIGHT: bold">style create</SPAN> myStyle1 <SPAN 
+      style="FONT-STYLE: italic">?option 
+value...?</SPAN></TD></TR></TBODY></TABLE><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 600px; MARGIN-LEFT: 40px" border=0 
+cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD style="BACKGROUND-COLOR: rgb(255,255,204)"><SPAN 
+      style="FONT-WEIGHT: bold">Note&nbsp;</SPAN> There is no limit on the 
+      number of styles or elements that may be created in a treectrl 
+  window.</TD></TR></TBODY></TABLE><BR>After you create a new style, you must 
+specify a list of one or more elements that the style will arrange on screen. 
+<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>$T <SPAN style="FONT-WEIGHT: bold">style elements </SPAN>myStyle1 
+      [list myElement1 myElement2]</TD></TR></TBODY></TABLE><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 600px; MARGIN-LEFT: 40px" border=0 
+cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD style="BACKGROUND-COLOR: rgb(255,255,204)"><SPAN 
+      style="FONT-WEIGHT: bold">Note</SPAN>&nbsp; An element can be used only 
+      once by a particular style. However, the same element can be used by more 
+      than one style at a time.&nbsp;</TD></TR></TBODY></TABLE><BR>Your new style is 
+no use on its own, you must now assign the style to the column of an item. One, 
+and only one style may be specified for each column of each item. So as far as 
+graphical appearance goes, you can think of an item as a list of styles, one 
+style per column. If no style is specified for a column of an item, then nothing 
+is displayed there (except for the background color).<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>$T <SPAN style="FONT-WEIGHT: bold">item style set</SPAN> $itemID 
+      $columnID myStyle1<SPAN 
+style="FONT-STYLE: italic"></SPAN></TD></TR></TBODY></TABLE><BR>Now you may be 
+asking yourself, do I need to create a brand new style for every column of every 
+item? The answer is no. When you create a style, it is defined for the whole 
+treectrl window. You can assign that style to the particular columns of whatever 
+items you choose. The same style can be assigned to different columns of the 
+same item, and to the columns of any number of different items.<BR><BR>If you 
+understand what I've been telling you up to this point, you will now be 
+wondering how it is that different items can have different text or images 
+displayed if those items are sharing the same style. It's true that after you 
+assign a particular style to more than one item those items will all display 
+exactly the same information, as determined by the element options 
+and&nbsp;layout information for those elements. What you need to do is configure 
+some of the element options in a particular column of a particular item.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>$T <SPAN style="FONT-WEIGHT: bold">item element configure</SPAN> 
+      $itemID $columnID myElement2 <SPAN style="FONT-STYLE: italic">?option 
+      value...?</SPAN></TD></TR></TBODY></TABLE><BR>The [$T item element configure] 
+command is how you would set the text for each item, for example. The whole 
+point of styles is to avoid assigning colors, fonts etc for every single item, 
+which would be slow and use a lot of memory. You could have an element that 
+displays a folder image, and another element that displays a file image, and use 
+those elements in many different items, thereby avoiding assigning the same 
+image over and over again.<BR>
+<H3><A name=The_style_layout_options></A>The style layout options</H3>You know 
+how to create elements and styles, and how to specify a list of elements for a 
+style. I mentioned that "A <SPAN style="FONT-WEIGHT: bold">style</SPAN> is a 
+thing that maintains layout information for a list of elements." So after you 
+specify a style's list of elements, you must then tell the style how to arrange 
+its elements on screen.<BR><BR>
+<DIV style="TEXT-ALIGN: center">
+<DIV style="TEXT-ALIGN: left">
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>$T <SPAN style="FONT-WEIGHT: bold">style layout </SPAN>myStyle1 
+      myElement1 <SPAN style="FONT-STYLE: italic">?option 
+  value...?</SPAN></TD></TR></TBODY></TABLE><BR>The [$T style layout] command is 
+like a geometry manager for elements, similar to the Tk <SPAN 
+style="FONT-WEIGHT: bold">grid</SPAN>, <SPAN 
+style="FONT-WEIGHT: bold">pack</SPAN> and <SPAN 
+style="FONT-WEIGHT: bold">place</SPAN> commands. With the help of an example I 
+will show you how some of the style layout options work.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>package require treectrl<BR>treectrl .t<BR>pack .t<BR><BR>set column 
+      [.t column create -text hello -width 150 -itembackground linen]<BR><BR>.t 
+      element create elemGray rect -fill gray -width 20 -height 10<BR>.t element 
+      create elemBlue rect -fill blue -width 20 -height 30<BR>.t element create 
+      elemGreen rect -fill green -width 20 -height 20<BR><BR>.t style create 
+      style1<BR>.t style elements style1 {elemGray elemBlue elemGreen}<BR><BR>.t 
+      item style set root $column style1</TD></TR></TBODY></TABLE>
+<DIV style="TEXT-ALIGN: left; MARGIN-LEFT: 40px"><IMG 
+style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under001.png"> </DIV><BR>You can see 
+that by default the elements are arranged from left to right in the same order 
+given to the [.t style elements] command. Each element is given only as much 
+space as it requests, in this case 20 pixels each. Also notice that the height 
+of the root item is equal to the height of the tallest element (the blue 
+box).<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemBlue -padx 4 -pady 
+2<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under002.png"> </DIV><BR>An element has 
+0 or more pixels of padding on each side. The padding pushes the element away 
+from other elements and from the edges of the item. Notice that the root item is 
+now 4 pixels taller because of the -pady padding.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGreen -expand n</TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under003.png"> </DIV><BR>The -expand 
+option tells the style to give extra space to the -padx and -pady options. I 
+told the style to give all the extra vertical space to the north or top side of 
+the green box. As as result the green box is pushed to the bottom of the root 
+item.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGreen -expand ns</TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under004.png"> </DIV><BR>Now half of 
+the extra space is given to the top of the green box and half to the bottom. As 
+a result, the green box is centered vertically inside the item.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -iexpand y</TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under005.png"> </DIV><BR>This new 
+option -iexpand tells the style to give extra space to the <SPAN 
+style="FONT-STYLE: italic">inside</SPAN> of the gray box instead of to the 
+outside like -expand does.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -iexpand xy</TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under006.png"> </DIV><BR>Now the gray 
+box has been given all the extra horizontal space of the root item.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -sticky ""<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under007.png"> </DIV><BR>The -sticky 
+option controls how an element is stretched and positioned within the space 
+given to it. The gray box is still given extra "inside" space from the -iexpand 
+option, but it isn't stretching to fill that space.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -sticky w<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under008.png"> </DIV><BR>Now the gray 
+box is sticking to the west or left side of its&nbsp;inside space.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -sticky ws<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under009.png"> </DIV><BR>Now the gray 
+box is also sticking to the south or bottom side of its&nbsp;inside 
+space.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -sticky wnes<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under006.png"> </DIV><BR>Now the 
+default behavior is restored, and the gray box sticks to all sides of 
+its&nbsp;inside space.<BR><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 600px; MARGIN-LEFT: 40px" border=0 
+cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD style="BACKGROUND-COLOR: rgb(255,255,204)"><SPAN 
+      style="FONT-WEIGHT: bold">Note</SPAN> &nbsp;Some elements like text and 
+      images are not stretched by the -sticky option.</TD></TR></TBODY></TABLE><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -detach yes<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under010.png"> </DIV><BR>The -detach 
+option tells the style to place an element by itself, without affecting the 
+position of any other elements. The gray box completely fills the root item 
+because of the -iexpand and -sticky options. The blue and green&nbsp;boxes are 
+now shifted to the left since the gray box is not taking up space on the left. 
+The gray box appears behind the blue and green boxes because it is first in the 
+list of elements. Elements are drawn from first to last in the style's list of 
+elements.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -union 
+elemGreen<BR></TD></TR></TBODY></TABLE>
+<DIV style="TEXT-ALIGN: left; MARGIN-LEFT: 40px"><IMG 
+style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under011.png"> </DIV><BR>What happened 
+to the gray box? The answer is the gray box is now exactly the same size as the 
+green box. The -union option lets you wrap an element around one or more other 
+elements.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -ipadx 4 -ipady 
+4<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under012.png"> </DIV><BR>You can see 
+the gray box now because I added some&nbsp;padding to the <SPAN 
+style="FONT-STYLE: italic">inside</SPAN> of it.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -iexpand n<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under013.png"> </DIV><BR>Now the style 
+is giving extra vertical space to the inside top of the gray box. The position 
+of the green box is unaffected by this extra padding.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t style layout style1 elemGray -iexpand ns<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/under014.png"> </DIV><BR>The gray box 
+is now stretched to the height of the root item.<BR>
+<H3><A name=How_items_are_arranged_on_screen></A>How items are arranged on 
+screen</H3>We've looked at how a style arranges its elements. Now we are going 
+to look at how a treectrl window arranges its items. The next example creates a 
+treectrl window with 20 items. Each item has a text element surrounded by a 
+border element.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>package require treectrl<BR>treectrl .t -showheader no -showroot no 
+      -width 250<BR>pack .t<BR><BR>set columnID [.t column create]<BR><BR>.t 
+      element create elemBorder border -background #ece9d8 -filled yes -relief 
+      solid -thickness 1<BR>.t element create elemText text<BR><BR>.t style 
+      create style1<BR>.t style elements style1 {elemBorder elemText}<BR>.t 
+      style layout style1 elemBorder -union&nbsp;elemText -ipadx 4 -ipady 
+      4<BR>.t style layout style1 elemText<BR><BR>for {set i 1} {$i &lt;= 20} 
+      {incr i} {<BR>&nbsp;&nbsp;&nbsp; set itemID [.t item 
+      create]<BR>&nbsp;&nbsp;&nbsp; .t item style set $itemID $columnID 
+      style1<BR>&nbsp;&nbsp;&nbsp; .t item element configure $itemID $columnID 
+      elemText -text "Item $i"<BR>&nbsp;&nbsp;&nbsp; .t item lastchild root 
+      $itemID<BR>}<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 256px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay001.png"> </DIV><BR>Here you can 
+see the default behavior, which is to arrange the 20 items from top to 
+bottom.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -orient horizontal<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 256px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay002.png"></DIV><BR>Here we see 
+the first option that controls item arrangement, the treectrl's -orient option. 
+Now all the items are arranged from left to right instead of from top to bottom. 
+If you are displaying a film strip of images it might be useful to arrange items 
+this way.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -wrap "5 items"<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 256px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay003.png"> </DIV><BR>I told the 
+treectrl to put no more than 5 items in a row.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -wrap window </TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 256px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay004.png"> </DIV><BR>Instead of 
+breaking each row at 5 items, the treectrl puts as many items in a row that fit 
+into the window.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -width 200<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 206px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay005.png"> </DIV><BR>Here I just 
+made the window narrower to demonstrate wrapping.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -width 250 -wrap "200 pixels"<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 256px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay006.png"> </DIV><BR>The window 
+is back to its original width of 250 pixels. The -wrap option now says to break 
+each row at 200 pixels, which is exactly how wide I made the treectrl in the 
+previous example, so we end up with the same arrangement of items. You have now 
+seen the 3 different possibilities for the -wrap option:<BR>
+<OL>
+  <LI>-wrap "N items" 
+  <LI>-wrap window 
+  <LI>-wrap "N pixels" </LI></OL>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -orient vertical -wrap window<BR></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 256px; HEIGHT: 206px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay007.png"> </DIV><BR>Wrapping 
+works just as well when items are arranged from top to bottom.<BR>
+<H3><A name=How_the_width_of_items_is_determined></A>How the width of items is 
+determined</H3>When more than one column is visible, every item has the same 
+width no matter what options you use. When only one column is visible, the 
+amount of width given to an item depends on a number of factors. The next 
+example creates a list of 20 items with only one column. Every item is drawn 
+with a "linen" color background to show you how much width is actually given to 
+each item. With this example I will show you how the width of items is affected 
+by various options.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>package require treectrl<BR>treectrl .t -showheader no -showroot no 
+      -width 410 -height 300<BR>pack .t -expand yes -fill both<BR>set columnID 
+      [.t column create -itembackground linen]<BR><BR>.t element create 
+      elemBorder border -background #ece9d8 -filled yes -relief solid -thickness 
+      1<BR>.t element create elemText text<BR><BR>.t style create style1<BR>.t 
+      style elements style1 {elemBorder elemText}<BR>.t style layout style1 
+      elemBorder -union {elemText} -ipadx 4 -ipady 4<BR>.t style layout style1 
+      elemText<BR><BR>foreach n {5 15 20 10 10 5 15 10 20 15 15 25 10 5 15 5 10 
+      20 15 25}&nbsp; {<BR>&nbsp;&nbsp;&nbsp; set itemID [.t item 
+      create]<BR>&nbsp;&nbsp;&nbsp; .t item style set $itemID $columnID 
+      style1<BR>&nbsp;&nbsp;&nbsp; set text [string range 
+      "abcdefghijklmnopqrstuvwxyz" 0 $n]<BR>&nbsp;&nbsp;&nbsp; .t item element 
+      configure $itemID $columnID elemText -text $text<BR>&nbsp;&nbsp;&nbsp; .t 
+      item lastchild root $itemID<BR>}</TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 416px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay008.png"> </DIV><BR>With 
+top-to-bottom layout, and only one column, and no wrapping, every item is 
+exactly as wide as the column. The column's width is affected by the requested 
+width of the items, the requested width of the header (i.e. the column's 
+bitmap/image/text/arrow), and the column's -minwidth, -width, -maxwidth, -expand 
+and -squeeze options.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD><SPAN style="FONT-STYLE: italic"></SPAN>.t column configure $columnID 
+      -width 200</TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 416px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay009.png"> </DIV><BR>When the 
+column has a fixed width, the width given to every item is equal to that width. 
+In this case the requested width of the items, the requested width of the 
+header, and the other column options have no effect on item width.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -wrap "10 items"<BR><SPAN 
+      style="FONT-STYLE: italic"></SPAN></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 416px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay010.png"> </DIV><BR>Now there 
+are 2 vertical groups of items. I call each group a <SPAN 
+style="FONT-WEIGHT: bold">range </SPAN>of items. The items are arranged from top 
+to bottom within each range. Both ranges have the same width of 200 
+pixels.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t column configure $columnID -width ""<SPAN 
+      style="FONT-STYLE: italic"></SPAN></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 416px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay011.png"> </DIV><BR>I cleared 
+the fixed column width. Both ranges have a different width from the other. Now 
+each range is exactly&nbsp;as wide as the widest item in that range.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -itemwidthequal yes<BR><SPAN 
+      style="FONT-STYLE: italic"></SPAN></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 416px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay012.png"> </DIV><BR>The 
+-itemwidthequal&nbsp;option causes all items to have the same width. The width 
+of every item is equal to the width of the widest item. The left range is now 
+exactly as wide as the right range, which was the widest.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -itemwidthequal no -orient horizontal -wrap 
+      window<BR><SPAN style="FONT-STYLE: italic"></SPAN></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 416px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay013.png"> </DIV><BR>Laying out 
+items left-to-right to demonstrate the next option.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -itemwidthmultiple 100<BR><SPAN 
+      style="FONT-STYLE: italic"></SPAN></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 416px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay014.png"> </DIV><BR>The 
+-itemwidthmultiple&nbsp;option gives every item an even multiple of 100 pixels. 
+The narrower items are 100 pixels wide, while the widest are 200.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t configure -itemwidthmultiple "" -itemwidth 100<BR><SPAN 
+      style="FONT-STYLE: italic"></SPAN></TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 416px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/itemlay015.png"> <BR></DIV><BR>Here the 
+-itemwidth option gives every item a width of 100 pixels.<BR><BR>The two tables 
+below summarize how item width is determined. The order of precedence is from 
+top to bottom within each table.<BR><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 100%" border=1 cellSpacing=2 
+cellPadding=2>
+  <TBODY>
+  <TR>
+    <TH style="BACKGROUND-COLOR: rgb(204,255,255)">Situation (-orient 
+    vertical)</TH>
+    <TH style="BACKGROUND-COLOR: rgb(204,255,255)">How an item's width is 
+      determined</TH>
+    <TH style="BACKGROUND-COLOR: rgb(204,255,255)">Items have equal 
+  width?</TH></TR>
+  <TR>
+    <TD>More than one column is visible</TD>
+    <TD>sum of the calculated widths of all visible columns</TD>
+    <TD>yes</TD></TR>
+  <TR>
+    <TD>-wrap == ""</TD>
+    <TD>column's calculated width</TD>
+    <TD>yes</TD></TR>
+  <TR>
+    <TD>-itemwidth &gt; 0</TD>
+    <TD>-itemwidth option</TD>
+    <TD>yes</TD></TR>
+  <TR>
+    <TD>column -width != ""</TD>
+    <TD>column's -width option<BR><SPAN style="FONT-STYLE: italic">Using the 
+      column's -width option this way is deprecated. Use the treectrl's 
+      -itemwidth option instead.</SPAN></TD>
+    <TD>yes</TD></TR>
+  <TR>
+    <TD>-itemwidthequal == true</TD>
+    <TD>width of widest item<BR>round up using -itemwidthmultiple</TD>
+    <TD>yes</TD></TR>
+  <TR>
+    <TD>all other cases</TD>
+    <TD>requested width of style, plus indentation if this is the tree 
+      column<BR>round up using -itemwidthmultiple</TD>
+    <TD>All items in a range have the same width, but each range may have a 
+      different width.</TD></TR></TBODY></TABLE><BR>
+<TABLE style="TEXT-ALIGN: left; WIDTH: 100%" border=1 cellSpacing=2 
+cellPadding=2>
+  <TBODY>
+  <TR>
+    <TH style="BACKGROUND-COLOR: rgb(204,255,255)">Situation (-orient 
+      horizontal)</TH>
+    <TH style="BACKGROUND-COLOR: rgb(204,255,255)">How an item's width is 
+      determined</TH>
+    <TH style="BACKGROUND-COLOR: rgb(204,255,255)">Items have equal 
+  width?</TH></TR>
+  <TR>
+    <TD>More than one column is visible</TD>
+    <TD>sum of the calculated widths of all visible columns</TD>
+    <TD>yes</TD></TR>
+  <TR>
+    <TD>-itemwidth &gt; 0</TD>
+    <TD>-itemwidth option</TD>
+    <TD>yes</TD></TR>
+  <TR>
+    <TD>column -width != ""</TD>
+    <TD>column's -width option<BR><SPAN style="FONT-STYLE: italic">Using the 
+      column's -width option this way is deprecated. Use the treectrl's 
+      -itemwidth option instead.</SPAN></TD>
+    <TD>yes</TD></TR>
+  <TR>
+    <TD>-itemwidthequal == true</TD>
+    <TD>width of widest item<BR>round up using -itemwidthmultiple</TD>
+    <TD>yes</TD></TR>
+  <TR>
+    <TD>all other cases</TD>
+    <TD>requested width of style, plus indentation if this is the tree 
+      column<BR>round up using -itemwidthmultiple</TD>
+    <TD>no</TD></TR></TBODY></TABLE>
+<H3><A name=Adding_items_on_demand></A>Adding items on demand</H3>If your items 
+have a parent-child relationship (as opposed to a flat list where every item is 
+a child of the root item), and if you need to create many thousands of items, it 
+will be faster to add the items only when the user attempts to display them. 
+This can be done by using the &lt;Expand-before&gt; event which is generated 
+before an item is expanded.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>package require treectrl<BR>treectrl .t -width 400 -height 300 
+      -showrootbutton yes<BR>pack .t -expand yes -fill both<BR>set columnID [.t 
+      column create -text "Column 0"]<BR>.t configure -treecolumn 
+      $columnID<BR><BR>.t element create elemBorder border -background #ece9d8 
+      -filled yes -relief solid -thickness 1<BR>.t element create elemText 
+      text<BR><BR>.t style create style1<BR>.t style elements style1 {elemBorder 
+      elemText}<BR>.t style layout style1 elemBorder -union {elemText} -ipadx 4 
+      -ipady 4<BR>.t style layout style1 elemText<BR><BR>.t item configure root 
+      -button yes<BR>.t item style set root $columnID style1<BR>.t item element 
+      configure root $columnID elemText -text "The root item"<BR><BR>for {set i 
+      1} {$i &lt;= 100} {incr i} {<BR>&nbsp;&nbsp;&nbsp; set itemID [.t item 
+      create -button yes]<BR>&nbsp; &nbsp; .t item collapse 
+      $itemID<BR>&nbsp;&nbsp;&nbsp; .t item style set $itemID $columnID 
+      style1<BR>&nbsp;&nbsp;&nbsp; .t item element configure $itemID $columnID 
+      elemText -text "Item $itemID"<BR>&nbsp;&nbsp;&nbsp; .t item lastchild root 
+      $itemID<BR>} </TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 406px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/expand001.png"> </DIV><BR>This example 
+creates a treectrl and adds 100 child items to the root item. Every child has a 
+button to indicate that it has children and may be expanded. However, none of 
+the items created actually have child items yet. They will only be added when 
+the user expands an item (by clicking on the item's button, for example). The 
+next bit of code shows how that is done.<BR><BR>
+<TABLE 
+style="TEXT-ALIGN: left; BACKGROUND-COLOR: rgb(204,204,204); WIDTH: 600px; MARGIN-LEFT: 40px" 
+border=0 cellSpacing=2 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD>.t notify bind .t &lt;Expand-before&gt; {<BR>&nbsp; &nbsp; 
+      AddChildItems %T %I<BR>}<BR><BR>proc AddChildItems {tree parent} 
+      {<BR><BR>&nbsp;&nbsp;&nbsp; if {[$tree item numchildren $parent] &gt; 0} 
+      return<BR><BR>&nbsp;&nbsp;&nbsp; set columnID 
+      first<BR><BR>&nbsp;&nbsp;&nbsp; for {set i 1} {$i &lt;= 100} {incr i} 
+      {<BR>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; set itemID [$tree item create 
+      -button yes]<BR>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; $tree item collapse 
+      $itemID<BR>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; $tree item style set 
+      $itemID $columnID style1<BR>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; $tree 
+      item element configure $itemID $columnID elemText -text "Item 
+      $itemID"<BR>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; $tree item lastchild 
+      $parent $itemID<BR>&nbsp;&nbsp;&nbsp; }<BR><BR>&nbsp;&nbsp;&nbsp; 
+      return<BR>}</TD></TR></TBODY></TABLE>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 406px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/expand002.png"> </DIV><BR>After running 
+the new bit of code item #4 is expanded by clicking its button.<BR><BR>
+<DIV style="MARGIN-LEFT: 40px"><IMG style="WIDTH: 406px; HEIGHT: 306px" alt="" 
+src="Understanding%20TkTreeCtrl_archivos/expand003.png"> </DIV><BR>Now item #106 
+is expanded. In this example you can open items forever to reveal new items. 
+</DIV></DIV></BODY></HTML>

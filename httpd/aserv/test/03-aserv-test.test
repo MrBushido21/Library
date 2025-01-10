@@ -1,0 +1,75 @@
+#
+
+source $::tcltest::testsDirectory/def.tcl
+
+set debug 9
+set port 8010
+
+test aserv-test-0.1 {load aserv} {
+    package require aserv
+} {1.2}
+
+test aserv-test-1.0 {init source test} {
+   aserv::sourceinit test
+} true                        
+
+test aserv-test-1.0.1 {get list} {
+   lsort [aserv::sourceeval test list]
+} {account-accounts agreements bankaccounts banks flat-accounts ping reports scripts services streets towns}
+
+test aserv-test-1.1.0 {ping} {
+   stripxmlstamp [aserv::sourceeval test get-ping]
+} {<mnc version="1.0" STAMP>pong</mnc>
+}
+
+test aserv-test-1.1.1 {get towns} {
+   stripxmlstamp [aserv::sourceeval test get-towns]
+} {<mnc version="1.0" STAMP/>
+}
+
+test aserv-test-1.1.2 {get towns indirect} {
+   stripxmlstamp [aserv::sourceeval test get towns]
+} {<mnc version="1.0" STAMP/>
+}
+
+test aserv-test-1.2 {load towns} {
+   aserv::sourceeval test setdata towns {{1 Днепр} {2 {Кривой Рог}}}
+} {{1 Днепр} {2 {Кривой Рог}}}
+
+test aserv-test-1.2.1 {get towns} {
+   stripxmlstamp [aserv::sourceeval test get-towns]
+} {<mnc version="1.0" STAMP>
+<town town-id="1">Днепр</town>
+<town town-id="2">Кривой Рог</town>
+</mnc>
+}
+
+test aserv-test-1.2.2 {get towns indirect} {
+   stripxmlstamp [aserv::sourceeval test get towns]
+} {<mnc version="1.0" STAMP>
+<town town-id="1">Днепр</town>
+<town town-id="2">Кривой Рог</town>
+</mnc>
+}
+
+test aserv-test-1.3.0 {start server} {
+    aserv::start $port
+} $port
+
+test aserv-test-1.3.1 {get towns} {
+    stripxmlstamp [parseresponse content [testquery http://localhost:$port/mnc/towns]]
+} {<mnc version="1.0" STAMP>
+<town town-id="1">Днепр</town>
+<town town-id="2">Кривой Рог</town>
+</mnc>
+}
+
+test aserv-test-1.3.99 {stop server} {
+    aserv::stop
+} {}
+
+test aserv-test-99.0 {remove source test} {
+   aserv::sourcedone test
+} {}
+
+::tcltest::cleanupTests

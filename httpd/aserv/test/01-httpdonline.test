@@ -1,0 +1,59 @@
+#
+
+source $::tcltest::testsDirectory/def.tcl
+
+set debug 9
+set port 8010
+
+test httpdonline-0.1 {load aserv} {
+    package require aserv
+} {1.2}
+
+test httpdonline-1.0 {start server} {
+    set aserv::root $::tcltest::testsDirectory
+    aserv::start $port
+} $port
+
+test httpdonline-1.1.0 {simple found html result} {
+    parseresponse result [testquery http://localhost:$port/data/test.html]
+} {HTTP/1.0 200 OK}
+
+test httpdonline-1.1.1 {simple found html content} {
+    parseresponse content [testquery http://localhost:$port/data/test.html]
+} {test}
+
+test httpdonline-1.1.2 {russian found html content} {
+    parseresponse content [testquery http://localhost:$port/data/teste.html]
+} {тестЁ}
+
+test httpdonline-1.1.3 {triple found html content} {
+    parseresponse content [testquery http://localhost:$port/data/test3.html]
+} {test
+test
+test}
+
+test httpdonline-1.1.4 {found gif content} {
+    parseresponse content [testquery http://localhost:$port/data/test.gif]
+} {test}
+
+test httpdonline-1.1.5 {simple found htmp with header} {
+    parseresponse result [testquery http://localhost:$port/data/test.html {{Connection close}} {}]
+} {HTTP/1.0 200 OK}
+
+test httpdonline-1.1.6 {simple post} {
+    parseresponse result [testquery http://localhost:$port {} {querydata}]
+} {HTTP/1.0 404 Not Found}
+
+test httpdonline-1.2.1 {simple notfound html} {
+    parseresponse result [testquery http://localhost:$port/data/missing.html]
+} {HTTP/1.0 404 Not Found}
+
+test httpdonline-1.2.2 {simple notfound unknown} {
+    parseresponse result [testquery http://localhost:$port/data/missing.unknown]
+} {HTTP/1.0 404 Not Found}
+
+test httpdonline-1.99 {stop server} {
+    aserv::stop
+} {}
+
+::tcltest::cleanupTests

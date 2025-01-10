@@ -1,0 +1,23 @@
+instrumentIncrTcl 1
+appDir C:/Tcl/lib/ramdebugger8.4
+errorAction 1
+breakList {}
+appScriptList C:/Tcl/lib/ramdebugger8.4/RamDebugger.tcl
+appArg {}
+appType local
+debugMenu 1
+doInstrument *
+appDirList C:/Tcl/lib/ramdebugger8.4
+instrumentDynamic 1
+dontInstrument {}
+appArgList {{}}
+prevViewFile C:/Tcl/lib/ramdebugger8.4/scripts/bwidget/notebook.tcl
+projVersion 1.0
+portRemote 2576
+autoLoad 1
+instrumentExpect 1
+watchList {}
+appInterp C:/Tcl/bin/tclsh.exe
+instrumentTclx 1
+appScript C:/Tcl/lib/ramdebugger8.4/RamDebugger.tcl
+appInterpList {C:/Tcl/bin/tclsh.exe C:/Tcl/bin/tclsh86tg.exe C:/Users/oleinickoa/Tcl86/bin/tclsh.EXE C:/Users/oleinickoa/Tcl86/bin/wish.EXE C:/Users/oleinickoa/Tcl86/bin/wish.exe}

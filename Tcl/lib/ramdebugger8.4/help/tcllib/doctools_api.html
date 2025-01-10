@@ -1,0 +1,479 @@
+<html>
+<head>
+<link rel="stylesheet" href="manpage.css"><title>TCLLIB - Tcl Standard Library: doctools_api</title><meta name="xsl-processor" content="Jochen Loewer et. al. (loewerj@hotmail.com)"><meta name="generator" content="$RCSfile: doctools_api.html,v $ $Revision: 1.1 $">
+</head><body>
+<div class="header">
+<div class="navbar" align="center">
+<a href="#SECTnode892">NAME</a> · <a href="#SECTnode901">DESCRIPTION</a> · <a href="#SECTnode928">INTERFACE</a> · <a href="#SECTnode1556">SEE ALSO</a> · <a href="#SECTnode1565">KEYWORDS</a>
+</div><hr class="navsep">
+</div><div class="body">
+
+
+
+
+<h2><a name="SECTnode892">NAME</a></h2><p class="namesection">
+<b class="names">doctools_api - </b><br>Interface specification for formatter code</p>
+
+
+
+
+
+
+<h2><a name="SECTnode901">DESCRIPTION</a></h2><p>
+
+This manpage specifies the interface between formatting engines for
+data in the <b class="syscmd"><a href="doctools.html">doctools</a></b> format as specified in
+<b class="syscmd"><a href="doctools_fmt.html">doctools_fmt</a></b>, and <b class="package"><a href="doctools.html">doctools</a></b>, the package for the
+generic handling of such data, as described in <b class="syscmd"><a href="doctools.html">doctools</a></b>.
+
+</p><p>
+
+Each formatting engine has to implement the conversion of input in
+<b class="syscmd"><a href="doctools.html">doctools</a></b> format to one particular output format as chosen by
+the author of the formatting engine.
+
+</p>
+<h2><a name="SECTnode928">INTERFACE</a></h2>
+
+Each formatting engine has to provide
+
+
+<ol>
+
+<li>
+
+Implementations of all the formatting commands as specified in
+
+<b class="syscmd"><a href="doctools_fmt.html">doctools_fmt</a></b>, using the defined names, but prefixed with the
+string <tt class="l">fmt_</tt>. The sole exceptions to this are the formatting
+commands <b class="cmd"><a href="doctoc_fmt.html">vset</a></b> and <b class="cmd"><a href="doctoc_fmt.html">include</a></b>. These two commands are
+processed by the generic layer and will never be seen by the
+formatting engine.
+
+</li>
+<li>
+and additionally implementations for
+
+
+<dl>
+
+
+
+<dt><b class="cmd">fmt_numpasses</b></dt>
+<dd>
+
+This command is called immediately after the formatter is loaded and
+has to return the number of passes required by this formatter to
+process a manpage. This information has to be an integer number
+greater or equal to one.
+
+</dd>
+
+
+<dt><b class="cmd">fmt_initialize</b></dt>
+<dd>
+
+This command is called at the beginning of every conversion run and is
+responsible for initializing the general state of the formatting
+engine.
+
+</dd>
+
+
+<dt>
+<b class="cmd">fmt_setup</b> <i class="m">n</i>
+</dt>
+<dd>
+
+This command is called at the beginning of each pass over the input
+and is given the id of the current pass as its first argument. It is
+responsible for setting up the internal state of the formatting for
+this particular pass.
+
+</dd>
+
+
+<dt>
+<b class="cmd">fmt_postprocess</b> <i class="m">text</i>
+</dt>
+<dd>
+
+This command is called immediately after the last pass, with the
+expansion result of that pass as argument, and can do any last-ditch
+modifications of the generated result.  Its result will be the final
+result of the conversion.
+
+<br>
+
+Most formats will use <em>identity</em> here.
+
+</dd>
+
+
+<dt><b class="cmd">fmt_shutdown</b></dt>
+<dd>
+
+This command is called at the end of every conversion run and is
+responsible for cleaning up of all the state in the formatting engine.
+
+</dd>
+
+
+<dt>
+<b class="cmd">fmt_plain_text</b> <i class="m">text</i>
+</dt>
+<dd>
+
+This command is called for any plain text encountered by the processor
+in the input and can do any special processing required for plain
+text. Its result is the string written into the expansion.
+
+<br>
+
+Most formats will use <em>identity</em> here.
+
+
+</dd>
+
+
+<dt><b class="cmd">fmt_listvariables</b></dt>
+<dd>
+
+The command is called after loading a formatting engine to determine
+which parameters are supported by that engine. The return value is a
+list containing the names of these parameters.
+
+</dd>
+
+
+<dt>
+<b class="cmd">fmt_varset</b> <i class="m">varname</i> <i class="m">text</i>
+</dt>
+<dd>
+
+The command is called by the generic layer to set the value of an
+engine specific parameter. The parameter to change is specified by
+<i class="m">varname</i>, and the value to set is given in <i class="m">text</i>.
+
+<br>
+
+The command will throw an error if an unknown <i class="m">varname</i> is
+used. Only the names returned by <b class="cmd">fmt_listvariables</b> are
+considered known.
+
+</dd>
+
+
+</dl>
+</li>
+
+</ol><p>
+
+The tcl code of a formatting engine implementing all of the above can
+make the following assumptions about its environment
+
+</p><ol>
+
+<li>
+
+It has full access to its own safe interpreter.  In other words, the
+engine cannot damage the other parts of the processor, nor can it
+damage the filesystem.
+
+</li>
+<li>
+
+The surrounding system provides the engine with the following
+commands:
+
+
+<dl>
+
+
+
+<dt>Doctools commands</dt>
+<dd>
+
+<dl>
+
+
+<dt><b class="cmd">dt_file</b></dt>
+<dd>
+Returns the full name of the file currently processed by the engine.
+</dd>
+
+
+<dt><b class="cmd">dt_fileid</b></dt>
+<dd>
+Returns the name of the file currently processed by the engine,
+without path, nor extension
+</dd>
+
+
+<dt><b class="cmd">dt_format</b></dt>
+<dd>
+Returns the name of format loaded into the engine
+</dd>
+
+
+<dt><b class="cmd">dt_lnesting</b></dt>
+<dd>
+Returns the number lists currently open
+</dd>
+
+
+<dt><b class="cmd">dt_module</b></dt>
+<dd>
+Returns the name of the module the file currently processed belongs to.
+</dd>
+
+
+<dt>
+<b class="cmd">dt_source</b> <i class="m">file</i>
+</dt>
+<dd>
+This command allows the engine to load additional tcl code. The file
+being loaded has to be in the same directory as the file the format
+engine was loaded from. Any path specified for <i class="m">file</i> is ignored.
+</dd>
+
+
+</dl>
+
+</dd>
+
+
+<dt>Expander commands</dt>
+<dd>
+
+All of the commands below are methods of the expander object (without
+the prefix <tt class="l">ex_</tt>) handling the input. Their arguments and
+results are described in <b class="package"><a href="expander.html">expander(n)</a></b>.
+
+
+
+<dl>
+
+
+<dt><b class="cmd">ex_cappend</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cget</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cis</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cname</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cpop</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cpush</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cset</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_lb</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_rb</b></dt>
+<dd>
+</dd>
+
+
+</dl>
+
+</dd>
+
+
+<dt>_common.tcl commands</dt>
+<dd>
+
+Any engine loading (<b class="cmd">dt_source</b>) the file <b class="file">_common.tcl</b> has
+default implementations of the <tt class="l">fmt_</tt> commands explicitly
+listed in this document, and can additionally use
+
+
+<dl>
+
+
+<dt><b class="cmd">c_inpass</b></dt>
+<dd>
+Returns the id of the pass currently executing
+</dd>
+
+
+<dt><b class="cmd">c_begin</b></dt>
+<dd>
+Use this to mark that processing of the text after <b class="cmd"><a href="doctools_fmt.html">manpage_begin</a></b>
+has begun.
+</dd>
+
+
+<dt><b class="cmd">c_begun</b></dt>
+<dd>
+Checks the flag set by <b class="cmd">c_begin</b>.
+</dd>
+
+
+<dt>
+<b class="cmd">c_set_module</b> <i class="m">text</i>
+</dt>
+<dd>
+Remember <i class="m">text</i> as module information.
+</dd>
+
+
+<dt><b class="cmd">c_get_module</b></dt>
+<dd>
+Retrieve module information stored by <b class="cmd">c_set_module</b>.
+</dd>
+
+
+<dt>
+<b class="cmd">c_set_title</b> <i class="m">text</i>
+</dt>
+<dd>
+Remember <i class="m">text</i> as title.
+</dd>
+
+
+<dt><b class="cmd">c_get_title</b></dt>
+<dd>
+Retrieve title stored by <b class="cmd">c_set_title</b>.
+</dd>
+
+
+<dt><b class="cmd">c_provenance</b></dt>
+<dd>
+Returns a string describing how the input was processed.
+</dd>
+
+
+<dt>
+<b class="cmd">c_pass</b> <i class="m">pass proc arguments body</i>
+</dt>
+<dd>
+Define a procedure which is valid when pass <i class="m">pass</i> of the engine
+is executed.
+</dd>
+
+
+<dt>
+<b class="cmd">c_holdBuffers</b> <i class="m">args</i>
+</dt>
+<dd>
+Define one or more buffers for holding data between passes.
+</dd>
+
+
+<dt>
+<b class="cmd">c_hold</b> <i class="m">buffer entry</i>
+</dt>
+<dd>
+Add an entry to the specified buffer. The buffer has to be defined by
+an earlier invocation of the command <b class="cmd">c_holdBuffers</b>.
+</dd>
+
+
+<dt>
+<b class="cmd">c_held</b> <i class="m">buffer</i>
+</dt>
+<dd>
+Retrieves the contents of the specified buffer. The buffer is empty
+afterwards. All entries in the buffer are joined by newlines.
+</dd>
+
+
+<dt><b class="cmd">c_cnext</b></dt>
+<dd>
+Increment the counter and return its current value.
+</dd>
+
+
+<dt><b class="cmd">c_cinit</b></dt>
+<dd>
+Push the current counter on the stack and reinitialize the counter to zero.
+</dd>
+
+
+<dt><b class="cmd">c_creset</b></dt>
+<dd>
+Reinitialize the counter with the value on the counter stack and
+remove that value from the stack.
+</dd>
+
+
+<dt>
+<b class="cmd">NOP</b> <i class="m">args</i>
+</dt>
+<dd>
+Do nothing command. Can be used in conjunction with <b class="cmd">c_pass</b> to
+visibly declare in which passes a formatting command has nothing to do.
+</dd>
+
+
+<dt>
+<b class="cmd">NYI</b>  ? <i class="m">message</i> ? </dt>
+<dd>
+Throws the error &quot;<i class="m">message</i> <tt class="l">Not yet implemented</tt>&quot;.
+</dd>
+
+
+<dt>
+<b class="cmd">c_sectionId</b> <i class="m">name</i>
+</dt>
+<dd>
+Remembers the name of the section for later cross-referencing
+</dd>
+
+
+<dt>
+<b class="cmd">c_possibleReference</b> <i class="m">text gi</i>
+</dt>
+<dd>
+Checks if a section is available for <i class="m">text</i>. This command is
+currently tuned for use by engines like HTML and TMML.
+</dd>
+
+
+</dl>
+
+</dd>
+
+
+</dl>
+</li>
+
+</ol>
+<h2><a name="SECTnode1556">SEE ALSO</a></h2><p class="seealso">
+<a href="doctools_fmt.html">doctools_fmt</a>, <a href="doctools.html">doctools</a>
+</p>
+<h2><a name="SECTnode1565">KEYWORDS</a></h2><p class="keywords">
+<a class="keyword" href="keyword-index.html#KW-markup">markup</a>, <a class="keyword" href="keyword-index.html#KW-genericmarkup">generic markup</a>, <a class="keyword" href="keyword-index.html#KW-manpage">manpage</a>, <a class="keyword" href="keyword-index.html#KW-TMML">TMML</a>, <a class="keyword" href="keyword-index.html#KW-HTML">HTML</a>, <a class="keyword" href="keyword-index.html#KW-nroff">nroff</a>, <a class="keyword" href="keyword-index.html#KW-LaTeX">LaTeX</a>
+</p>
+
+</div><hr class="navsep"><div class="navbar" align="center">
+<a class="navaid" href="http://tmml.sourceforge.net/search.php">Search</a> · <a class="navaid" href="index.html">Contents</a> · <a class="navaid" href="category-index.html">Index</a> · <a class="navaid" href="keyword-index.html">Keywords</a> · <a class="navaid" href="http://tmml.sourceforge.net/coredocs.html">About...</a>
+</div>
+</body>
+</html>

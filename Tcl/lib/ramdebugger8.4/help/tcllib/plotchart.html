@@ -1,0 +1,2136 @@
+<html>
+<head>
+<link rel="stylesheet" href="manpage.css"><title>TCLLIB - Tcl Standard Library: Plotchart</title><meta name="xsl-processor" content="Jochen Loewer et. al. (loewerj@hotmail.com)"><meta name="generator" content="$RCSfile: plotchart.html,v $ $Revision: 1.2 $">
+</head><body>
+<div class="header">
+<div class="navbar" align="center">
+<a href="#SECTnode890">NAME</a> · <a href="#SECTnode899">SYNOPSIS</a> · <a href="#SECTnode1409">DESCRIPTION</a> · <a href="#SECTnode1462">PLOT CREATION COMMANDS</a> · <a href="#SECTnode2202">PLOT METHODS</a> · <a href="#SECTnode3777">COORDINATE TRANSFORMATIONS</a> · <a href="#SECTnode4562">OTHER OUTPUT FORMATS</a> · <a href="#SECTnode4625">ROOM FOR IMPROVEMENT</a> · <a href="#SECTnode4649">TODO - SOME PRIVATE NOTES</a> · <a href="#SECTnode4667">KEYWORDS</a>
+</div><hr class="navsep">
+</div><div class="body">
+
+
+
+<h2><a name="SECTnode890">NAME</a></h2><p class="namesection">
+<b class="names">Plotchart - </b><br>Simple plotting and charting package</p>
+
+
+
+
+
+
+
+<h2><a name="SECTnode899">SYNOPSIS</a></h2><pre class="syntax">
+package require <b class="package">Tcl</b>  ? 8.3 ?
+package require <b class="package">Plotchart</b>  ? 0.9 ?
+<b class="cmd">::Plotchart::createXYPlot</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-xaxis"><i>xaxis</i></a> <a href="#ARG-yaxis"><i>yaxis</i></a>
+<b class="cmd">::Plotchart::createStripchart</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-xaxis"><i>xaxis</i></a> <a href="#ARG-yaxis"><i>yaxis</i></a>
+<b class="cmd">::Plotchart::createPolarPlot</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-radius_data"><i>radius_data</i></a>
+<b class="cmd">::Plotchart::createIsometricPlot</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-xaxis"><i>xaxis</i></a> <a href="#ARG-yaxis"><i>yaxis</i></a> <a href="#ARG-stepsize"><i>stepsize</i></a>
+<b class="cmd">::Plotchart::create3DPlot</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-xaxis"><i>xaxis</i></a> <a href="#ARG-yaxis"><i>yaxis</i></a> <a href="#ARG-zaxis"><i>zaxis</i></a>
+<b class="cmd">::Plotchart::createPiechart</b> <a href="#ARG-w"><i>w</i></a>
+<b class="cmd">::Plotchart::createBarchart</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-xlabels"><i>xlabels</i></a> <a href="#ARG-yaxis"><i>yaxis</i></a> <a href="#ARG-noseries"><i>noseries</i></a>
+<b class="cmd">::Plotchart::createHorizontalBarchart</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-xlabels"><i>xlabels</i></a> <a href="#ARG-yaxis"><i>yaxis</i></a> <a href="#ARG-noseries"><i>noseries</i></a>
+<b class="cmd">::Plotchart::createTimechart</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-time_begin"><i>time_begin</i></a> <a href="#ARG-time_end"><i>time_end</i></a> <a href="#ARG-noitems"><i>noitems</i></a>
+<b class="cmd">$anyplot</b> title <a href="#ARG-text"><i>text</i></a>
+<b class="cmd">$anyplot</b> saveplot <a href="#ARG-filename"><i>filename</i></a>
+<b class="cmd">$anyplot</b> xtext <a href="#ARG-text"><i>text</i></a>
+<b class="cmd">$anyplot</b> ytext <a href="#ARG-text"><i>text</i></a>
+<b class="cmd">$anyplot</b> xconfig <b class="option">-option</b> <i class="m">value</i> ...
+<b class="cmd">$anyplot</b> yconfig <b class="option">-option</b> <i class="m">value</i> ...
+<b class="cmd">$xyplot</b> plot <a href="#ARG-series"><i>series</i></a> <a href="#ARG-xcrd"><i>xcrd</i></a> <a href="#ARG-ycrd"><i>ycrd</i></a>
+<b class="cmd">$polarplot</b> plot <a href="#ARG-series"><i>series</i></a> <a href="#ARG-radius"><i>radius</i></a> <a href="#ARG-angle"><i>angle</i></a>
+<b class="cmd">$plot3d</b> plotfunc <a href="#ARG-function"><i>function</i></a>
+<b class="cmd">$plot3d</b> gridsize <a href="#ARG-nxcells"><i>nxcells</i></a> <a href="#ARG-nycells"><i>nycells</i></a>
+<b class="cmd">$plot3d</b> plotdata <a href="#ARG-data"><i>data</i></a>
+<b class="cmd">$plot3d</b> colours <a href="#ARG-fill"><i>fill</i></a> <a href="#ARG-border"><i>border</i></a>
+<b class="cmd">$xyplot</b> dataconfig <a href="#ARG-series"><i>series</i></a> <b class="option">-option</b> <i class="m">value</i> ...
+<b class="cmd">$pie</b> plot <a href="#ARG-data"><i>data</i></a>
+<b class="cmd">$pie</b> colours <a href="#ARG-colour1"><i>colour1</i></a> <a href="#ARG-colour2"><i>colour2</i></a> ...
+<b class="cmd">$barchart</b> plot <a href="#ARG-series"><i>series</i></a> <a href="#ARG-ydata"><i>ydata</i></a> <a href="#ARG-colour"><i>colour</i></a>
+<b class="cmd">$barchart</b> plot <a href="#ARG-series"><i>series</i></a> <a href="#ARG-xdata"><i>xdata</i></a> <a href="#ARG-colour"><i>colour</i></a>
+<b class="cmd">$timechart</b> period <a href="#ARG-text"><i>text</i></a> <a href="#ARG-time_begin"><i>time_begin</i></a> <a href="#ARG-time_end"><i>time_end</i></a> <a href="#ARG-colour"><i>colour</i></a>
+<b class="cmd">$timechart</b> milestone <a href="#ARG-text"><i>text</i></a> <a href="#ARG-time"><i>time</i></a> <a href="#ARG-colour"><i>colour</i></a>
+<b class="cmd">$timechart</b> vertline <a href="#ARG-text"><i>text</i></a> <a href="#ARG-time"><i>time</i></a>
+<b class="cmd">$isoplot</b> plot rectangle <a href="#ARG-x1"><i>x1</i></a> <a href="#ARG-y1"><i>y1</i></a> <a href="#ARG-x2"><i>x2</i></a> <a href="#ARG-y2"><i>y2</i></a> <a href="#ARG-colour"><i>colour</i></a>
+<b class="cmd">$isoplot</b> plot filled-rectangle <a href="#ARG-x1"><i>x1</i></a> <a href="#ARG-y1"><i>y1</i></a> <a href="#ARG-x2"><i>x2</i></a> <a href="#ARG-y2"><i>y2</i></a> <a href="#ARG-colour"><i>colour</i></a>
+<b class="cmd">$isoplot</b> plot circle <a href="#ARG-xc"><i>xc</i></a> <a href="#ARG-yc"><i>yc</i></a> <a href="#ARG-radius"><i>radius</i></a> <a href="#ARG-colour"><i>colour</i></a>
+<b class="cmd">$isoplot</b> plot filled-circle <a href="#ARG-xc"><i>xc</i></a> <a href="#ARG-yc"><i>yc</i></a> <a href="#ARG-radius"><i>radius</i></a> <a href="#ARG-colour"><i>colour</i></a>
+<b class="cmd">::Plotchart::viewPort</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-pxmin"><i>pxmin</i></a> <a href="#ARG-pymin"><i>pymin</i></a> <a href="#ARG-pxmax"><i>pxmax</i></a> <a href="#ARG-pymax"><i>pymax</i></a>
+<b class="cmd">::Plotchart::worldCoordinates</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-xmin"><i>xmin</i></a> <a href="#ARG-ymin"><i>ymin</i></a> <a href="#ARG-xmax"><i>xmax</i></a> <a href="#ARG-ymax"><i>ymax</i></a>
+<b class="cmd">::Plotchart::world3DCoordinates</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-xmin"><i>xmin</i></a> <a href="#ARG-ymin"><i>ymin</i></a> <a href="#ARG-zmin"><i>zmin</i></a> <a href="#ARG-xmax"><i>xmax</i></a> <a href="#ARG-ymax"><i>ymax</i></a> <a href="#ARG-zmax"><i>zmax</i></a>
+<b class="cmd">::Plotchart::coordsToPixel</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-x"><i>x</i></a> <a href="#ARG-y"><i>y</i></a>
+<b class="cmd">::Plotchart::coords3DToPixel</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-x"><i>x</i></a> <a href="#ARG-y"><i>y</i></a> <i class="m">z</i>
+<b class="cmd">::Plotchart::polarCoordinates</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-radmax"><i>radmax</i></a>
+<b class="cmd">::Plotchart::polarToPixel</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-rad"><i>rad</i></a> <a href="#ARG-phi"><i>phi</i></a>
+<b class="cmd">::Plotchart::pixelToCoords</b> <a href="#ARG-w"><i>w</i></a> <a href="#ARG-x"><i>x</i></a> <a href="#ARG-y"><i>y</i></a>
+<b class="cmd">::Plotchart::determineScale</b> <a href="#ARG-xmin"><i>xmin</i></a> <a href="#ARG-xmax"><i>xmax</i></a>
+</pre>
+<h2><a name="SECTnode1409">DESCRIPTION</a></h2><p>
+
+Plotchart is a Tcl-only package that focuses on the easy creation of
+xy-plots, barcharts and other common types of graphical presentations.
+The emphasis is on ease of use, rather than flexibility. The procedures
+that create a plot use the entire canvas window, making the layout
+of the plot completely automatic.
+
+</p><p>
+
+This results in the creation of an xy-plot in, say, ten lines of code:
+
+</p><p>
+</p><pre class="example">
+    package require Plotchart
+
+    canvas .c -background white -width 400 -height 200
+    pack   .c -fill both
+
+    #
+    # Create the plot with its x- and y-axes
+    #
+    set s [::Plotchart::createXYPlot .c {0.0 100.0 10.0} {0.0 100.0 20.0}]
+
+    foreach {x y} {0.0 32.0 10.0 50.0 25.0 60.0 78.0 11.0 } {
+        $s plot series1 $x $y
+    }
+
+    $s title &quot;Data series&quot;
+
+</pre><p>
+
+A drawback of the package might be that it does not do any data
+management. So if the canvas that holds the plot is to be resized, the
+whole plot must be redrawn.
+
+The advantage, though, is that it offers a number of plot and chart
+types:
+
+</p><ul>
+
+
+<li>
+XY-plots like the one shown above with any number of data series.
+
+</li>
+<li>
+Stripcharts, a kind of XY-plots where the horizontal axis is adjusted
+automatically. The result is a kind of sliding window on the data
+series.
+
+</li>
+<li>
+Polar plots, where the coordinates are polar instead of cartesian.
+
+</li>
+<li>
+
+Isometric plots, where the scale of the coordinates in the two
+directions is always the same, i.e. a circle in world coordinates
+appears as a circle on the screen.
+
+<br>
+
+You can zoom in and out, as well as pan with these plots (<em>Note:</em>
+this works best if no axes are drawn, the zooming and panning routines
+do not distinguish the axes), using the mouse buttons with the control
+key and the arrow keys with the control key.
+
+</li>
+<li>
+Piecharts, with automatic scaling to indicate the proportions.
+
+</li>
+<li>
+Barcharts, with either vertical or horizontal bars, stacked bars or
+bars side by side.
+
+</li>
+<li>
+Timecharts, where bars indicate a time period and milestones or other
+important moments in time are represented by triangles.
+
+</li>
+<li>
+3D plots (both for displaying surfaces and 3D bars)
+</li>
+
+</ul>
+<h2><a name="SECTnode1462">PLOT CREATION COMMANDS</a></h2>
+
+You create the plot or chart with one single command and then fill the
+plot with data:
+
+
+<dl>
+
+
+
+<dt>
+<b class="cmd">::Plotchart::createXYPlot</b> <i class="m">w</i> <i class="m">xaxis</i> <i class="m">yaxis</i>
+</dt>
+<dd>
+
+Create a new xy-plot.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the <em>existing</em> canvas widget to hold the plot.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-xaxis">xaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 3-element list containing minimum, maximum and stepsize for the x-axis, in this order.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-yaxis">yaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 3-element list containing minimum, maximum and stepsize for the y-axis, in this order.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::createStripchart</b> <i class="m">w</i> <i class="m">xaxis</i> <i class="m">yaxis</i>
+</dt>
+<dd>
+
+Create a new strip chart. The only difference to a regular XY plot is
+that the x-axis will be automatically adjusted when the x-coordinate
+of a new point exceeds the maximum.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the <em>existing</em> canvas widget to hold the plot.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-xaxis">xaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 3-element list containing minimum, maximum and stepsize for the x-axis, in this order.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-yaxis">yaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 3-element list containing minimum, maximum and stepsize for the y-axis, in this order.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::createPolarPlot</b> <i class="m">w</i> <i class="m">radius_data</i>
+</dt>
+<dd>
+
+Create a new polar plot.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the <em>existing</em> canvas widget to hold the plot.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-radius_data">radius_data</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 2-element list containing maximum radius and stepsize for the radial
+axis, in this order.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::createIsometricPlot</b> <i class="m">w</i> <i class="m">xaxis</i> <i class="m">yaxis</i> <i class="m">stepsize</i>
+</dt>
+<dd>
+
+Create a new isometric plot, where the vertical and the horizontal
+coordinates are scaled so that a circle will truly appear as a circle.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the <em>existing</em> canvas widget to hold the plot.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-xaxis">xaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 2-element list containing minimum, and maximum for the x-axis, in this order.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-yaxis">yaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 2-element list containing minimum, and maximum for the y-axis, in this order.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float|<tt class="l">noaxes</tt>
+</td><td class="name" width="70%" align="left"><a name="ARG-stepsize">stepsize</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+
+Either the stepsize used by both axes or the keyword <tt class="l">noaxes</tt> to
+signal the plot that it should use the full area of the widget, to not
+draw any of the axes.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::create3DPlot</b> <i class="m">w</i> <i class="m">xaxis</i> <i class="m">yaxis</i> <i class="m">zaxis</i>
+</dt>
+<dd>
+
+Create a new 3D plot.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the <em>existing</em> canvas widget to hold the plot.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-xaxis">xaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 3-element list containing minimum, maximum and stepsize for the x-axis, in this order.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-yaxis">yaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 3-element list containing minimum, maximum and stepsize for the y-axis, in this order.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-zaxis">zaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 3-element list containing minimum, maximum and stepsize for the z-axis, in this order.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::createPiechart</b> <i class="m">w</i>
+</dt>
+<dd>
+
+Create a new piechart.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the <em>existing</em> canvas widget to hold the plot.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::createBarchart</b> <i class="m">w</i> <i class="m">xlabels</i> <i class="m">yaxis</i> <i class="m">noseries</i>
+</dt>
+<dd>
+
+Create a new barchart with vertical bars. The horizontal axis will
+display the labels contained in the argument <i class="m">xlabels</i>. The number
+of series given by <i class="m">noseries</i> determines both the width of the
+bars, and the way the series will be drawn.
+
+<br>
+
+If the keyword <tt class="l">stacked</tt> was specified the series will be drawn
+stacked on top of each other. Otherwise each series that is drawn will
+be drawn shifted to the right.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the <em>existing</em> canvas widget to hold the plot.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-xlabels">xlabels</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+List of labels for the x-axis. Its length also determines the number of
+bars that will be plotted per series.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-yaxis">yaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 3-element list containing minimum, maximum and stepsize for the y-axis, in this order.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">int|<tt class="l">stacked</tt>
+</td><td class="name" width="70%" align="left"><a name="ARG-noseries">noseries</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The number of data series that will be plotted. This has to be an
+integer number greater than zero (if <tt class="l">stacked</tt> is not used).
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::createHorizontalBarchart</b> <i class="m">w</i> <i class="m">xlabels</i> <i class="m">yaxis</i> <i class="m">noseries</i>
+</dt>
+<dd>
+
+Create a new barchart with horizontal bars. The vertical axis will
+display the labels contained in the argument <i class="m">ylabels</i>. The number
+of series given by <i class="m">noseries</i> determines both the width of the
+bars, and the way the series will be drawn.
+
+<br>
+
+If the keyword <tt class="l">stacked</tt> was specified the series will be drawn
+stacked from left to right. Otherwise each series that is drawn will
+be drawn shifted upward.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the <em>existing</em> canvas widget to hold the plot.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-ylabels">ylabels</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+List of labels for the y-axis. Its length also determines the number of
+bars that will be plotted per series.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-yaxis">yaxis</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A 3-element list containing minimum, maximum and stepsize for the x-axis, in this order.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">int|<tt class="l">stacked</tt>
+</td><td class="name" width="70%" align="left"><a name="ARG-noseries">noseries</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The number of data series that will be plotted. This has to be an
+integer number greater than zero (if <tt class="l">stacked</tt> is not used).
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::createTimechart</b> <i class="m">w</i> <i class="m">time_begin</i> <i class="m">time_end</i> <i class="m">noitems</i>
+</dt>
+<dd>
+
+Create a new timechart.
+
+The time axis (= x-axis) goes from <i class="m">time_begin</i> to <i class="m">time_end</i>,
+and the vertical spacing is determined by the number of items to plot.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the <em>existing</em> canvas widget to hold the plot.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-time_begin">time_begin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The start time given in a form that is recognised by the <b class="cmd">clock scan</b>
+command (e.g. &quot;1 january 2004&quot;).
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-time_end">time_end</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The end time given in a form that is recognised by the <b class="cmd">clock scan</b>
+command (e.g. &quot;1 january 2004&quot;).
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">int</td><td class="name" width="70%" align="left"><a name="ARG-noitems">noitems</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Expected/maximum number of items. This determines the vertical
+spacing.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl>
+<h2><a name="SECTnode2202">PLOT METHODS</a></h2>
+
+Each of the creation commands explained in the last section returns
+the name of a new object command that can be used to manipulate the
+plot or chart. The subcommands available to a chart command depend on
+the type of the chart.
+
+
+<p>
+
+General subcommands for all types of charts. $anyplot is the command
+returned by the creation command:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$anyplot</b> title <i class="m">text</i>
+</dt>
+<dd>
+
+Specify the title of the whole chart.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-text">text</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The text of the title to be drawn.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$anyplot</b> saveplot <i class="m">filename</i>
+</dt>
+<dd>
+
+Draws the plot into a file, using PostScript.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-filename">filename</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Contain the path name of the file to write the plot to.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$anyplot</b> xtext <i class="m">text</i>
+</dt>
+<dd>
+
+Specify the title of the x-axis, for those plots that have a straight
+x-axis.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-text">text</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The text of the x-axis label to be drawn.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$anyplot</b> ytext <i class="m">text</i>
+</dt>
+<dd>
+
+Specify the title of the y-axis, for those plots that have a straight
+y-axis.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-text">text</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The text of the y-axis label to be drawn.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$anyplot</b> xconfig <b class="option">-option</b> <i class="m">value</i> ...</dt>
+<dd>
+
+Set one or more configuration parameters for the x-axis.
+
+The following options are known:
+
+
+<dl class="optlist">
+
+
+
+<dt>
+<b>format</b> <i>fmt</i>
+</dt>
+
+<dd>
+The format for the numbers along the axis.
+
+</dd>
+
+
+<dt>
+<b>ticklength</b> <i>length</i>
+</dt>
+
+<dd>
+The length of the tickmarks (in pixels).
+
+</dd>
+
+
+<dt>
+<b>ticklines</b> <i>boolean</i>
+</dt>
+
+<dd>
+Whether to draw ticklines (<tt class="l">true</tt>) or not (<tt class="l">false</tt>).
+
+</dd>
+
+
+<dt>
+<b>scale</b> <i>scale_data</i>
+</dt>
+
+<dd>
+New scale data for the axis, i.e. a 3-element list containing minimum,
+maximum and stepsize for the axis, in this order.
+
+<br>
+<em>Beware:</em> Setting this option will clear all data from the plot.
+
+</dd>
+
+
+</dl>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$anyplot</b> yconfig <b class="option">-option</b> <i class="m">value</i> ...</dt>
+<dd>
+
+Set one or more configuration parameters for the y-axis. This method
+accepts the same options and values as the method <b class="method">xconfig</b>.
+
+</dd>
+
+
+</dl><p>
+
+<em>Note:</em> The commands <b class="method">xconfig</b> and <b class="method">yconfig</b> are
+currently implemented only for XY-plots
+and only the option <b class="option">-format</b> has any effect.
+
+</p><p>
+
+For <em>xy plots</em> and <em>stripcharts</em>:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$xyplot</b> plot <i class="m">series</i> <i class="m">xcrd</i> <i class="m">ycrd</i>
+</dt>
+<dd>
+
+Add a data point to the plot.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-series">series</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the data series the new point belongs to.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-xcrd">xcrd</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X-coordinate of the new point.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-ycrd">ycrd</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y-coordinate of the new point.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl><p>
+
+For <em>polar plots</em>:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$polarplot</b> plot <i class="m">series</i> <i class="m">radius</i> <i class="m">angle</i>
+</dt>
+<dd>
+
+Add a data point to the polar plot.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-series">series</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the data series the new point belongs to.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-radius">radius</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Radial coordinate of the new point.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-angle">angle</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Angular coordinate of the new point (in degrees).
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl><p>
+
+For <em>3D plots</em>:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$plot3d</b> plotfunc <i class="m">function</i>
+</dt>
+<dd>
+
+Plot a function defined over two variables <b class="variable">x</b> and <b class="variable">y</b>.
+
+The resolution is determined by the set grid sizes (see the method
+<b class="method">gridsize</b> for more information).
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-function">function</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the procedure that calculates the z-value for the given x and
+y coordinates. The procedure has to accept two float arguments (x is
+first argument, y is second) and return a floating-point value.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$plot3d</b> gridsize <i class="m">nxcells</i> <i class="m">nycells</i>
+</dt>
+<dd>
+
+Set the grid size in the two directions. Together they determine how
+many polygons will be drawn for a function plot.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">int</td><td class="name" width="70%" align="left"><a name="ARG-nxcells">nxcells</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Number of grid cells in x direction. Has to be an integer number
+greater than zero.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">int</td><td class="name" width="70%" align="left"><a name="ARG-nycells">nycells</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Number of grid cells in y direction. Has to be an integer number
+greater than zero.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$plot3d</b> plotdata <i class="m">data</i>
+</dt>
+<dd>
+
+Plot a matrix of data.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-data">data</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The data to be plotted. The data has to be provided as a nested list
+with 2 levels. The outer list contains rows, drawn in y-direction, and
+each row is a list whose elements are drawn in x-direction, for the
+columns. Example:
+
+<br>
+</td>
+</tr>
+</table></div>
+<pre class="example">
+    set data {
+    {1.0 2.0 3.0}
+    {4.0 5.0 6.0}
+    }
+
+</pre>
+
+</dd>
+
+
+</dl><br><dl>
+
+<dt>
+<b class="cmd">$plot3d</b> colours <i class="m">fill</i> <i class="m">border</i>
+</dt>
+<dd>
+
+Configure the colours to use for polygon borders and inner area.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-fill">fill</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour to use for filling the polygons.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-border">border</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour to use for the border of the polygons.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl><p>
+
+For <em>xy plots</em>, <em>stripcharts</em> and <em>polar plots</em>:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$xyplot</b> dataconfig <i class="m">series</i> <b class="option">-option</b> <i class="m">value</i> ...</dt>
+<dd>
+
+Set the value for one or more options regarding the drawing of data of
+a specific series.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-series">series</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the data series whose configuration we are changing.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+The following option are known:
+
+
+<dl class="optlist">
+
+
+<dt>
+<b>colour</b> <i>c</i>
+</dt>
+
+<dd>
+</dd>
+
+
+<dt>
+<b>color</b> <i>c</i>
+</dt>
+
+<dd>
+The colour to be used when drawing the data series.
+
+</dd>
+
+
+<dt>
+<b>type</b> <i>enum</i>
+</dt>
+
+<dd>
+The drawing mode chosen for the series.
+This can be one of <tt class="l">line</tt>, <tt class="l">symbol</tt>, or <tt class="l">both</tt>.
+
+</dd>
+
+
+<dt>
+<b>symbol</b> <i>enum</i>
+</dt>
+
+<dd>
+
+What kind of symbol to draw. The value of this option is ignored when
+the drawing mode <tt class="l">line</tt> was chosen. This can be one of
+
+<tt class="l">plus</tt>, <tt class="l">cross</tt>, <tt class="l">circle</tt>, <tt class="l">up</tt> (triangle
+pointing up), <tt class="l">down</tt> (triangle pointing down), <tt class="l">dot</tt>
+(filled circle), <tt class="l">upfilled</tt> or <tt class="l">downfilled</tt> (filled
+triangles).
+
+</dd>
+
+
+</dl>
+</dd>
+
+
+</dl><p>
+
+For <em>piecharts</em>:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$pie</b> plot <i class="m">data</i>
+</dt>
+<dd>
+
+Fill a piechart.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-data">data</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A list of pairs (labels and values). The values determine the relative
+size of the circle segments. The labels are drawn beside the circle.
+
+</td>
+</tr>
+</table></div>
+
+</dd>
+
+
+<dt>
+<b class="cmd">$pie</b> colours <i class="m">colour1</i> <i class="m">colour2</i> ...</dt>
+<dd>
+
+Set the colours to be used.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour1">colour1</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The first colour.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour2">colour2</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The second colour, and so on.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl><p>
+
+For <em>vertical barcharts</em>:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$barchart</b> plot <i class="m">series</i> <i class="m">ydata</i> <i class="m">colour</i>
+</dt>
+<dd>
+
+Add a data series to a barchart.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-series">series</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the series the values belong to.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-ydata">ydata</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A list of values, one for each x-axis label.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour">colour</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour of the bars.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl><p>
+
+For <em>horizontal barcharts</em>:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$barchart</b> plot <i class="m">series</i> <i class="m">xdata</i> <i class="m">colour</i>
+</dt>
+<dd>
+
+Add a data series to a barchart.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-series">series</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the series the values belong to.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="struct_list.html">list</a></td><td class="name" width="70%" align="left"><a name="ARG-xdata">xdata</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+A list of values, one for each y-axis label.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour">colour</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour of the bars.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl><p>
+
+For <em>timecharts</em>:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$timechart</b> period <i class="m">text</i> <i class="m">time_begin</i> <i class="m">time_end</i> <i class="m">colour</i>
+</dt>
+<dd>
+
+Add a time period to the chart.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-text">text</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The text describing the period.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-time_begin">time_begin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Start time of the period.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-time_end">time_end</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Stop time of the period.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour">colour</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour of the bar (defaults to black).
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$timechart</b> milestone <i class="m">text</i> <i class="m">time</i> <i class="m">colour</i>
+</dt>
+<dd>
+
+Add a <b class="term">milestone</b> (represented as an point-down triangle) to the
+chart.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-text">text</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The text describing the milestone.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-time">time</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Time at which the milestone must be positioned.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour">colour</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour of the triangle (defaults to black).
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$timechart</b> vertline <i class="m">text</i> <i class="m">time</i>
+</dt>
+<dd>
+
+Add a vertical line (to indicate the start of the month for instance)
+to the chart.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-text">text</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The text appearing at the top (an abbreviation of the
+date/time for instance).
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">string</td><td class="name" width="70%" align="left"><a name="ARG-time">time</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Time at which the line must be positioned.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl><p>
+
+For <em>isometric plots</em> (to be extended):
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">$isoplot</b> plot rectangle <i class="m">x1</i> <i class="m">y1</i> <i class="m">x2</i> <i class="m">y2</i> <i class="m">colour</i>
+</dt>
+<dd>
+
+Plot the outlines of a rectangle.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-x1">x1</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Minimum x coordinate of the rectangle to be drawn.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-y1">y1</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Minimum y coordinate of the rectangle.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-x2">x2</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Maximum x coordinate of the rectangle to be drawn.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-y2">y2</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Maximum y coordinate of the rectangle.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour">colour</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour of the rectangle.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$isoplot</b> plot filled-rectangle <i class="m">x1</i> <i class="m">y1</i> <i class="m">x2</i> <i class="m">y2</i> <i class="m">colour</i>
+</dt>
+<dd>
+
+Plot a rectangle filled with the given colour.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-x1">x1</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Minimum x coordinate of the rectangle to be drawn.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-y1">y1</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Minimum y coordinate of the rectangle.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-x2">x2</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Maximum x coordinate of the rectangle to be drawn.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-y2">y2</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Maximum y coordinate of the rectangle.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour">colour</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour of the rectangle.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$isoplot</b> plot circle <i class="m">xc</i> <i class="m">yc</i> <i class="m">radius</i> <i class="m">colour</i>
+</dt>
+<dd>
+
+Plot the outline of a circle.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-xc">xc</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X coordinate of the circle's centre.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-yc">yc</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y coordinate of the circle's centre.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour">colour</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour of the circle.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">$isoplot</b> plot filled-circle <i class="m">xc</i> <i class="m">yc</i> <i class="m">radius</i> <i class="m">colour</i>
+</dt>
+<dd>
+
+Plot a circle filled with the given colour.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-xc">xc</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X coordinate of the circle's centre.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-yc">yc</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y coordinate of the circle's centre.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">color</td><td class="name" width="70%" align="left"><a name="ARG-colour">colour</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+The colour of the circle.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl><p>
+
+There are a number of public procedures that may be useful in specific
+situations: <em>Pro memorie</em>.
+
+
+</p>
+<h2><a name="SECTnode3777">COORDINATE TRANSFORMATIONS</a></h2>
+
+Besides the commands that deal with the plots and charts directly,
+there are a number of commands that can be used to convert world
+coordinates to pixels and vice versa.
+
+These include:
+
+
+<dl>
+
+
+
+<dt>
+<b class="cmd">::Plotchart::viewPort</b> <i class="m">w</i> <i class="m">pxmin</i> <i class="m">pymin</i> <i class="m">pxmax</i> <i class="m">pymax</i>
+</dt>
+<dd>
+
+Set the viewport for window <i class="m">w</i>. Should be used in cooperation
+with <b class="cmd">::Plotchart::worldCoordinates</b>.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the window (canvas widget) in question.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-pxmin">pxmin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Left-most pixel coordinate.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-pymin">pymin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Top-most pixel coordinate (remember: the vertical pixel coordinate
+starts with 0 at the top!).
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-pxmax">pxmax</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Right-most pixel coordinate.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-pymax">pymax</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Bottom-most pixel coordinate.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::worldCoordinates</b> <i class="m">w</i> <i class="m">xmin</i> <i class="m">ymin</i> <i class="m">xmax</i> <i class="m">ymax</i>
+</dt>
+<dd>
+
+Set the extreme world coordinates for window <i class="m">w</i>. The world
+coordinates need not be in ascending order (i.e. xmin can be larger
+than xmax, so that a reversal of the x-axis is achieved).
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the window (canvas widget) in question.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-xmin">xmin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X-coordinate to be mapped to left side of viewport.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-ymin">ymin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y-coordinate to be mapped to bottom of viewport.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-xmax">xmax</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X-coordinate to be mapped to right side of viewport.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-ymax">ymax</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y-coordinate to be mapped to top side of viewport.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::world3DCoordinates</b> <i class="m">w</i> <i class="m">xmin</i> <i class="m">ymin</i> <i class="m">zmin</i> <i class="m">xmax</i> <i class="m">ymax</i> <i class="m">zmax</i>
+</dt>
+<dd>
+
+Set the extreme three-dimensional world coordinates for window
+<i class="m">w</i>. The world coordinates need not be in ascending order (i.e. xmin
+can be larger than xmax, so that a reversal of the x-axis is
+achieved).
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the window (canvas widget) in question.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-xmin">xmin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X-coordinate to be mapped to front side of the 3D viewport.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-ymin">ymin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y-coordinate to be mapped to left side of the viewport.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-zmin">zmin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Z-coordinate to be mapped to bottom of viewport.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-xmax">xmax</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X-coordinate to be mapped to back side of viewport.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-ymax">ymax</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y-coordinate to be mapped to right side of viewport.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-zmax">zmax</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Z-coordinate to be mapped to top side of viewport.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::coordsToPixel</b> <i class="m">w</i> <i class="m">x</i> <i class="m">y</i>
+</dt>
+<dd>
+
+Return a list of pixel coordinates valid for the given window.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the window (canvas widget) in question.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-x">x</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X-coordinate to be mapped.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-y">y</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y-coordinate to be mapped.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::coords3DToPixel</b> <i class="m">w</i> <i class="m">x</i> <i class="m">y</i> <i class="m">z</i>
+</dt>
+<dd>
+
+Return a list of pixel coordinates valid for the given window.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the window (canvas widget) in question.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-x">x</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X-coordinate to be mapped.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-y">y</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y-coordinate to be mapped.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-y">y</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Z-coordinate to be mapped.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::polarCoordinates</b> <i class="m">w</i> <i class="m">radmax</i>
+</dt>
+<dd>
+
+Set the extreme polar coordinates for window <i class="m">w</i>. The angle always
+runs from 0 to 360 degrees and the radius starts at 0. Hence you only
+need to give the maximum radius.
+
+<em>Note:</em> If the viewport is not square, this procedure will not
+adjust the extremes, so that would result in an elliptical plot. The
+creation routine for a polar plot always determines a square viewport.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the window (canvas widget) in question.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-radmax">radmax</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Maximum radius.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::polarToPixel</b> <i class="m">w</i> <i class="m">rad</i> <i class="m">phi</i>
+</dt>
+<dd>
+
+Wrapper for a call to <b class="cmd">::Plotchart::coordsToPixel</b>, which assumes
+the world coordinates and viewport are set appropriately. Converts
+polar coordinates to pixel coordinates.
+
+<em>Note:</em> To be useful it should be accompanied by a matching
+<b class="cmd">::Plotchart::worldCoordinates</b> procedure. This is automatically
+taken care of in the creation routine for polar plots.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the window (canvas widget) in question.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-rad">rad</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Radius of the point.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-phi">phi</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Angle to the positive x-axis.
+
+</td>
+</tr>
+</table></div>
+<br>
+
+
+</dd>
+
+
+<dt>
+<b class="cmd">::Plotchart::pixelToCoords</b> <i class="m">w</i> <i class="m">x</i> <i class="m">y</i>
+</dt>
+<dd>
+
+Return a list of world coordinates valid for the given window.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left"><a href="doctools_fmt.html">widget</a></td><td class="name" width="70%" align="left"><a name="ARG-w">w</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Name of the window (canvas widget) in question.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-x">x</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+X-pixel to be mapped.
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-y">y</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Y-pixel to be mapped.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl><p>
+
+Furthermore there is a routine to determine &quot;pretty&quot; numbers for use
+with an axis:
+
+</p><dl>
+
+
+<dt>
+<b class="cmd">::Plotchart::determineScale</b> <i class="m">xmin</i> <i class="m">xmax</i>
+</dt>
+<dd>
+
+Determine &quot;pretty&quot; numbers from the given range and return a list
+containing the minimum, maximum and stepsize that can be used for a
+(linear) axis.
+
+
+<div class="arglist"><table width="100%" rules="none" cellpadding="5%">
+<thead><tr class="heading">
+<th width="20%">Type</th><th width="70%">Name</th><th width="10%">Mode</th>
+</tr></thead><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-xmin">xmin</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Rough minimum value for the scaling
+
+</td>
+</tr><tr class="syntax">
+<td class="type" width="20%" align="left">float</td><td class="name" width="70%" align="left"><a name="ARG-xmax">xmax</a></td><td class="mode" width="10%" align="center">in</td>
+</tr><tr class="desc">
+<td class="padding" width="20%"> </td><td class="argdesc" width="80%" align="left" colspan="2">
+Rough maximum value for the scaling.
+
+</td>
+</tr>
+</table></div>
+</dd>
+
+
+</dl>
+<h2><a name="SECTnode4562">OTHER OUTPUT FORMATS</a></h2>
+
+Besides output to the canvas on screen, the module is capable, via
+<b class="cmd">canvas postscript</b>, of producing PostScript files. One may wonder
+whether it is possible to extend this set of output formats and the
+answer is &quot;yes&quot;. This section tries to sum up the aspects of using this
+module for another sort of output.
+
+<p>
+One way you can create output files in a different format, is by
+examining the contents of the canvas after everything has been drawn and
+render that contents in the right form. This is probably the easiest
+way, as it involves nothing more than the re-creation of all the
+elements in the plot that are already there.
+</p><p>
+The drawback of that method is that you need to have a display, which is
+not always the case if you run a CGI server or something like that.
+</p><p>
+An alternative is to emulate the canvas command. For this to work, you
+need to know which canvas subcommands are used and what for. Obviously,
+the <em>create</em> subcommand is used to create the lines, texts and
+other items. But also the <em>raise</em> and <em>lower</em> subcommands are
+used, because with these the module can influence the drawing order -
+important to simulate a clipping rectangle around the axes. (The routine
+DrawMask is responsible for this - if the output format supports proper
+clipping areas, then a redefinition of this routine might just solve
+this).
+</p><p>
+Furthermore, the module uses the <em>cget</em> subcommand to find out the
+sizes of the canvas. A more mundane aspect of this is that the module
+currently assumes that the text is 14 pixels high and that 80 pixels in
+width suffice for the axis' labels. No &quot;hook&quot; is provided to customise
+this.
+</p><p>
+In summary:
+</p><ul>
+
+<li>
+Emulate the <em>create</em> subcommand to create all the items in the
+correct format
+
+</li>
+<li>
+Emulate the <em>cget</em> subcommand for the options -width and -height to
+allow the correct calculation of the rectangle's position and size
+
+</li>
+<li>
+Solve the problem of <em>raising</em> and <em>lowering</em> the items so
+that they are properly clipped, for instance by redefining the
+routine DrawMask.
+
+</li>
+<li>
+Take care of the currently fixed text size properties
+
+</li>
+
+</ul>
+<h2><a name="SECTnode4625">ROOM FOR IMPROVEMENT</a></h2>
+
+In this version there are a lot of things that still need to
+be implemented:
+
+
+<ul>
+
+<li>
+General options like legends and text to the axes.
+
+</li>
+<li>
+More robust handling of incorrect calls (right now the procedures may
+fail when called incorrectly):
+
+
+<ul>
+
+<li>
+The axis drawing routines can not handle inverse axes right now.
+
+</li>
+<li>
+If the user provides an invalid date/time string, the routines simply
+throw an error.
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+<h2><a name="SECTnode4649">TODO - SOME PRIVATE NOTES</a></h2>
+
+I have the following wishlist:
+
+
+<ul>
+
+<li>
+Isometric plots - allow new items to be implemented easily.
+
+</li>
+<li>
+Add support for histograms where the independent axis is numerical.
+
+</li>
+<li>
+A general 3D viewer - emphasis on geometry, not a ray-tracer.
+
+</li>
+
+</ul>
+
+<h2><a name="SECTnode4667">KEYWORDS</a></h2><p class="keywords">
+<a class="keyword" href="keyword-index.html#KW-graphicalpresentation">graphical presentation</a>, <a class="keyword" href="keyword-index.html#KW-plotting">plotting</a>, <a class="keyword" href="keyword-index.html#KW-charts">charts</a>, <a class="keyword" href="keyword-index.html#KW-xy-plots">xy-plots</a>, <a class="keyword" href="keyword-index.html#KW-barcharts">bar charts</a>, <a class="keyword" href="keyword-index.html#KW-stripcharts">strip charts</a>, <a class="keyword" href="keyword-index.html#KW-polarplots">polar plots</a>, <a class="keyword" href="keyword-index.html#KW-isometricplots">isometric plots</a>, <a class="keyword" href="keyword-index.html#KW-piecharts">pie charts</a>, <a class="keyword" href="keyword-index.html#KW-timecharts">time charts</a>, <a class="keyword" href="keyword-index.html#KW-3Dsurfaces">3D surfaces</a>, <a class="keyword" href="keyword-index.html#KW-3Dbars">3D bars</a>, <a class="keyword" href="keyword-index.html#KW-coordinates">coordinates</a>, <a class="keyword" href="keyword-index.html#KW-coordinatetransformations">coordinate transformations</a>
+</p>
+
+</div><hr class="navsep"><div class="navbar" align="center">
+<a class="navaid" href="http://tmml.sourceforge.net/search.php">Search</a> · <a class="navaid" href="index.html">Contents</a> · <a class="navaid" href="category-index.html">Index</a> · <a class="navaid" href="keyword-index.html">Keywords</a> · <a class="navaid" href="http://tmml.sourceforge.net/coredocs.html">About...</a>
+</div>
+</body>
+</html>

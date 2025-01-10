@@ -1,0 +1,89 @@
+
+@media print {
+body {-webkit-print-color-adjust: exact;}
+}
+
+@media print {
+  .container {
+    width: auto;
+  }
+}
+
+
+/*	Provide color codes for cerulian theme printout.
+	Johann Oberdorfer <www.johann-oberdorfer.eu>
+*/
+
+@media print {
+	pre {
+		page-break-before: avoid !important;
+		page-break-after: auto !important;
+		page-break-inside: auto !important;
+	}
+
+	h1 {
+		color: #317eac !important;
+	}
+	code {
+		color: #c7254e !important;
+		background-color: #f9f2f4 !important;
+	}
+
+	
+/*	Visual Studio-like style based on original C# coloring
+	by Jason Diamond <jason@diamond.name>
+*/
+
+.hljs {
+  background: white !important;
+  color: black !important;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-variable {
+  color: #008000 !important;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+  color: #00f !important;
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+  color: #a31515 !important;
+}
+
+.hljs-deletion,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-meta {
+  color: #2b91af !important;
+}
+
+.hljs-doctag {
+  color: #808080 !important;
+}
+
+.hljs-attr {
+  color: #f00 !important;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #00b0e8 !important;
+}
+
+}

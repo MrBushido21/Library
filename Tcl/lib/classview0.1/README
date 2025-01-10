@@ -1,0 +1,9 @@
+Modified version of Eugene Mindrov's Tcl Class Browser, see
+
+  http://chiselapp.com/user/eugene.mindrov/repository/tcl-class-browser
+
+and
+
+  http://wiki.tcl.tk/40640
+
+Usage:  package require classview

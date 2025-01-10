@@ -1,0 +1,88 @@
+#
+
+source $::tcltest::testsDirectory/def.tcl
+
+set debug 9
+set port 8010
+
+test aserv-0.1 {load aserv} {
+    package require aserv
+} {1.2}
+
+test aserv-0.3.1 {Url parsing} {
+    testurl proxy.sbank.dp.ua
+} {http {} {} proxy.sbank.dp.ua 80 / {} {}}
+
+test aserv-0.3.2 {Url parsing} {
+    testurl http://proxy.sbank.dp.ua
+} {http {} {} proxy.sbank.dp.ua 80 / {} {}}
+
+test aserv-0.3.3 {Url parsing} {
+    testurl http://proxy.sbank.dp.ua/test
+} {http {} {} proxy.sbank.dp.ua 80 /test {} {}}
+
+test aserv-0.3.4 {Url parsing} {
+    testurl http://proxy.sbank.dp.ua/test/account-account?service-id=1&account=100&z
+} {http {} {} proxy.sbank.dp.ua 80 /test/account-account service-id=1&account=100&z {}}
+
+test aserv-0.3.5 {Url parsing} {
+    testurl https://oleinickoa@proxy.sbank.dp.ua:8443/test
+} {https oleinickoa {} proxy.sbank.dp.ua 8443 /test {} {}}
+
+test aserv-0.3.6 {Url parsing} {
+    testurl https://oleinickoa:123@proxy.sbank.dp.ua:8443/test
+} {https oleinickoa 123 proxy.sbank.dp.ua 8443 /test {} {}}
+
+test aserv-0.3.7 {Url parsing} {
+    testurl proxy.sbank.dp.ua:8000
+} {http {} {} proxy.sbank.dp.ua 8000 / {} {}}
+
+test aserv-0.3.8 {Url parsing} {
+    testurl proxy.sbank.dp.ua/pub
+} {http {} {} proxy.sbank.dp.ua 80 /pub {} {}}
+
+test aserv-0.3.9 {Url parsing} {
+    testurl oleinickoa:123@proxy.sbank.dp.ua
+} {http oleinickoa 123 proxy.sbank.dp.ua 80 / {} {}}
+
+test aserv-0.3.10 {Url parsing} {
+    testurl /test
+} {file {} {} {} {} /test {} {}}
+
+test aserv-0.3.12 {Url parsing} {
+    testurl /test/account-account?service-id=1&account=100&z
+} {file {} {} {} {} /test/account-account?service-id=1&account=100&z {} {}}
+
+test aserv-0.4.1 {form parsing} {
+    aserv::parseform service-id=1&account=100&z
+} {service-id 1 account 100 z {}}
+
+test aserv-1.0.1 {call ping} {
+    stripxmlstamp [aserv::getmncping "ping"]
+} {<ping STAMP>pong</ping>
+}
+
+test aserv-3.0 {start server} {
+    aserv::start $port
+} $port
+
+test aserv-3.0.1 {get ping} {
+    stripxmlstamp [parseresponse content [testquery http://localhost:$port/ping]]
+} {<ping STAMP>pong</ping>
+}
+
+test aserv-3.0.2 {get ping params} {
+    stripxmlstamp [parseresponse content [testquery http://localhost:$port/ping?bla-bla-bla]]
+} {<ping STAMP>pong</ping>
+}
+
+test aserv-3.0.3 {get ping params with $} {
+    stripxmlstamp [parseresponse content [testquery http://localhost:$port/ping?bla-bla-\$bla]]
+} {<ping STAMP>pong</ping>
+}
+
+test aserv-3.99 {start server} {
+    aserv::stop
+} {}
+
+::tcltest::cleanupTests

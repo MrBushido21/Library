@@ -1,0 +1,39 @@
+  dbf d -open $input_file [-readonly]
+    opens dbase file, returns a handle.
+
+  dbf d -create $input_file [-codepage $codepage]
+    creates dbase file, returns a handle
+
+  $d info ?records|fields?
+        returns {record_count field_count}
+
+  $d codepage
+        returns database codepage
+
+  $d add label type|nativetype width [prec]
+        adds field specified to the dbf, if created and empty
+
+  $d fields ?name?
+        returns a list of lists, each of which consists of
+        {name type native-type width prec}
+
+  $d values $name
+        returns a list of values of the field $name
+
+  $d record $rowid
+        returns a list of cell values for the given row
+
+  $d get $rowid ?field?
+        returns a cell value for the given row or dictionary of cells
+
+  $d insert $rowid|end value [value ...]
+        inserts the specified values into the given record
+
+  $d update $rowid|end field value [field value ...]
+        replaces the specified values of a single field in the record
+
+  $d deleted $rowid [true|false]
+        returns or sets the deleted flag for the given rowid
+
+  $d forget
+        closes dbase file

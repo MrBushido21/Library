@@ -1,0 +1,88 @@
+<html>
+<head>
+<link rel="stylesheet" href="manpage.css"><title>TCLLIB - Tcl Standard Library: datefield</title><meta name="xsl-processor" content="Jochen Loewer et. al. (loewerj@hotmail.com)"><meta name="generator" content="$RCSfile: datefield.html,v $ $Revision: 1.2 $">
+</head><body>
+<div class="header">
+<div class="navbar" align="center">
+<a href="#SECTnode890">NAME</a> · <a href="#SECTnode899">SYNOPSIS</a> · <a href="#SECTnode924">DESCRIPTION</a> · <a href="#SECTnode936">COMMANDS</a> · <a href="#SECTnode962">OPTIONS</a> · <a href="#SECTnode971">EXAMPLE</a> · <a href="#SECTnode980">SEE ALSO</a> · <a href="#SECTnode989">KEYWORDS</a>
+</div><hr class="navsep">
+</div><div class="body">
+
+
+
+<h2><a name="SECTnode890">NAME</a></h2><p class="namesection">
+<b class="names">datefield - </b><br>Tk datefield widget</p>
+
+
+
+
+
+
+<h2><a name="SECTnode899">SYNOPSIS</a></h2><pre class="syntax">
+package require <b class="package">Tk</b>
+package require <b class="package">datefield</b>  ? 0.1 ?
+<b class="cmd">::datefield::datefield</b> <i class="m">widgetpath</i>  ? <i class="m">options</i> ?
+</pre>
+<h2><a name="SECTnode924">DESCRIPTION</a></h2>
+
+The <b class="package">datefield</b> package provides the datefield widget which
+is an enhanced text entry widget for the purpose of date entry. Only
+valid dates of the form MM/DD/YYYY can be entered.
+
+
+<p>
+
+The datefield widget is, in fact, just an entry widget with
+specialized bindings. This means all the command and options for an
+entry widget apply equally here.
+
+
+</p>
+<h2><a name="SECTnode936">COMMANDS</a></h2><dl>
+
+
+<dt>
+<b class="cmd">::datefield::datefield</b> <i class="m">widgetpath</i>  ? <i class="m">options</i> ? </dt>
+<dd>
+
+Creates and configures a date field widget.
+
+</dd>
+
+
+</dl>
+<h2><a name="SECTnode962">OPTIONS</a></h2>
+
+See the <b class="cmd">entry</b> manual entry for details on all available options.
+
+
+<h2><a name="SECTnode971">EXAMPLE</a></h2><pre class="example">
+ package require datefield
+
+ wm title . &quot;Datefield example&quot;
+ proc DayOfWeek {args} {
+     set now [clock scan $::myDate]
+     set ::myDate2 [clock format $now -format %A]
+ }
+ trace variable myDate w DayOfWeek
+
+ ::datefield::datefield .df -textvariable myDate
+ label .l1 -text &quot;Enter a date:&quot;   -anchor e
+ label .l2 -text &quot;That date is a:&quot; -anchor e
+ label .l3 -textvariable myDate2 -relief sunken -width 12
+
+ grid .l1 .df -sticky ew
+ grid .l2 .l3 -sticky ew
+ focus .df
+
+</pre>
+<h2><a name="SECTnode980">SEE ALSO</a></h2><p class="seealso">entry(n), clock(n)</p>
+<h2><a name="SECTnode989">KEYWORDS</a></h2><p class="keywords">
+<a class="keyword" href="keyword-index.html#KW-entry">entry</a>, <a class="keyword" href="keyword-index.html#KW-widget">widget</a>, <a class="keyword" href="keyword-index.html#KW-clock">clock</a>
+</p>
+
+</div><hr class="navsep"><div class="navbar" align="center">
+<a class="navaid" href="http://tmml.sourceforge.net/search.php">Search</a> · <a class="navaid" href="index.html">Contents</a> · <a class="navaid" href="category-index.html">Index</a> · <a class="navaid" href="keyword-index.html">Keywords</a> · <a class="navaid" href="http://tmml.sourceforge.net/coredocs.html">About...</a>
+</div>
+</body>
+</html>

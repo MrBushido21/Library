@@ -1,0 +1,360 @@
+proc ::Editor::mode_itcl {win} {
+    global EditorData
+
+    ctext::clearHighlightClasses $win
+    ctext::disableComments $win
+    foreach tag [$win tag names] {
+        $win tag remove $tag "1.0" "end-1c"
+    }
+
+    ###########################################
+    # Do not edit above !
+    ###########################################
+
+    # set EditorData(keywords) "
+    # after
+    # append
+    # array
+    # auto_execok
+    # auto_import
+    # auto_load
+    # auto_load_index
+    # auto_mkindex
+    # auto_mkindex_old
+    # auto_qualify
+    # auto_reset
+    # bell
+    # binary
+    # bind
+    # bindtags
+    # body
+    # break
+    # button
+    # canvas
+    # case
+    # catch
+    # cd
+    # checkbutton
+    # class
+    # clipboard
+    # clock
+    # close
+    # code
+    # concat
+    # configbody
+    # continue
+    # delete
+    # destroy
+    # else
+    # elseif
+    # encoding
+    # ensemble
+    # entry
+    # eof
+    # error
+    # eval
+    # event
+    # exec
+    # exit
+    # expr
+    # fblocked
+    # fconfigure
+    # fcopy
+    # file
+    # fileevent
+    # find
+    # flush
+    # focus
+    # font
+    # for
+    # foreach
+    # format
+    # frame
+    # gets
+    # glob
+    # global
+    # grab
+    # grid
+    # if
+    # image
+    # incr
+    # info
+    # interp
+    # itcl_class
+    # itcl_info
+    # join
+    # label
+    # lappend
+    # lindex
+    # linsert
+    # list
+    # listbox
+    # llength
+    # load
+    # local
+    # lower
+    # lrange
+    # lreplace
+    # lsearch
+    # lsort
+    # menu
+    # menubutton
+    # message
+    # method
+    # namespace
+    # open
+    # option
+    # pack
+    # package
+    # pid
+    # pkg_compareExtension
+    # pkg_mkIndex
+    # place
+    # proc
+    # puts
+    # pwd
+    # radiobutton
+    # raise
+    # read
+    # regexp
+    # regsub
+    # rename
+    # return
+    # scale
+    # scan
+    # scope
+    # scrollbar
+    # seek
+    # selection
+    # set
+    # socket
+    # source
+    # split
+    # string
+    # subst
+    # switch
+    # tclLog
+    # tclMacPkgSearch
+    # tclPkgSetup
+    # tclPkgUnknown
+    # tcl_findLibrary
+    # tell
+    # text
+    # time
+    # tk
+    # tkButtonDown
+    # tkButtonEnter
+    # tkButtonInvoke
+    # tkButtonLeave
+    # tkButtonUp
+    # tkCancelRepeat
+    # tkCheckRadioDown
+    # tkCheckRadioEnter
+    # tkCheckRadioInvoke
+    # tk_chooseDir
+    # tkEntryAutoScan
+    # tkEntryBackspace
+    # tkEntryButton1
+    # tkEntryClosestGap
+    # tkEntryGetSelection
+    # tkEntryInsert
+    # tkEntryKeySelect
+    # tkEntryMouseSelect
+    # tkEntryNextWord
+    # tkEntryPaste
+    # tkEntryPreviousWord
+    # tkEntrySeeInsert
+    # tkEntrySetCursor
+    # tkEntryTranspose
+    # tkEventMotifBindings
+    # tkFirstMenu
+    # tkGenerateMenuSelect
+    # tkListboxAutoScan
+    # tkListboxBeginExtend
+    # tkListboxBeginSelect
+    # tkListboxBeginToggle
+    # tkListboxCancel
+    # tkListboxDataExtend
+    # tkListboxExtendUpDown
+    # tkListboxMotion
+    # tkListboxSelectAll
+    # tkListboxUpDown
+    # tkMbButtonUp
+    # tkMbEnter
+    # tkMbLeave
+    # tkMbMotion
+    # tkMbPost
+    # tkMenuButtonDown
+    # tkMenuDownArrow
+    # tkMenuEscape
+    # tkMenuFind
+    # tkMenuFindName
+    # tkMenuFirstEntry
+    # tkMenuInvoke
+    # tkMenuLeave
+    # tkMenuLeftArrow
+    # tkMenuMotion
+    # tkMenuNextEntry
+    # tkMenuNextMenu
+    # tkMenuRightArrow
+    # tkMenuUnpost
+    # tkMenuUpArrow
+    # tk_optionMenu
+    # tkPostOverPoint
+    # tkRestoreOldGrab
+    # tkSaveGrabInfo
+    # tkScaleActivate
+    # tkScaleButton2Down
+    # tkScaleButtonDown
+    # tkScaleControlPress
+    # tkScaleDrag
+    # tkScaleEndDrag
+    # tkScaleIncrement
+    # tkScreenChanged
+    # tkScrollButton2Down
+    # tkScrollButtonDown
+    # tkScrollButtonUp
+    # tkScrollByPages
+    # tkScrollByUnits
+    # tkScrollDrag
+    # tkScrollEndDrag
+    # tkScrollSelect
+    # tkScrollStartDrag
+    # tkScrollTopBottom
+    # tkScrollToPos
+    # tkTabToWindow
+    # tkTextAutoScan
+    # tkTextButton1
+    # tkTextClosestGap
+    # tkTextInsert
+    # tkTextKeyExtend
+    # tkTextKeySelect
+    # tkTextNextPara
+    # tkTextNextPos
+    # tkTextNextWord
+    # tkTextPaste
+    # tkTextPrevPara
+    # tkTextPrevPos
+    # tkTextResetAnchor
+    # tkTextScrollPages
+    # tkTextSelectTo
+    # tkTextSetCursor
+    # tkTextTranspose
+    # tkTextUpDownLine
+    # tkTraverseToMenu
+    # tkTraverseWithinMenu
+    # tk_chooseColor
+    # tk_chooseDirectory
+    # tk_getOpenFile
+    # tk_getSaveFile
+    # tk_menuSetFocus
+    # tk_messageBox
+    # tk_popup
+    # tk_textCopy
+    # tk_textCut
+    # tk_textPaste
+    # tkwait
+    # toplevel
+    # trace
+    # unknown
+    # unset
+    # update
+    # uplevel
+    # upvar
+    # variable
+    # vwait
+    # while
+    # winfo
+    # wm
+    # "
+
+    #Keywords
+    if {![info exists EditorData(options,fgcolor,Keywords)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Keywords) "firebrick"
+    }
+    ctext::addHighlightClass $win Keywords \
+            $EditorData(options,fgcolor,Keywords) \
+            $EditorData(keywords)
+            if {[info exists EditorData(options,fonts,Keywords)]} {
+                eval font configure Keywords $EditorData(options,fonts,Keywords)
+            }
+    #Digits
+    if {![info exists EditorData(options,fgcolor,Digits)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Digits) "purple"
+    }
+    ctext::addHighlightClassForRegexp $win Digits \
+            $EditorData(options,fgcolor,Digits) {\[0-9\]+}
+    if {[info exists EditorData(options,fonts,Digits)]} {
+        eval font configure Digits $EditorData(options,fonts,Digits)
+    }
+    #Vars
+    if {![info exists EditorData(options,fgcolor,Vars)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Vars) "forestgreen"
+    }
+    ctext::addHighlightClassWithOnlyCharStart $win Vars \
+            $EditorData(options,fgcolor,Vars) "\$"
+    if {[info exists EditorData(options,fonts,Vars)]} {
+        eval font configure Vars $EditorData(options,fonts,Vars)
+    }
+    #Brackets
+    if {![info exists EditorData(options,fgcolor,Brackets)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Brackets) "red"
+    }
+    ctext::addHighlightClassForSpecialChars $win Brackets\
+            $EditorData(options,fgcolor,Brackets) {[]}
+    if {[info exists EditorData(options,fonts,Brackets)]} {
+        eval font configure Brackets $EditorData(options,fonts,Brackets)
+    }
+
+    #Braces
+    if {![info exists EditorData(options,fgcolor,Braces)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Braces) "orange"
+    }
+    ctext::addHighlightClassForSpecialChars $win Braces \
+            $EditorData(options,fgcolor,Braces) {{}}
+    if {[info exists EditorData(options,fonts,Braces)]} {
+        eval font configure Braces $EditorData(options,fonts,Braces)
+    }
+
+    #Options
+    if {![info exists EditorData(options,fgcolor,Options)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Options) "goldenrod"
+    }
+    ctext::addHighlightClassForRegexp $win Options \
+            $EditorData(options,fgcolor,Options) \
+            {\[\ \t\]+\-\[a-zA-Z\]+[^\ \t\]*}
+    if {[info exists EditorData(options,fonts,Options)]} {
+        eval font configure Options $EditorData(options,fonts,Options)
+    }
+
+    #Strings
+    if {![info exists EditorData(options,fgcolor,Strings)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Strings) "plum"
+    }
+    ctext::addHighlightClassForRegexp $win Strings \
+            $EditorData(options,fgcolor,Strings) \
+            {[\ \t\]\"\[^\"\]+\"}
+    if {[info exists EditorData(options,fonts,Strings)]} {
+        eval font configure Strings $EditorData(options,fonts,Strings)
+    }
+
+    #Comments
+    if {![info exists EditorData(options,fgcolor,Comments)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Comments) "blue"
+    }
+    ctext::addHighlightClassForRegexp $win Comments \
+            $EditorData(options,fgcolor,Comments) \
+            {^\[\ \t\]*#\[^\n\r\;\]*}
+    if {[info exists EditorData(options,fonts,Comments)]} {
+        eval font configure Comments $EditorData(options,fonts,Comments)
+    }
+    # ctext end
+}

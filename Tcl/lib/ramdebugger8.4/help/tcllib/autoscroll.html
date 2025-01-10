@@ -1,0 +1,87 @@
+<html>
+<head>
+<link rel="stylesheet" href="manpage.css"><title>TCLLIB - Tcl Standard Library: autoscroll</title><meta name="xsl-processor" content="Jochen Loewer et. al. (loewerj@hotmail.com)"><meta name="generator" content="$RCSfile: autoscroll.html,v $ $Revision: 1.2 $">
+</head><body>
+<div class="header">
+<div class="navbar" align="center">
+<a href="#SECTnode885">NAME</a> · <a href="#SECTnode894">SYNOPSIS</a> · <a href="#SECTnode921">DESCRIPTION</a> · <a href="#SECTnode974">KEYWORDS</a>
+</div><hr class="navsep">
+</div><div class="body">
+
+<h2><a name="SECTnode885">NAME</a></h2><p class="namesection">
+<b class="names">autoscroll - </b><br>Provides for a scrollbar to automatically mapped and unmapped as needed</p>
+
+
+
+
+
+<h2><a name="SECTnode894">SYNOPSIS</a></h2><pre class="syntax">
+package require <b class="package">Tcl</b>
+package require <b class="package">autoscroll</b>  ? 1.0 ?
+<b class="cmd">::autoscroll::autoscroll</b> <i class="m">scrollbar</i>
+<b class="cmd">::autoscroll::unautoscroll</b> <i class="m">scrollbar</i>
+</pre>
+<h2><a name="SECTnode921">DESCRIPTION</a></h2>
+
+This package allows scrollbars to be mapped and
+unmapped as needed depending on the size and
+content of the scrollbars scrolled widget. The
+scrollbar must be managed by either pack or grid,
+other geometry managers are not supported.
+
+
+<p>
+
+When managed by pack, any geometry changes made in the
+scrollbars parent between the time a scrollbar is
+unmapped, and when it is mapped will be lost. It is
+an error to destroy any of the scrollbars siblings while the
+scrollbar is unmapped. When managed by grid, if anything
+becomes gridded in the same row and column the scrollbar
+occupied it will be replaced by the scrollbar when remapped.
+
+</p><p>
+
+This package may be used on any scrollbar-like widget
+as long as it supports the <tt class="l">set</tt> subcommand in the same
+style as scrollbar. If the <tt class="l">set</tt> subcommand is not used
+then this package will have no effect.
+
+</p><p>
+
+</p><dl>
+
+
+
+<dt>
+<b class="cmd">::autoscroll::autoscroll</b> <i class="m">scrollbar</i>
+</dt>
+<dd>
+
+Arranges for the already existing scrollbar <tt class="l">scrollbar</tt>
+to be mapped and unmapped as needed.
+
+</dd>
+
+
+<dt>
+<b class="cmd">::autoscroll::unautoscroll</b> <i class="m">scrollbar</i>
+</dt>
+<dd>
+
+Returns the named scrollbar to its original static state.
+
+</dd>
+
+
+</dl>
+
+<h2><a name="SECTnode974">KEYWORDS</a></h2><p class="keywords">
+<a class="keyword" href="keyword-index.html#KW-scroll">scroll</a>, <a class="keyword" href="keyword-index.html#KW-scrollbar">scrollbar</a>
+</p>
+
+</div><hr class="navsep"><div class="navbar" align="center">
+<a class="navaid" href="http://tmml.sourceforge.net/search.php">Search</a> · <a class="navaid" href="index.html">Contents</a> · <a class="navaid" href="category-index.html">Index</a> · <a class="navaid" href="keyword-index.html">Keywords</a> · <a class="navaid" href="http://tmml.sourceforge.net/coredocs.html">About...</a>
+</div>
+</body>
+</html>

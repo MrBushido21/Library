@@ -1,0 +1,315 @@
+<html>
+<head>
+<link rel="stylesheet" href="manpage.css"><title>TCLLIB - Tcl Standard Library: doctoc_api</title><meta name="xsl-processor" content="Jochen Loewer et. al. (loewerj@hotmail.com)"><meta name="generator" content="$RCSfile: doctoc_api.html,v $ $Revision: 1.1 $">
+</head><body>
+<div class="header">
+<div class="navbar" align="center">
+<a href="#SECTnode890">NAME</a> · <a href="#SECTnode899">DESCRIPTION</a> · <a href="#SECTnode926">INTERFACE</a> · <a href="#SECTnode1273">SEE ALSO</a> · <a href="#SECTnode1282">KEYWORDS</a>
+</div><hr class="navsep">
+</div><div class="body">
+
+
+
+<h2><a name="SECTnode890">NAME</a></h2><p class="namesection">
+<b class="names">doctoc_api - </b><br>Interface specification for toc formatting code</p>
+
+
+
+
+
+<h2><a name="SECTnode899">DESCRIPTION</a></h2><p>
+
+
+This manpage specifies the interface between formatting engines for
+data in the <b class="syscmd"><a href="doctoc.html">doctoc</a></b> format as specified in
+<b class="syscmd"><a href="doctoc_fmt.html">doctoc_fmt</a></b>, and <b class="package">doctools::toc</b>, the package for the
+generic handling of such data, as described in <b class="syscmd"><a href="doctoc.html">doctoc</a></b>.
+
+</p><p>
+
+Each formatting engine has to implement the conversion of input in
+<b class="syscmd"><a href="doctoc.html">doctoc</a></b> format to one particular output format as chosen by
+the author of the formatting engine.
+
+</p>
+<h2><a name="SECTnode926">INTERFACE</a></h2>
+
+Each formatting engine has to provide
+
+
+<ol>
+
+<li>
+
+Implementations of all the formatting commands as specified in
+
+<b class="syscmd"><a href="doctoc_fmt.html">doctoc_fmt</a></b>, using the defined names, but prefixed with the
+string <tt class="l">fmt_</tt>. The sole exceptions to this are the formatting
+commands <b class="cmd"><a href="doctoc_fmt.html">vset</a></b> and <b class="cmd"><a href="doctoc_fmt.html">include</a></b>. These two commands are
+processed by the generic layer and will never be seen by the
+formatting engine.
+
+</li>
+<li>
+and additionally implementations for
+
+
+<dl>
+
+
+
+<dt><b class="cmd">toc_numpasses</b></dt>
+<dd>
+
+This command is called immediately after the formatter is loaded and
+has to return the number of passes required by this formatter to
+process a manpage. This information has to be an integer number
+greater or equal to one.
+
+</dd>
+
+
+<dt><b class="cmd">toc_initialize</b></dt>
+<dd>
+
+This command is called at the beginning of every conversion run and is
+responsible for initializing the general state of the formatting
+engine.
+
+</dd>
+
+
+<dt>
+<b class="cmd">toc_setup</b> <i class="m">n</i>
+</dt>
+<dd>
+
+This command is called at the beginning of each pass over the input
+and is given the id of the current pass as its first argument. It is
+responsible for setting up the internal state of the formatting for
+this particular pass.
+
+</dd>
+
+
+<dt>
+<b class="cmd">toc_postprocess</b> <i class="m">text</i>
+</dt>
+<dd>
+
+This command is called immediately after the last pass, with the
+expansion result of that pass as argument, and can do any last-ditch
+modifications of the generated result.  Its result will be the final
+result of the conversion.
+
+<br>
+
+Most formats will use <em>identity</em> here.
+
+</dd>
+
+
+<dt><b class="cmd">toc_shutdown</b></dt>
+<dd>
+
+This command is called at the end of every conversion run and is
+responsible for cleaning up of all the state in the formatting engine.
+
+</dd>
+
+
+<dt>
+<b class="cmd">fmt_plain_text</b> <i class="m">text</i>
+</dt>
+<dd>
+
+This command is called for any plain text encountered by the processor
+in the input and can do any special processing required for plain
+text. Its result is the string written into the expansion.
+
+<br>
+
+Most formats will use <em>identity</em> here.
+
+</dd>
+
+
+<dt><b class="cmd">toc_listvariables</b></dt>
+<dd>
+
+The command is called after loading a formatting engine to determine
+which parameters are supported by that engine. The return value is a
+list containing the names of these parameters.
+
+</dd>
+
+
+<dt>
+<b class="cmd">toc_varset</b> <i class="m">varname</i> <i class="m">text</i>
+</dt>
+<dd>
+
+The command is called by the generic layer to set the value of an
+engine specific parameter. The parameter to change is specified by
+<i class="m">varname</i>, and the value to set is given in <i class="m">text</i>.
+
+<br>
+
+The command will throw an error if an unknown <i class="m">varname</i> is
+used. Only the names returned by <b class="cmd">toc_listvariables</b> are
+considered known.
+
+</dd>
+
+
+</dl>
+</li>
+
+</ol><p>
+
+The tcl code of a formatting engine implementing all of the above can
+make the following assumptions about its environment
+
+</p><ol>
+
+<li>
+
+It has full access to its own safe interpreter.  In other words, the
+engine cannot damage the other parts of the processor, nor can it
+damage the filesystem.
+
+</li>
+<li>
+
+The surrounding system provides the engine with the following
+commands:
+
+
+<dl>
+
+
+
+<dt>Doctools commands</dt>
+<dd>
+
+<dl>
+
+
+<dt><b class="cmd">dt_format</b></dt>
+<dd>
+Returns the name of format loaded into the engine
+</dd>
+
+
+<dt>
+<b class="cmd">dt_fmap</b> <i class="m">fname</i>
+</dt>
+<dd>
+Returns the actual name to use in the output in place of the symbolic
+filename <i class="m">fname</i>.
+</dd>
+
+
+<dt>
+<b class="cmd">dt_source</b> <i class="m">file</i>
+</dt>
+<dd>
+This command allows the engine to load additional tcl code. The file
+being loaded has to be in the same directory as the file the format
+engine was loaded from. Any path specified for <i class="m">file</i> is ignored.
+</dd>
+
+
+</dl>
+
+</dd>
+
+
+<dt>Expander commands</dt>
+<dd>
+
+All of the commands below are methods of the expander object (without
+the prefix <tt class="l">ex_</tt>) handling the input. Their arguments and
+results are described in <b class="package"><a href="expander.html">expander(n)</a></b>.
+
+
+
+<dl>
+
+
+<dt><b class="cmd">ex_cappend</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cget</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cis</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cname</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cpop</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cpush</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_cset</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_lb</b></dt>
+<dd>
+</dd>
+
+
+<dt><b class="cmd">ex_rb</b></dt>
+<dd>
+</dd>
+
+
+</dl>
+
+</dd>
+
+
+<dt>_toc_common.tcl commands</dt>
+<dd>
+
+Any engine loading (<b class="cmd">dt_source</b>) the file <b class="file">_toc_common.tcl</b> has
+default implementations of the <tt class="l">toc_</tt> commands explicitly
+listed in this document and of <b class="cmd">fmt_plaint_text</b>.
+
+</dd>
+
+
+</dl>
+</li>
+
+</ol>
+<h2><a name="SECTnode1273">SEE ALSO</a></h2><p class="seealso">
+<a href="doctoc_fmt.html">doctoc_fmt</a>, <a href="doctoc.html">doctoc</a>
+</p>
+<h2><a name="SECTnode1282">KEYWORDS</a></h2><p class="keywords">
+<a class="keyword" href="keyword-index.html#KW-markup">markup</a>, <a class="keyword" href="keyword-index.html#KW-genericmarkup">generic markup</a>, <a class="keyword" href="keyword-index.html#KW-toc">toc</a>, <a class="keyword" href="keyword-index.html#KW-tableofcontents">table of contents</a>, <a class="keyword" href="keyword-index.html#KW-TMML">TMML</a>, <a class="keyword" href="keyword-index.html#KW-HTML">HTML</a>, <a class="keyword" href="keyword-index.html#KW-nroff">nroff</a>, <a class="keyword" href="keyword-index.html#KW-LaTeX">LaTeX</a>
+</p>
+
+</div><hr class="navsep"><div class="navbar" align="center">
+<a class="navaid" href="http://tmml.sourceforge.net/search.php">Search</a> · <a class="navaid" href="index.html">Contents</a> · <a class="navaid" href="category-index.html">Index</a> · <a class="navaid" href="keyword-index.html">Keywords</a> · <a class="navaid" href="http://tmml.sourceforge.net/coredocs.html">About...</a>
+</div>
+</body>
+</html>

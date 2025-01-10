@@ -1,0 +1,32 @@
+proc ::Editor::mode_txt {win} {
+
+    ::ctext::clearHighlightClasses $win
+    ctext::disableComments $win
+    foreach tag [$win tag names] {
+        $win tag remove $tag "1.0" "end-1c"
+    }
+
+    #Strings
+    if {![info exists EditorData(options,fgcolor,Strings)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Strings) "plum"
+    }
+    ctext::addHighlightClassForRegexp $win Strings \
+            $EditorData(options,fgcolor,Strings) \
+            {[\ \t\]*\"\[^\"\]+\"}
+    if {[info exists EditorData(options,fonts,Strings)]} {
+        eval font configure Strings $EditorData(options,fonts,Strings)
+    }
+
+    #Digits
+    if {![info exists EditorData(options,fgcolor,Digits)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,Digits) "purple"
+    }
+    ctext::addHighlightClassForRegexp $win Digits \
+            $EditorData(options,fgcolor,Digits) {\[0-9\]+}
+    if {[info exists EditorData(options,fonts,Digits)]} {
+        eval font configure Digits $EditorData(options,fonts,Digits)
+    }
+}
+

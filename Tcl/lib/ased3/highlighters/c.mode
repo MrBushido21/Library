@@ -1,0 +1,73 @@
+proc ::Editor::mode_c {win} {
+    global EditorData
+
+    ::ctext::clearHighlightClasses $win
+    foreach tag [$win tag names] {
+        $win tag remove $tag "1.0" "end-1c"
+    }
+
+    ###########################################
+    # Do not edit above !
+    ###########################################
+
+
+    #brackets
+    if {![info exists EditorData(options,fgcolor,brackets)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,brackets) "green"
+    }
+    ctext::addHighlightClassForSpecialChars $win brackets $EditorData(options,fgcolor,brackets) {[]}
+
+    #braces
+    if {![info exists EditorData(options,fgcolor,braces)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,braces) "lawngreen"
+    }
+    ctext::addHighlightClassForSpecialChars $win braces $EditorData(options,fgcolor,braces) {{}}
+
+    #parentheses
+    if {![info exists EditorData(options,fgcolor,parentheses)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,parentheses) "palegreen"
+    }
+    ctext::addHighlightClassForSpecialChars $win parentheses $EditorData(options,fgcolor,parentheses) {()}
+
+    #quotes
+    if {![info exists EditorData(options,fgcolor,quotes)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,quotes) "#c65e3c"
+    }
+    ctext::addHighlightClassForSpecialChars $win quotes $EditorData(options,fgcolor,quotes) {"'}
+
+    #control
+    if {![info exists EditorData(options,fgcolor,control)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,control) "red"
+    }
+    ctext::addHighlightClass $win control $EditorData(options,fgcolor,control) [list namespace while for if else do switch case]
+
+    #types
+    if {![info exists EditorData(options,fgcolor,types)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,types) "purple"
+    }
+    ctext::addHighlightClass $win types $EditorData(options,fgcolor,types) [list \
+            int char u_char u_int long double float typedef unsigned signed]
+
+    #macros
+    if {![info exists EditorData(options,fgcolor,macros)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,macros) "mediumslateblue"
+    }
+    ctext::addHighlightClass $win macros $EditorData(options,fgcolor,macros) [list \
+            #define #undef #if #ifdef #ifndef #endif #elseif #include #import #exclude]
+
+    #math
+    if {![info exists EditorData(options,fgcolor,math)]} {
+        # if not exists set default-color
+        set EditorData(options,fgcolor,math) "cyan"
+    }
+    ctext::addHighlightClassForSpecialChars $win math $EditorData(options,fgcolor,math) {+=*-/&^%!|<>}
+
+    # ctext::enableComments $win
+}
