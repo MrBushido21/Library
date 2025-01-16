@@ -1,6 +1,53 @@
-<a href="/test?">test</a><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <a href="/test?">test</a><br>
+    <a href="/tdom/index.html">tDOM manual</a><br> -->
+    <div class="form">
+        <h4>Login:</h4>
+        <label for="username">username:</label>
+        <input type="text" required id="username" value="" placeholder="Enter username..">
+        <label for="pass">Password:</label>
+        <input type="password" required id="pass" placeholder="Enter password..">
+        <button id="send">Send</button>
+    </div>
 
-<a href="/tdom/index.html">tDOM manual</a><br>
-
-
+     <script>
+        let username = document.getElementById('username')
+        let password = document.getElementById('pass')
+        let button = document.getElementById("send")
+        
+        button.addEventListener("click", async function() {
+            const userValue = username.value
+            const passValue = password.value
+            
+            try {
+               const response = await
+               fetch('/test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: userValue, passInput: passValue })
+               }) 
+               if (response.ok) {
+                const result = await response.json();
+               } else {
+                
+               }
+            } catch (error) {
+                
+            }
+        })
+        
+        
+    </script>
+</body>
+</html>
 

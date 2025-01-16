@@ -1,5 +1,6 @@
 source json.tcl
 source httpd.tcl
+source books.tcl
 
 namespace import httpd::*
 
@@ -17,6 +18,7 @@ proc filecontent {filename} {
     return $d
 }
 
+
 proc handler { op sock } {
     if { $op eq "handle" } {
         httpd loadrequest $sock data query
@@ -33,11 +35,13 @@ proc handler { op sock } {
                 "*.ico"  {httpd returnfile $sock [file join $::wwwroot $path] $path "image/x-icon" [clock seconds] 1 -static }
                 "*.css"  {httpd return $sock [filecontent $path] -mimetype "text/css"}
                 "*.html" {httpd return $sock [filecontent $path] -mimetype "text/html"}
+                "login"  {}
                 default  {httpd error $sock 404 ""}
             }
         }
     }
 }
+
 
 ### test url
 
@@ -54,7 +58,17 @@ proc gettest {datavar query headers} {
     lappend l "query" [json_value $query]
     lappend l "headers" [json_value $headers]
 
-    json_list {*}$l
+    #json_list 
+    set newData [json_value $data(postdata)]
+    set arr [string map {"\"" " " "" "" ":" "" "," "" "\\" ""} $newData]
+    set arrList [split $arr " "]
+    set name [lindex $arrList 4]
+    set pass [lindex $arrList 8]
+    # array unset newArr
+    array set newArr "name $name pass $pass"
+    puts $newArr(name)
+    # createUser $newArr(name) $newArr(pass)
+    # generateId [llength [array names newArr]]
 }
 
 ### start

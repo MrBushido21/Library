@@ -1,4 +1,5 @@
-package require tcldbf
-set file_name "test5.dbf"
-dbf d -open $file_name
-puts [$d update 1 age 20]
+set arr {name liskovskyiok passInput qwesdsadasd}
+array set newArr $arr
+puts [llength [array names newArr]]
+# array set newArr $arr
+# puts $newArr(name)
