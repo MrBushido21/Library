@@ -1,7 +1,7 @@
 source json.tcl
 source httpd.tcl
-source books.tcl
-
+source login.tcl
+package require tcldbf
 namespace import httpd::*
 
 ### server
@@ -26,17 +26,17 @@ proc handler { op sock } {
             set path [string trimleft $data(url) /]
             puts "parse path '$path'"
             switch -glob -- $path {
-                "test*"  {httpd return $sock [gettest data [array get query] [httpd headers $sock]] -mimetype "text/json"}
-                ""       {httpd return $sock [filecontent index.html] -mimetype "text/html"}
-                "*.js"   {httpd return $sock [filecontent $path] -mimetype "text/javascript"}
-                "*.gif"  {httpd returnfile $sock [file join $::wwwroot $path] $path "image/gif" [clock seconds] 1 -static }
-                "*.png"  {httpd returnfile $sock [file join $::wwwroot $path] $path "image/png" [clock seconds] 1 -static }
-                "*.jpg"  {httpd returnfile $sock [file join $::wwwroot $path] $path "image/jpeg" [clock seconds] 1 -static }
-                "*.ico"  {httpd returnfile $sock [file join $::wwwroot $path] $path "image/x-icon" [clock seconds] 1 -static }
-                "*.css"  {httpd return $sock [filecontent $path] -mimetype "text/css"}
-                "*.html" {httpd return $sock [filecontent $path] -mimetype "text/html"}
-                "login"  {}
-                default  {httpd error $sock 404 ""}
+                "register" {httpd return $sock [register data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                ""         {httpd return $sock [filecontent index.html] -mimetype "text/html"}
+                "*.js"     {httpd return $sock [filecontent $path] -mimetype "text/javascript"}
+                "*.gif"    {httpd returnfile $sock [file join $::wwwroot $path] $path "image/gif" [clock seconds] 1 -static }
+                "*.png"    {httpd returnfile $sock [file join $::wwwroot $path] $path "image/png" [clock seconds] 1 -static }
+                "*.jpg"    {httpd returnfile $sock [file join $::wwwroot $path] $path "image/jpeg" [clock seconds] 1 -static }
+                "*.ico"    {httpd returnfile $sock [file join $::wwwroot $path] $path "image/x-icon" [clock seconds] 1 -static }
+                "*.css"    {httpd return $sock [filecontent $path] -mimetype "text/css"}
+                "*.html"   {httpd return $sock [filecontent $path] -mimetype "text/html"}
+                "database" {httpd return $sock [database] -mimetype "text/html"}
+                default    {httpd error $sock 404 ""}
             }
         }
     }
@@ -44,19 +44,21 @@ proc handler { op sock } {
 
 
 ### test url
+set username ""
 
-proc gettest {datavar query headers} {
+proc register {datavar query headers} {
+    global username
     upvar $datavar data
     parray data
 
-    set l {}
-    foreach i {url ipaddr proto protocol outputheaders version query} {
-       if {[info exists data($i)]} {
-           lappend l $i [json_value $data($i)]
-       }
-    }
-    lappend l "query" [json_value $query]
-    lappend l "headers" [json_value $headers]
+    # set l {}
+    # foreach i {url ipaddr proto protocol outputheaders version query} {
+    #    if {[info exists data($i)]} {
+    #        lappend l $i [json_value $data($i)]
+    #    }
+    # }
+    # lappend l "query" [json_value $query]
+    # lappend l "headers" [json_value $headers]
 
     #json_list 
     set newData [json_value $data(postdata)]
@@ -64,13 +66,18 @@ proc gettest {datavar query headers} {
     set arrList [split $arr " "]
     set name [lindex $arrList 4]
     set pass [lindex $arrList 8]
-    # array unset newArr
     array set newArr "name $name pass $pass"
-    puts $newArr(name)
-    # createUser $newArr(name) $newArr(pass)
-    # generateId [llength [array names newArr]]
+    login $newArr(name) $newArr(pass)
+    set username $newArr(name)
 }
 
+proc database {} {
+      set file_name "users.dbf"
+      dbf d -open $file_name
+      set data [$d values NAME]
+      $d close
+      return \[[join $data ", "]\]
+}
 ### start
 
 puts "server listen on port: $wwwport"

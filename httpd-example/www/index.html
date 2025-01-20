@@ -7,8 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- <a href="/test?">test</a><br>
-    <a href="/tdom/index.html">tDOM manual</a><br> -->
     <div class="form">
         <h4>Login:</h4>
         <label for="username">username:</label>
@@ -17,11 +15,13 @@
         <input type="password" required id="pass" placeholder="Enter password..">
         <button id="send">Send</button>
     </div>
-
+    <div id="container"></div>
+    <!-- ================================ -->
      <script>
-        let username = document.getElementById('username')
+        let username = document.getElementById('username')  
         let password = document.getElementById('pass')
         let button = document.getElementById("send")
+        let container = document.getElementById("container")
         
         button.addEventListener("click", async function() {
             const userValue = username.value
@@ -29,7 +29,7 @@
             
             try {
                const response = await
-               fetch('/test', {
+               fetch('/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,6 +45,25 @@
                 
             }
         })
+        button.addEventListener("click", async function() {
+            
+            try {
+               const response = await
+               fetch('/database') 
+               let data = await response.json();
+               console.log(data); 
+                data.map(name => {
+                    const div = document.createElement("div")
+                    div.innerText = name 
+                    container.appendChild(div)
+                   console.log(data);  
+                })
+                   
+            } catch (error) {
+                
+            }
+        })
+        
         
         
     </script>
