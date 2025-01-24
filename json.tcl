@@ -28,3 +28,7 @@ proc json_list {args} {
     }
     return \{[join $result ,]\}
 }
+
+proc json_create {name args} {
+    json_list $name [json_array {*}[lmap a $args {json_value $a}]]
+}

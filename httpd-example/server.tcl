@@ -36,6 +36,7 @@ proc handler { op sock } {
                 "*.css"    {httpd return $sock [filecontent $path] -mimetype "text/css"}
                 "*.html"   {httpd return $sock [filecontent $path] -mimetype "text/html"}
                 "database" {httpd return $sock [database] -mimetype "text/html"}
+                "response" {httpd return $sock [registerResponse] -mimetype "text/html"}
                 default    {httpd error $sock 404 ""}
             }
         }
@@ -45,30 +46,22 @@ proc handler { op sock } {
 
 ### test url
 set username ""
+set responseLogin ""
 
 proc register {datavar query headers} {
     global username
+    global responseLogin
     upvar $datavar data
     parray data
 
-    # set l {}
-    # foreach i {url ipaddr proto protocol outputheaders version query} {
-    #    if {[info exists data($i)]} {
-    #        lappend l $i [json_value $data($i)]
-    #    }
-    # }
-    # lappend l "query" [json_value $query]
-    # lappend l "headers" [json_value $headers]
-
-    #json_list 
     set newData [json_value $data(postdata)]
     set arr [string map {"\"" " " "" "" ":" "" "," "" "\\" ""} $newData]
     set arrList [split $arr " "]
     set name [lindex $arrList 4]
     set pass [lindex $arrList 8]
     array set newArr "name $name pass $pass"
-    login $newArr(name) $newArr(pass)
     set username $newArr(name)
+    set responseLogin [login $newArr(name) $newArr(pass)]
 }
 
 proc database {} {
@@ -76,8 +69,16 @@ proc database {} {
       dbf d -open $file_name
       set data [$d values NAME]
       $d close
-      return \[[join $data ", "]\]
+      return [json_create "username" $data]
 }
+
+proc registerResponse {} {
+ global responseLogin
+ if {$responseLogin eq "A user with this name already exists, please think of another username"} {
+   return $responseLogin 
+ }
+}
+
 ### start
 
 puts "server listen on port: $wwwport"

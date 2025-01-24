@@ -7,7 +7,7 @@ proc json_pair {name value} {
 }
 
 proc json_array {args} {
-    return \[[join $args ,]\]
+    return \[[join $args ", "]\]
 }
 
 proc json_list {args} {
@@ -27,4 +27,8 @@ proc json_list {args} {
         }
     }
     return \{[join $result ,]\}
+}
+
+proc json_create {name data} {
+    return [json_list $name [json_array {*}[lmap a $data {json_value $a}]]]
 }

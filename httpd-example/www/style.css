@@ -10,7 +10,12 @@
     justify-content: center;
     align-items: center;
 }
-
+.form.login.hidden {
+    display: none;
+}
+.form.register.hidden {
+    display: none;
+}
 .form h4 {
     margin: 0 auto;
     font-size: 20px;

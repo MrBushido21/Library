@@ -7,8 +7,13 @@ proc login {nameValue passValue} {
    
     if {[file exists $file_name]} {
       dbf d -open $file_name
-      $d update end NAME $nameValue PASS $passValue
-      $d close
+      set data [$d values NAME]
+      if {[lsearch -exact $data $nameValue] == -1} {
+            $d update end NAME $nameValue PASS $passValue
+            $d close       
+        } else {
+           return "A user with this name already exists, please think of another username"  
+        }
     } else {
       dbf d -create $file_name -codepage "LDID/38"
       $d add NAME String 12
@@ -16,8 +21,6 @@ proc login {nameValue passValue} {
       $d insert 0 $nameValue $passValue
       $d close
     }     
-   
-   puts "Succses"	
 }
 
 
