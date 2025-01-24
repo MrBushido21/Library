@@ -7,50 +7,83 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="login" class="form login hidden">
+    <div id="register" class="form register">
+        <h4>Register:</h4>
+        <label for="regsername">username:</label>
+        <input type="text" required id="regUsername" required placeholder="Enter username..">
+        <label for="pass">Password:</label>
+        <input type="password" required id="regPass" required placeholder="Enter password..">
+        <button id="registerBtn">Send</button>
+        <button id="toLogin" class="btn">To Login</button>
+        <div id="container"><span id="span"></span></div>
+    </div>  
+
+     <div id="login" class="form login hidden">
         <h4>Login:</h4>
         <label for="username">username:</label>
-        <input type="text" required id="username" value="" placeholder="Enter username..">
+        <input type="text" required class="username" value="" placeholder="Enter username..">
         <label for="pass">Password:</label>
-        <input type="password" required id="pass" placeholder="Enter password..">
+        <input type="password" required class="pass" placeholder="Enter password..">
         <button id="loginBtn" class="btn">Send</button>
         <button id="toRegister" class="btn">To Register</button>
     </div>  
-    <div id="register" class="form register">
-        <h4>Register:</h4>
-        <label for="username">username:</label>
-        <input type="text" required id="username" value="" placeholder="Enter username..">
-        <label for="pass">Password:</label>
-        <input type="password" required id="pass" placeholder="Enter password..">
-        <button id="registerBtn">Send</button>
-        <button id="toLogin" class="btn">To Login</button>
-        <div id="container"></div>
-    </div>  
     <!-- ================================ -->
      <script>
-        let username = document.getElementById('username')  
-        let password = document.getElementById('pass')
+        let username = document.getElementById('regUsername')  
+        let password = document.getElementById('regPass')
         let loginBtn = document.getElementById("loginBtn")
         let registerBtn = document.getElementById("registerBtn")
         let container = document.getElementById("container")
+        let span = document.getElementById("span")
 
         let login = document.getElementById('login')
         let register = document.getElementById('register')
         let toLogin = document.getElementById('toLogin')
         let toRegister = document.getElementById('toRegister')
         
-        toLogin.addEventListener("click", () => {
-            login.classList.remove("hidden")
-            register.classList.add("hidden")
-        })
-        toRegister.addEventListener("click", () => {
-            register.classList.remove("hidden")
-            login.classList.add("hidden")
-        })
+        // toLogin.addEventListener("click", () => {
+        //     login.classList.remove("hidden")
+        //     register.classList.add("hidden")
+        // })
+        // toRegister.addEventListener("click", () => {
+        //     register.classList.remove("hidden")
+        //     login.classList.add("hidden")
+        // })
+
+        // Регистарция в после регистрации, отправка пароля и имени на сервер
         registerBtn.addEventListener("click", async function() {
             const userValue = username.value
             const passValue = password.value
-            
+            if (userValue.length > 12 || userValue.length == 0 || passValue.length > 12 || passValue.length == 0) {
+                alert("Max length username and is 12 and filed must be have values")
+            } else {
+                try {
+               const response = await
+               fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: userValue, passInput: passValue })
+               }) 
+               if (response.ok) {
+                const result = await response.text();
+                
+                if (result == 1) {   
+                    span.textContent = "succes" 
+               } else {
+                    span.textContent = result 
+               }                 
+                
+               } else {
+                console.error(error);
+               }
+            } catch (error) {
+                console.error(error);
+            }
+            }       
+        })
+        loginBtn.addEventListener("click", async function() {
             try {
                const response = await
                fetch('/register', {
@@ -61,30 +94,21 @@
                 body: JSON.stringify({ name: userValue, passInput: passValue })
                }) 
                if (response.ok) {
-                const result = await response.json();
-               } else {
+                const result = await response.text();
                 
+                if (result == 1) {   
+                    
+               } else {
+                    
+               }                 
+                
+               } else {
+                console.error(error);
                }
             } catch (error) {
                 console.error(error);
             }
         })
-        registerBtn.addEventListener("click", async function() {
-            try {
-               const response = await
-               fetch('/response') 
-               let data = await response.text();
-               if (data) {
-                const span = document.createElement("span")
-                    span.innerText = data 
-                    container.appendChild(span)
-               }                  
-            } catch (error) {
-                console.error(error); 
-            } 
-        })
-        
-        
     </script>
 </body>
 </html>

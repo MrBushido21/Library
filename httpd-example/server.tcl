@@ -27,6 +27,7 @@ proc handler { op sock } {
             puts "parse path '$path'"
             switch -glob -- $path {
                 "register" {httpd return $sock [register data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "login"    {httpd return $sock [login data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 ""         {httpd return $sock [filecontent index.html] -mimetype "text/html"}
                 "*.js"     {httpd return $sock [filecontent $path] -mimetype "text/javascript"}
                 "*.gif"    {httpd returnfile $sock [file join $::wwwroot $path] $path "image/gif" [clock seconds] 1 -static }
@@ -36,7 +37,6 @@ proc handler { op sock } {
                 "*.css"    {httpd return $sock [filecontent $path] -mimetype "text/css"}
                 "*.html"   {httpd return $sock [filecontent $path] -mimetype "text/html"}
                 "database" {httpd return $sock [database] -mimetype "text/html"}
-                "response" {httpd return $sock [registerResponse] -mimetype "text/html"}
                 default    {httpd error $sock 404 ""}
             }
         }
@@ -46,11 +46,9 @@ proc handler { op sock } {
 
 ### test url
 set username ""
-set responseLogin ""
 
 proc register {datavar query headers} {
     global username
-    global responseLogin
     upvar $datavar data
     parray data
 
@@ -61,7 +59,7 @@ proc register {datavar query headers} {
     set pass [lindex $arrList 8]
     array set newArr "name $name pass $pass"
     set username $newArr(name)
-    set responseLogin [login $newArr(name) $newArr(pass)]
+    register $newArr(name) $newArr(pass)
 }
 
 proc database {} {
@@ -72,12 +70,6 @@ proc database {} {
       return [json_create "username" $data]
 }
 
-proc registerResponse {} {
- global responseLogin
- if {$responseLogin eq "A user with this name already exists, please think of another username"} {
-   return $responseLogin 
- }
-}
 
 ### start
 

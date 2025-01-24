@@ -2,7 +2,7 @@
 
 package require tcldbf
 
-proc login {nameValue passValue} {
+proc register {nameValue passValue} {
    set file_name "users.dbf"
    
     if {[file exists $file_name]} {
@@ -16,7 +16,7 @@ proc login {nameValue passValue} {
         }
     } else {
       dbf d -create $file_name -codepage "LDID/38"
-      $d add NAME String 12
+      $d add NAME String 50
       $d add PASS String 50
       $d insert 0 $nameValue $passValue
       $d close
