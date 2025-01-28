@@ -1,20 +1,30 @@
 package require tcldbf
-source json.tcl
+source utils.tcl
 
-# proc json_create {name args} {
-#     json_list $name [json_array {*}[lmap a $args {json_value $a}]]
-# }
-# proc json_create {name args} {
-#     return [json_list $name[json_array {*}[lmap a $args {json_value $a}]]]
-# }
-# Result {"username":["Oleg Ruslan Nekit Nekit Oleg Oleg Ruslan Ruslan Ruslan Ruslan"]}
-proc database {} {
+proc login {username userPass} {
       set file_name "test5.dbf"
       dbf d -open $file_name
-      set data [$d values NAME]
+      set NAMES [$d values NAME]
+      set PASSES [$d values PASS]
+      
+      # set relustTestUsername [testUsername $NAMES $username]
+      # set relustTestPass [testPass $PASSES $userPass]
+   
+      puts $NAMES
+      # if {$relustTestUsername == 1 && $relustTestPass == 1} {
+      #       return "correct"
+      # } else {
+      #       return "uncorrect username or pass"
+      # }
       $d close
-      # return [json_create "username" $data]
-      return [json_list "username" [json_array {*}[lmap a $data {json_value $a}]]]
+
 }
-#{"username":["Oleg", "Ruslan", "Nekit", "Nekit", "Oleg", "Oleg", "Ruslan", "Ruslan", "Ruslan", "Ruslan"]}
-puts [database]
+
+puts [login Oleg qweqqwqwqd]
+
+
+
+
+
+
+	

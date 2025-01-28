@@ -1,5 +1,6 @@
 source json.tcl
 source httpd.tcl
+source registration.tcl
 source login.tcl
 package require tcldbf
 namespace import httpd::*
@@ -36,7 +37,6 @@ proc handler { op sock } {
                 "*.ico"    {httpd returnfile $sock [file join $::wwwroot $path] $path "image/x-icon" [clock seconds] 1 -static }
                 "*.css"    {httpd return $sock [filecontent $path] -mimetype "text/css"}
                 "*.html"   {httpd return $sock [filecontent $path] -mimetype "text/html"}
-                "database" {httpd return $sock [database] -mimetype "text/html"}
                 default    {httpd error $sock 404 ""}
             }
         }
@@ -48,7 +48,6 @@ proc handler { op sock } {
 set username ""
 
 proc register {datavar query headers} {
-    global username
     upvar $datavar data
     parray data
 
@@ -59,16 +58,21 @@ proc register {datavar query headers} {
     set pass [lindex $arrList 8]
     array set newArr "name $name pass $pass"
     set username $newArr(name)
-    register $newArr(name) $newArr(pass)
+    reg $newArr(name) $newArr(pass)
+}
+proc login {datavar query headers} {
+    upvar $datavar data
+    parray data
+
+    set newData [json_value $data(postdata)]
+    set arr [string map {"\"" " " "" "" ":" "" "," "" "\\" ""} $newData]
+    set arrList [split $arr " "]
+    set name [lindex $arrList 4]
+    set pass [lindex $arrList 8]
+    array set newArr "name $name pass $pass"
+    log $newArr(name) $newArr(pass)
 }
 
-proc database {} {
-      set file_name "users.dbf"
-      dbf d -open $file_name
-      set data [$d values NAME]
-      $d close
-      return [json_create "username" $data]
-}
 
 
 ### start

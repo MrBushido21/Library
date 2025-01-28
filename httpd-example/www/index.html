@@ -15,46 +15,49 @@
         <input type="password" required id="regPass" required placeholder="Enter password..">
         <button id="registerBtn">Send</button>
         <button id="toLogin" class="btn">To Login</button>
-        <div id="container"><span id="span"></span></div>
+        <div class="container"><span id="regSpan"></span></div>
     </div>  
 
      <div id="login" class="form login hidden">
         <h4>Login:</h4>
         <label for="username">username:</label>
-        <input type="text" required class="username" value="" placeholder="Enter username..">
+        <input type="text" required id="logUsername" value="" placeholder="Enter username..">
         <label for="pass">Password:</label>
-        <input type="password" required class="pass" placeholder="Enter password..">
+        <input type="password" required id="logPass" placeholder="Enter password..">
         <button id="loginBtn" class="btn">Send</button>
         <button id="toRegister" class="btn">To Register</button>
+        <div class="container"><span id="logSpan"></span></div>
     </div>  
     <!-- ================================ -->
      <script>
-        let username = document.getElementById('regUsername')  
-        let password = document.getElementById('regPass')
+        let regUsername = document.getElementById('regUsername')  
+        let regPass = document.getElementById('regPass')
+        let logUsername = document.getElementById('logUsername')  
+        let logPass = document.getElementById('logPass')
         let loginBtn = document.getElementById("loginBtn")
         let registerBtn = document.getElementById("registerBtn")
-        let container = document.getElementById("container")
-        let span = document.getElementById("span")
+        let regSpan = document.getElementById("regSpan")
+        let logSpan = document.getElementById("logSpan")
 
         let login = document.getElementById('login')
         let register = document.getElementById('register')
         let toLogin = document.getElementById('toLogin')
         let toRegister = document.getElementById('toRegister')
         
-        // toLogin.addEventListener("click", () => {
-        //     login.classList.remove("hidden")
-        //     register.classList.add("hidden")
-        // })
-        // toRegister.addEventListener("click", () => {
-        //     register.classList.remove("hidden")
-        //     login.classList.add("hidden")
-        // })
+        toLogin.addEventListener("click", () => {
+            login.classList.remove("hidden")
+            register.classList.add("hidden")
+        })
+        toRegister.addEventListener("click", () => {
+            register.classList.remove("hidden")
+            login.classList.add("hidden")
+        })
 
         // Регистарция в после регистрации, отправка пароля и имени на сервер
         registerBtn.addEventListener("click", async function() {
-            const userValue = username.value
-            const passValue = password.value
-            if (userValue.length > 12 || userValue.length == 0 || passValue.length > 12 || passValue.length == 0) {
+            const userValue = regUsername.value
+            const passValue = regPass.value
+            if (userValue.length > 20 || userValue.length == 0 || passValue.length > 20 || passValue.length == 0) {
                 alert("Max length username and is 12 and filed must be have values")
             } else {
                 try {
@@ -70,9 +73,9 @@
                 const result = await response.text();
                 
                 if (result == 1) {   
-                    span.textContent = "succes" 
+                    regSpan.textContent = "succes" 
                } else {
-                    span.textContent = result 
+                    regSpan.textContent = result 
                }                 
                 
                } else {
@@ -84,9 +87,14 @@
             }       
         })
         loginBtn.addEventListener("click", async function() {
-            try {
+            const userValue = logUsername.value
+            const passValue = logPass.value
+            if (userValue.length > 20 || userValue.length == 0 || passValue.length > 20 || passValue.length == 0) {
+                alert("Max length username and is 12 and filed must be have values")
+            } else {
+                try {
                const response = await
-               fetch('/register', {
+               fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,11 +103,11 @@
                }) 
                if (response.ok) {
                 const result = await response.text();
-                
+
                 if (result == 1) {   
-                    
+                    logSpan.textContent = "succes" 
                } else {
-                    
+                    logSpan.textContent = result 
                }                 
                 
                } else {
@@ -108,7 +116,9 @@
             } catch (error) {
                 console.error(error);
             }
+            }       
         })
+        
     </script>
 </body>
 </html>
