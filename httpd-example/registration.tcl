@@ -18,7 +18,7 @@ proc reg {nameValue passValue} {
       dbf d -create $file_name -codepage "LDID/38"
       $d add NAME String 50
       $d add PASS String 50
-      $d insert 0 $nameValue $passValue
+      $d insert end $nameValue $passValue
       $d close
     }     
 }

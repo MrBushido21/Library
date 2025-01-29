@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <title>Document</title>
 </head>
+
 <body>
     <div id="register" class="form register">
         <h4>Register:</h4>
@@ -16,9 +18,9 @@
         <button id="registerBtn">Send</button>
         <button id="toLogin" class="btn">To Login</button>
         <div class="container"><span id="regSpan"></span></div>
-    </div>  
+    </div>
 
-     <div id="login" class="form login hidden">
+    <div id="login" class="form login hidden">
         <h4>Login:</h4>
         <label for="username">username:</label>
         <input type="text" required id="logUsername" value="" placeholder="Enter username..">
@@ -27,12 +29,12 @@
         <button id="loginBtn" class="btn">Send</button>
         <button id="toRegister" class="btn">To Register</button>
         <div class="container"><span id="logSpan"></span></div>
-    </div>  
+    </div>
     <!-- ================================ -->
-     <script>
-        let regUsername = document.getElementById('regUsername')  
+    <script>
+        let regUsername = document.getElementById('regUsername')
         let regPass = document.getElementById('regPass')
-        let logUsername = document.getElementById('logUsername')  
+        let logUsername = document.getElementById('logUsername')
         let logPass = document.getElementById('logPass')
         let loginBtn = document.getElementById("loginBtn")
         let registerBtn = document.getElementById("registerBtn")
@@ -43,7 +45,53 @@
         let register = document.getElementById('register')
         let toLogin = document.getElementById('toLogin')
         let toRegister = document.getElementById('toRegister')
-        
+
+
+
+        function rout(name) {
+            localStorage.setItem("username", name)
+            window.location.href = "newpage.html"
+            logSpan.textContent = "succes"
+        }
+
+        function chekField(inputName, inputPass) {
+            return inputName.length > 20 || inputName.length == 0 || inputPass.length > 20 || inputPass.length == 0
+        }
+
+
+        async function fetching (path, username, pass) {
+            const userValue = username.value
+            const passValue = pass.value
+            if (chekField(userValue, passValue)) {
+                alert("Max length username and is 12 and filed must be have values")
+            } else {
+                try {
+                    const response = await
+                        fetch(path, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ name: userValue, passInput: passValue })
+                        })
+                        
+                    if (response.ok) {
+                        const result = await response.text();
+                        if (result == 1) {
+                            rout(userValue)
+                        } else {
+                            regSpan.textContent = result
+                        }
+
+                    } else {
+                        console.error(error);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+
         toLogin.addEventListener("click", () => {
             login.classList.remove("hidden")
             register.classList.add("hidden")
@@ -53,73 +101,13 @@
             login.classList.add("hidden")
         })
 
-        // Регистарция в после регистрации, отправка пароля и имени на сервер
-        registerBtn.addEventListener("click", async function() {
-            const userValue = regUsername.value
-            const passValue = regPass.value
-            if (userValue.length > 20 || userValue.length == 0 || passValue.length > 20 || passValue.length == 0) {
-                alert("Max length username and is 12 and filed must be have values")
-            } else {
-                try {
-               const response = await
-               fetch('/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name: userValue, passInput: passValue })
-               }) 
-               if (response.ok) {
-                const result = await response.text();
-                
-                if (result == 1) {   
-                    regSpan.textContent = "succes" 
-               } else {
-                    regSpan.textContent = result 
-               }                 
-                
-               } else {
-                console.error(error);
-               }
-            } catch (error) {
-                console.error(error);
-            }
-            }       
-        })
-        loginBtn.addEventListener("click", async function() {
-            const userValue = logUsername.value
-            const passValue = logPass.value
-            if (userValue.length > 20 || userValue.length == 0 || passValue.length > 20 || passValue.length == 0) {
-                alert("Max length username and is 12 and filed must be have values")
-            } else {
-                try {
-               const response = await
-               fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name: userValue, passInput: passValue })
-               }) 
-               if (response.ok) {
-                const result = await response.text();
 
-                if (result == 1) {   
-                    logSpan.textContent = "succes" 
-               } else {
-                    logSpan.textContent = result 
-               }                 
-                
-               } else {
-                console.error(error);
-               }
-            } catch (error) {
-                console.error(error);
-            }
-            }       
-        })
-        
+        // Регистарция в после регистрации, отправка пароля и имени на сервер
+        registerBtn.addEventListener("click", () => fetching("/register", regUsername, regPass))
+
+        loginBtn.addEventListener("click", () => fetching("/login", logUsername, logPass))
+
     </script>
 </body>
-</html>
 
+</html>

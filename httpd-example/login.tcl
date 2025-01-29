@@ -7,8 +7,8 @@ proc log {username userPass} {
       set NAMES [$d values NAME]
       set PASSES [$d values PASS]
       
-      set relustTestUsername [testUsername $NAMES $username]
-      set relustTestPass [testPass $PASSES $userPass]
+      set relustTestUsername [testUsernameUtils $NAMES $username]
+      set relustTestPass [testPassUtils $PASSES $userPass]
            
       if {$relustTestUsername == 1 && $relustTestPass == 1} {
             return 1
