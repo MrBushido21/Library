@@ -1,7 +1,7 @@
 package require tcldbf
 source utils.tcl
 
-proc searchBook {field bookName} {
+proc searchBook {bookName field} {
       set file_name "books.dbf"
       dbf d -open $file_name
       set data [$d values $field]
@@ -17,6 +17,6 @@ proc searchBook {field bookName} {
       $d close
 }
 
-proc search {field bookName} {
-     return [searchBook $field $bookName]
+proc search {bookName field} {
+     return [searchBook $bookName $field]
 }

@@ -11,10 +11,14 @@
     <span id="welcom"></span>
     <br>
     <br>
-    <input id="searchName" type="text" placeholder="Пошук за назвою...">
+    <input id="searchName" type="text" placeholder="Search by name">
     <button id="findName">Find</button>
-    <input id="searchAhutor" type="text" placeholder="Пошук за автором...">
+    <input id="searchAhutor" type="text" placeholder="Search by author...">
     <button id="findAhutor">Find</button>
+    <button id="sortN">Sort by name</button>
+    <button id="sortA">Sort by author</button>
+    <button id="sortD">Sort by date (on less to bigest)</button>
+    <button id="sortDb">Sort by date (on bigest to less)</button>
     <br>
     <br>
     <div id="searchContainer"></div>
@@ -31,13 +35,38 @@
         let findAhutor = document.getElementById("findAhutor")
         let searchAhutor = document.getElementById("searchAhutor")
 
+        let sortN = document.getElementById("sortN")
+        let sortA = document.getElementById("sortA")
+        let sortD = document.getElementById("sortD")
+        let sortDb = document.getElementById("sortDb")
+
         let container = document.getElementById("container")
         let searchContainer = document.getElementById("searchContainer")
 
 
-        async function search (path, searchValue) {
-            const bookName = searchValue.value
+        async function drawResult(response, container) {
+            if (response.ok) {
+                let data = await response.json();
+                container.innerHTML = ""
+                if (data.books.length == 0) {
+                    container.innerText = "not found"
+                } else {
+                    data.books.map(name => {
+                        const div = document.createElement("div")
+                        const btn = document.createElement("button")
+                        div.innerText = name
+                        btn.innerText = "Take"
+                        container.appendChild(div).appendChild(btn)
+                    })
+                }
 
+            } else {
+                console.error(error);
+            }
+        }
+
+        async function postSearch(path, searchValue, field) {
+            const bookName = searchValue.value
             try {
                 const response = await
                     fetch(path, {
@@ -45,52 +74,55 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ bookName: bookName})
+                        body: JSON.stringify({ bookName: bookName, field: field })
                     })
 
-                if (response.ok) {
-                    let data = await response.json(); 
-                    data.books.map(name => {
-                    const div = document.createElement("div")
-                    const btn = document.createElement("button")
-                    div.innerText = name
-                    btn.innerText = "Take"
-                    searchContainer.appendChild(div).appendChild(btn)
-                })
-
-                } else {
-                    console.error(error);
-                }
+                drawResult(response, searchContainer)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        async function postSort(path, parm1, parm2) {
+            try {
+                const response = await
+                    fetch(path, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ index: parm1, decreasing: parm2 })
+                    })
+                drawResult(response, searchContainer)
             } catch (error) {
                 console.error(error);
             }
         }
 
 
-
-        window.onload = async function () {
-            let user = localStorage.getItem("username")
-            document.getElementById("welcom").textContent = `Hi ${user}`
-
+        async function get(path) {
             try {
                 const response = await
                     fetch('/getbooks')
-                let data = await response.json();
-                data.books.map(name => {
-                    const div = document.createElement("div")
-                    const btn = document.createElement("button")
-                    div.innerText = name
-                    btn.innerText = "Take"
-                    container.appendChild(div).appendChild(btn)
-                })
-
+                drawResult(response, container)
             } catch (error) {
                 console.log(error);
             }
         }
 
-        findName.addEventListener("click", async () => search("/searchName", searchName))
-        findAhutor.addEventListener("click", async () => search("/searchAuthor", searchAhutor))
+
+        window.onload = async function () {
+            let user = localStorage.getItem("username")
+            document.getElementById("welcom").textContent = `Hi ${user}`
+            get("/getbooks")
+        }
+
+        findName.addEventListener("click", async () => postSearch("/searchbooks", searchName, "bookName"))
+        findAhutor.addEventListener("click", async () => postSearch("/searchbooks", searchAhutor, "author"))
+
+        sortN.addEventListener("click", async () => postSort("/sortbooks", "2", ""))
+        sortA.addEventListener("click", async () => postSort("/sortbooks", "3", ""))
+        sortD.addEventListener("click", async () => postSort("/sortbooks", "4", ""))
+        sortDb.addEventListener("click", async () => postSort("/sortbooks", "4", "d"))           
     </script>
 </body>
 

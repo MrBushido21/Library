@@ -1,12 +1,13 @@
-proc searchName {data bookName} {
-    set matches {}
-      foreach name $data {
-            if {[string match -nocase $bookName* $name]} {
-                  lappend matches $name
-            } else {
-                  puts "not found"
-            } 
-            
+proc sortUtils {records index decreasing} {
+      if {$decreasing ne ""} {
+           set sortedRecords [lsort -decreasing -index $index $records] 
+      } else {
+            set sortedRecords [lsort -index $index $records]
       }
-      return "results: $matches"
+      
+      set books {}
+      foreach list $sortedRecords {
+            lappend books [lindex $list 2]
+      }
+      return $books
 }

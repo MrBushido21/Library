@@ -10,12 +10,6 @@ proc sort {index decreasing} {
       for {set i 0} {$i < $quantity} {incr i} {
             lappend records [$d record $i]
       }
-      
-      return [sortUtils $records $index $decreasing]
+      return [json_create "books" [sortUtils $records $index $decreasing]]
       $d close
 }
-
-puts [sort 4 "d"]
-
-
-
