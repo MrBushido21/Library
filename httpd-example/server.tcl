@@ -4,7 +4,9 @@ source registration.tcl
 source login.tcl
 source searchBook.tcl
 source sotrBook.tcl
+source usersBooks.tcl
 package require tcldbf
+package require json
 namespace import httpd::*
 
 ### server
@@ -33,6 +35,7 @@ proc handler { op sock } {
                 "login"        {httpd return $sock [login data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "searchbooks"  {httpd return $sock [searchbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "sortbooks"    {httpd return $sock [sortbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "usersbooks"   {httpd return $sock [usersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "getbooks"     {httpd return $sock [getbooks] -mimetype "text/html"}
                 ""             {httpd return $sock [filecontent index.html] -mimetype "text/html"}
                 "*.js"         {httpd return $sock [filecontent $path] -mimetype "text/javascript"}
@@ -52,21 +55,30 @@ proc handler { op sock } {
 ### test url
 
 
-proc request {data indices} {
-    set newData [json_value $data]
-    set arr [string map {"\"" " " "" "" ":" "" "," "" "\\" ""} $newData]
-    set arrList [split $arr " "]
-    set result {}
-    foreach {key idx} $indices {
-        set value [lindex $arrList $idx]
-        if {$value ne ""} {
-            lappend result $key $value
-        } else {
-            lappend result $key ""
-        }
-    }
-    array set newArr $result
-    return [array get newArr]
+# proc request {data indices} {
+#     set data [json::json2dict $value]
+#     set bookname [dict get $data bookname]
+
+#     set newData [json_value $data]
+#     set arr [string map {"\"" " " "" "" ":" "" "," "" "\\" ""} $newData]
+#     set arrList [split $arr " "]
+#     set result {}
+#     foreach {key idx} $indices {
+#         set value [lindex $arrList $idx]
+#         if {$value ne ""} {
+#             lappend result $key $value
+#         } else {
+#             lappend result $key ""
+#         }
+#     }
+#     array set newArr $result
+#     return [array get newArr]
+# }
+
+proc request {data} {
+    set data [json::json2dict $data]
+    
+    return [dict values $data]
 }
 
 #==================================
@@ -84,26 +96,32 @@ proc getbooks {} {
 proc register {datavar query headers} {
     upvar $datavar data
     parray data
-    array set arr [request $data(postdata) {name 4 pass 8}]
-    reg $arr(name) $arr(pass)
+    set list [request $data(postdata)]
+    reg [lindex $list 0] [lindex $list 1]
 }
 proc login {datavar query headers} {
     upvar $datavar data
     parray data
-    array set arr [request $data(postdata) {name 4 pass 8}]
-    log $arr(name) $arr(pass)
+    set list [request $data(postdata)]
+    log [lindex $list 0] [lindex $list 1]
 }
 proc searchbooks {datavar query headers} {
     upvar $datavar data
     parray data
-    array set arr [request $data(postdata) {name 4 field 8}]
-    search $arr(name) $arr(field)
+    set list [request $data(postdata)]
+    search [lindex $list 0] [lindex $list 1]
 }
 proc sortbooks {datavar query headers} {
     upvar $datavar data
     parray data
-    array set arr [request $data(postdata) {index 4 decreasing 8}]
-    sort $arr(index) $arr(decreasing)
+    set list [request $data(postdata)]
+    sort [lindex $list 0] [lindex $list 1]
+}
+proc usersbooks {datavar query headers} {
+    upvar $datavar data
+    parray data
+    set list [request $data(postdata)]
+    createBookList [lindex $list 0] [lindex $list 1]
 }
 
 

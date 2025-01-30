@@ -23,9 +23,9 @@
     <div id="login" class="form login hidden">
         <h4>Login:</h4>
         <label for="username">username:</label>
-        <input type="text" required id="logUsername" value="" placeholder="Enter username..">
+        <input type="text" required id="logUsername" value="oleglis" placeholder="Enter username..">
         <label for="pass">Password:</label>
-        <input type="password" required id="logPass" placeholder="Enter password..">
+        <input type="password" required id="logPass" value="1234" placeholder="Enter password..">
         <button id="loginBtn" class="btn">Send</button>
         <button id="toRegister" class="btn">To Register</button>
         <div class="container"><span id="logSpan"></span></div>
@@ -59,7 +59,7 @@
         }
 
 
-        async function fetching (path, username, pass) {
+        async function fetching (path, username, pass, span) {
             const userValue = username.value
             const passValue = pass.value
             if (chekField(userValue, passValue)) {
@@ -80,7 +80,7 @@
                         if (result == 1) {
                             rout(userValue)
                         } else {
-                            regSpan.textContent = result
+                            span.textContent = result
                         }
 
                     } else {
@@ -103,9 +103,9 @@
 
 
         // Регистарция в после регистрации, отправка пароля и имени на сервер
-        registerBtn.addEventListener("click", () => fetching("/register", regUsername, regPass))
+        registerBtn.addEventListener("click", () => fetching("/register", regUsername, regPass, regSpan))
 
-        loginBtn.addEventListener("click", () => fetching("/login", logUsername, logPass))
+        loginBtn.addEventListener("click", () => fetching("/login", logUsername, logPass, logSpan))
 
     </script>
 </body>

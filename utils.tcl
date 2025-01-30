@@ -11,3 +11,17 @@ proc sortUtils {records index decreasing} {
       }
       return $books
 }
+
+proc searchUtils {data bookName} {
+    set rowid {}
+      set i 0
+      foreach name $data {
+            if {[string match -nocase *$bookName* $name]} {
+                  lappend rowid $i
+            }
+            incr i
+      }
+
+         
+      return $rowid
+}

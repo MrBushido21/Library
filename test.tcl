@@ -1,21 +1,14 @@
 package require tcldbf
+package require json
 source utils.tcl
+source json.tcl
 
-proc sort {index decreasing} {
-      set file_name "books.dbf"
-      dbf d -open $file_name
-      set quantity [$d info records]
+set value {{"bookname":"Harry Potter","username":"admin"}}
 
-      set records {}
-      for {set i 0} {$i < $quantity} {incr i} {
-            lappend records [$d record $i]
-      }
-      
-      return [sortUtils $records $index $decreasing]
-      $d close
+proc request {data} {
+    set data [json::json2dict $data]
+    
+    return [dict values $data]
 }
-
-puts [sort 4 "d"]
-
-
-
+# puts [string map {"" " "} [json_value $value]]
+puts [request $value]
