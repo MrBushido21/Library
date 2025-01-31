@@ -50,6 +50,37 @@
         let searchContainer = document.getElementById("searchContainer")
         let usersBooksContainer = document.getElementById("usersBooksContainer")
 
+        async function drawUsersBooks(path, name) {
+            try {
+                const response = await
+                    fetch(path, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ bookname: name, username: localStorage.getItem("username") })
+                    })
+
+                let data = await response.json();
+
+                usersBooksContainer.innerHTML = ""
+
+                data.map(book => {
+                    const div = document.createElement("div")
+                    const spanC = document.createElement("span")
+                    const spanB = document.createElement("span")
+                    const btnBack = document.createElement("button")
+                    div.innerText = book.name
+                    btnBack.innerText = "Get back"
+                    spanC.innerText = ` Time of take: ${book.currentTime}`
+                    spanB.innerText = ` Time of back: ${book.backTime}`
+                    usersBooksContainer.appendChild(div).appendChild(spanC).appendChild(spanB).appendChild(btnBack)
+
+                })
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
         async function drawResult(response, container) {
             if (response.ok) {
@@ -65,30 +96,7 @@
                         btn.innerText = "Take"
                         container.appendChild(div).appendChild(btn)
 
-                        btn.addEventListener("click", async function () {
-                            try {
-                                const response = await
-                                    fetch("/usersbooks", {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({ bookname: name, username: localStorage.getItem("username") })
-                                    })
-
-                                let data = await response.json();
-
-                                usersBooksContainer.innerHTML = ""
-
-                                data.usersersBooks.map(name => {
-                                    const div = document.createElement("div")
-                                    div.innerText = name
-                                    usersBooksContainer.appendChild(div)
-                                })
-                            } catch (error) {
-                                console.error(error);
-                            }
-                        })
+                        btn.addEventListener("click", async () => drawUsersBooks("/usersbooks", name))
                     })
                 }
 
@@ -141,11 +149,11 @@
             }
         }
 
-
         window.onload = async function () {
             let user = localStorage.getItem("username")
             document.getElementById("welcom").textContent = `Hi ${user}`
             get("/getbooks")
+            drawUsersBooks("/takeusersbooks", "")
         }
 
         findName.addEventListener("click", async () => postSearch("/searchbooks", searchName, "bookName"))
