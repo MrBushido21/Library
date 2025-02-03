@@ -31,22 +31,23 @@ proc handler { op sock } {
             set path [string trimleft $data(url) /]
             puts "parse path '$path'"
             switch -glob -- $path {
-                "register"       {httpd return $sock [register data [array get query] [httpd headers $sock]] -mimetype "text/json"}
-                "login"          {httpd return $sock [login data [array get query] [httpd headers $sock]] -mimetype "text/json"}
-                "searchbooks"    {httpd return $sock [searchbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
-                "sortbooks"      {httpd return $sock [sortbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
-                "usersbooks"     {httpd return $sock [usersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
-                "takeusersbooks" {httpd return $sock [takeusersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
-                "getbooks"       {httpd return $sock [getbooks] -mimetype "text/html"}
-                ""               {httpd return $sock [filecontent index.html] -mimetype "text/html"}
-                "*.js"           {httpd return $sock [filecontent $path] -mimetype "text/javascript"}
-                "*.gif"          {httpd returnfile $sock [file join $::wwwroot $path] $path "image/gif" [clock seconds] 1 -static }
-                "*.png"          {httpd returnfile $sock [file join $::wwwroot $path] $path "image/png" [clock seconds] 1 -static }
-                "*.jpg"          {httpd returnfile $sock [file join $::wwwroot $path] $path "image/jpeg" [clock seconds] 1 -static }
-                "*.ico"          {httpd returnfile $sock [file join $::wwwroot $path] $path "image/x-icon" [clock seconds] 1 -static }
-                "*.css"          {httpd return $sock [filecontent $path] -mimetype "text/css"}
-                "*.html"         {httpd return $sock [filecontent $path] -mimetype "text/html"}
-                default          {httpd error $sock 404 ""}
+                "register"          {httpd return $sock [register data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "login"             {httpd return $sock [login data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "searchbooks"       {httpd return $sock [searchbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "sortbooks"         {httpd return $sock [sortbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "usersbooks"        {httpd return $sock [usersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "updateusersbooks"  {httpd return $sock [updateusersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "takeusersbooks"    {httpd return $sock [takeusersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "getbooks"          {httpd return $sock [getbooks] -mimetype "text/html"}
+                ""                  {httpd return $sock [filecontent index.html] -mimetype "text/html"}
+                "*.js"              {httpd return $sock [filecontent $path] -mimetype "text/javascript"}
+                "*.gif"             {httpd returnfile $sock [file join $::wwwroot $path] $path "image/gif" [clock seconds] 1 -static }
+                "*.png"             {httpd returnfile $sock [file join $::wwwroot $path] $path "image/png" [clock seconds] 1 -static }
+                "*.jpg"             {httpd returnfile $sock [file join $::wwwroot $path] $path "image/jpeg" [clock seconds] 1 -static }
+                "*.ico"             {httpd returnfile $sock [file join $::wwwroot $path] $path "image/x-icon" [clock seconds] 1 -static }
+                "*.css"             {httpd return $sock [filecontent $path] -mimetype "text/css"}
+                "*.html"            {httpd return $sock [filecontent $path] -mimetype "text/html"}
+                default             {httpd error $sock 404 ""}
             }
         }
     }
@@ -107,7 +108,13 @@ proc takeusersbooks {datavar query headers} {
     upvar $datavar data
     parray data
     set list [request $data(postdata)]
-    takeBookList [lindex $list 1]
+    takeBookList [lindex $list 0]
+}
+proc updateusersbooks {datavar query headers} {
+    upvar $datavar data
+    parray data
+    set list [request $data(postdata)]
+    updateBookList [lindex $list 0] [lindex $list 1]
 }
 
 

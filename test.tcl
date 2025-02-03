@@ -3,7 +3,8 @@ package require json
 source utils.tcl
 source json.tcl
 
-proc takeBookList {username} {
+
+proc updateBookList {bookname username} {
     set file_name "users.dbf"
     dbf d -open $file_name
 
@@ -11,19 +12,10 @@ proc takeBookList {username} {
     set rowid [searchUtils $data $username]
     set field [$d get $rowid BOOKS]
 
-    set json {}
-    foreach book $field {
-        set name [lindex $book 0]
-        set currentTime [lindex $book 1]
-        set backTime [lindex $book 2]
-
-        lappend json [subst {"name":"$name", "currentTime":"$currentTime", "backTime":"$backTime"}] ","
-    }
-
-    return \[[string range $json 0 end-1]\]
-
+    set index [searchUtils $field $bookname]
+    set newField [lreplace $field $index $index]
+    $d update $rowid BOOKS $newField
     $d close
 }
 
-puts [createBookList "oleglis"]
-
+puts [updateBookList "Harry Potter" "oleglis"]

@@ -31,9 +31,12 @@
         <span>Users books:</span>
         <div id="usersBooksContainer"></div>
     </div>
-
-
-
+    <div>
+        <br>
+        <br>
+        <span>Users Fines:</span>
+        <div id="usersFinesContainer"></div> 
+    </div>
     <!-- ==================================================== -->
     <script>
         let findName = document.getElementById("findName")
@@ -49,7 +52,9 @@
         let container = document.getElementById("container")
         let searchContainer = document.getElementById("searchContainer")
         let usersBooksContainer = document.getElementById("usersBooksContainer")
+        let usersFinesContainer = document.getElementById("usersFinesContainer")
 
+       
         async function drawUsersBooks(path, name) {
             try {
                 const response = await
@@ -74,14 +79,62 @@
                     btnBack.innerText = "Get back"
                     spanC.innerText = ` Time of take: ${book.currentTime}`
                     spanB.innerText = ` Time of back: ${book.backTime}`
-                    usersBooksContainer.appendChild(div).appendChild(spanC).appendChild(spanB).appendChild(btnBack)
+                    usersBooksContainer.appendChild(div).appendChild(spanC)
+                        .insertAdjacentElement("afterend", spanB).insertAdjacentElement("afterend", btnBack)
 
+                    btnBack.addEventListener("click", async () => drawUsersBooks("/updateusersbooks", book.name))
+
+
+                    async function checkTime(targetTime, bookname) {
+                        const target = targetTime.split(":");
+                        const targetDate = new Date();
+                        targetDate.setHours(target[0], target[1], target[2], 0); // Устанавливаем нужное время
+
+                        const interval = setInterval(() => {
+                            const currentTime = new Date();
+                            if (currentTime >= targetDate) {
+                                alert(`Time to get back book ${bookname}`);
+                                drawUsersFines("/updateusersbooks", book.name)
+                                clearInterval(interval); // Останавливаем интервал после выполнения
+                            }
+                        }, 1000); // Проверяем каждую секунду
+                    }
+
+                    checkTime(book.backTime, book.name)
                 })
+
+
             } catch (error) {
                 console.error(error);
             }
         }
 
+        async function drawUsersFines(path, name) {
+            try {
+                const response = await
+                    fetch(path, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ bookname: name, username: localStorage.getItem("username") })
+                    })
+
+                let data = await response.json();
+
+                usersFinesContainer.innerHTML = ""  
+                
+                data.fines.map(fine => {
+                    const div = document.createElement("div")
+                    div.innerText = fine
+                    usersFinesContainer.appendChild(div)
+                })
+                drawUsersBooks("/takeusersbooks", "")
+            } catch (error) {
+                console.error(error);                
+            }
+        }
+        
         async function drawResult(response, container) {
             if (response.ok) {
                 let data = await response.json();
@@ -158,6 +211,10 @@
 
         findName.addEventListener("click", async () => postSearch("/searchbooks", searchName, "bookName"))
         findAhutor.addEventListener("click", async () => postSearch("/searchbooks", searchAhutor, "author"))
+
+
+
+
 
         sortN.addEventListener("click", async () => postSort("/sortbooks", "2", ""))
         sortA.addEventListener("click", async () => postSort("/sortbooks", "3", ""))

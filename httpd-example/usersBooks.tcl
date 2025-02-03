@@ -9,8 +9,8 @@ proc createBookList {bookname username} {
     set data [$d values NAME]
     set rowid [searchUtils $data $username]
     set field [$d get $rowid BOOKS]
-    set curentTime [clock format [clock seconds] -format "%Y-%m-%d %H:%M:%S"]
-    set backTime [clock format [clock add [clock seconds] 5 minutes] -format "%Y-%m-%d %H:%M:%S"]
+    set curentTime [clock format [clock seconds] -format "%H:%M:%S"]
+    set backTime [clock format [clock add [clock seconds] 1 minutes] -format "%H:%M:%S"]
     set bookAndTime "\{$bookname\} \{$curentTime\} \{$backTime\}"
 
     if {$field eq ""} {
@@ -57,4 +57,31 @@ proc takeBookList {username} {
     return \[[string range $json 0 end-1]\]
 
     $d close
+}
+
+proc updateBookList {bookname username} {
+    set file_name "users.dbf"
+    dbf d -open $file_name
+
+    set data [$d values NAME]
+    set rowid [searchUtils $data $username]
+    set field [$d get $rowid BOOKS]
+    set fines [$d get $rowid FINES]
+
+    set index [searchUtils $field $bookname]
+    set newField [lreplace $field $index $index]
+    $d update $rowid BOOKS $newField
+
+    set fine "Fine 100$ for $bookname"
+    if {$fines eq ""} {
+        $d update $rowid FINES "\{Fine 100$ for $bookname\}"
+    }
+
+    if {$fines ne "" && [lsearch -exact $fines $fine] == -1} {
+        lappend fines $fine
+        $d update $rowid FINES $fines
+    }
+    
+    $d close
+    return [json_create "fines" $fines]
 }

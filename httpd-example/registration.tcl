@@ -19,6 +19,7 @@ proc reg {nameValue passValue} {
       $d add NAME String 50
       $d add PASS String 50
       $d add BOOKS String 250
+      $d add FINES String 250
       $d insert end $nameValue $passValue ""
       $d close
     }     
