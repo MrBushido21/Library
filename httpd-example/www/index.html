@@ -48,9 +48,21 @@
 
 
 
-        function rout(name) {
+        function rout(name, status) {
             localStorage.setItem("username", name)
-            window.location.href = "newpage.html"
+            localStorage.setItem("status", status)
+            switch (status.trim()) {
+                case "user":
+                    window.location.href = "userpage.html"
+                    break;
+                case "librarian": 
+                    window.location.href = "librarianpage.html"
+                case "admin": 
+                    window.location.href = "adminpage.html"
+                default:
+                    // window.location.href = "userpage.html"
+                    break;
+            }
             logSpan.textContent = "succes"
         }
 
@@ -77,10 +89,15 @@
                         
                     if (response.ok) {
                         const result = await response.text();
-                        if (result == 1) {
-                            rout(userValue)
+                        if (result.length > 10) {
+                            span.textContent = result                            
                         } else {
-                            span.textContent = result
+                            console.log(result == 1);
+                            if (result == 1) {
+                                let status = "user"
+                                rout(userValue, status)
+                            }
+                            rout(userValue, result)
                         }
 
                     } else {

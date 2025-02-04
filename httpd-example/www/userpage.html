@@ -35,7 +35,7 @@
         <br>
         <br>
         <span>Users Fines:</span>
-        <div id="usersFinesContainer"></div> 
+        <div id="usersFinesContainer"></div>
     </div>
     <!-- ==================================================== -->
     <script>
@@ -54,7 +54,7 @@
         let usersBooksContainer = document.getElementById("usersBooksContainer")
         let usersFinesContainer = document.getElementById("usersFinesContainer")
 
-       
+
         async function drawUsersBooks(path, name) {
             try {
                 const response = await
@@ -82,25 +82,40 @@
                     usersBooksContainer.appendChild(div).appendChild(spanC)
                         .insertAdjacentElement("afterend", spanB).insertAdjacentElement("afterend", btnBack)
 
-                    btnBack.addEventListener("click", async () => drawUsersBooks("/updateusersbooks", book.name))
-
+                    const timers = {}; // Объект для хранения интервалов по книгам
 
                     async function checkTime(targetTime, bookname) {
+                        if (timers[bookname]) return; // Если таймер уже есть, не создаём новый
+
                         const target = targetTime.split(":");
                         const targetDate = new Date();
-                        targetDate.setHours(target[0], target[1], target[2], 0); // Устанавливаем нужное время
+                        targetDate.setHours(target[0], target[1], target[2], 0);
 
-                        const interval = setInterval(() => {
+                        timers[bookname] = setInterval(() => {
                             const currentTime = new Date();
                             if (currentTime >= targetDate) {
                                 alert(`Time to get back book ${bookname}`);
-                                drawUsersFines("/updateusersbooks", book.name)
-                                clearInterval(interval); // Останавливаем интервал после выполнения
+                                drawUsersFines("/getfines", bookname);
+                                drawUsersBooks("/updateusersbooks", book.name);
+                                clearInterval(timers[bookname]); // Останавливаем таймер
+                                delete timers[bookname]; // Удаляем из объекта
                             }
-                        }, 1000); // Проверяем каждую секунду
+                        }, 1000);
+                    }
+                    
+                    btnBack.addEventListener("click", () => {
+                        if (timers[book.name]) { // Если таймер существует, останавливаем его
+                            clearInterval(timers[book.name]);
+                            delete timers[book.name];
+                        }
+                        drawUsersBooks("/updateusersbooks", book.name); // Обновляем список
+                    });
+
+                    // Запуск таймера только если его ещё нет
+                    if (!timers[book.name]) {
+                        checkTime(book.backTime, book.name);
                     }
 
-                    checkTime(book.backTime, book.name)
                 })
 
 
@@ -122,8 +137,8 @@
 
                 let data = await response.json();
 
-                usersFinesContainer.innerHTML = ""  
-                
+                usersFinesContainer.innerHTML = ""
+
                 data.fines.map(fine => {
                     const div = document.createElement("div")
                     div.innerText = fine
@@ -131,10 +146,10 @@
                 })
                 drawUsersBooks("/takeusersbooks", "")
             } catch (error) {
-                console.error(error);                
+                console.error(error);
             }
         }
-        
+
         async function drawResult(response, container) {
             if (response.ok) {
                 let data = await response.json();

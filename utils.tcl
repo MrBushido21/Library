@@ -25,3 +25,26 @@ proc searchUtils {data bookName} {
          
       return $rowid
 }
+
+proc searchUtilsStrict {data username} {
+    set rowid {}
+      set i 0
+      foreach name $data {
+            if {[string match -nocase $username $name]} {
+                  lappend rowid $i
+            }
+            incr i
+      }
+
+         
+      return $rowid
+}
+
+proc testUsernameUtils {data username} {
+    foreach name $data {
+        if {[string match $username $name]} {
+            return 1
+        } 
+    }
+    return "wrong"
+}

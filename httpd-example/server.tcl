@@ -1,10 +1,12 @@
 source json.tcl
+source utils.tcl
 source httpd.tcl
 source registration.tcl
 source login.tcl
 source searchBook.tcl
 source sotrBook.tcl
 source usersBooks.tcl
+source librarian.tcl
 package require tcldbf
 package require json
 namespace import httpd::*
@@ -37,8 +39,11 @@ proc handler { op sock } {
                 "sortbooks"         {httpd return $sock [sortbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "usersbooks"        {httpd return $sock [usersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "updateusersbooks"  {httpd return $sock [updateusersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "getfines"          {httpd return $sock [getfines data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "takeusersbooks"    {httpd return $sock [takeusersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "userrequests"      {httpd return $sock [userrequests data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "getbooks"          {httpd return $sock [getbooks] -mimetype "text/html"}
+                "getusers"          {httpd return $sock [getusers] -mimetype "text/html"}
                 ""                  {httpd return $sock [filecontent index.html] -mimetype "text/html"}
                 "*.js"              {httpd return $sock [filecontent $path] -mimetype "text/javascript"}
                 "*.gif"             {httpd returnfile $sock [file join $::wwwroot $path] $path "image/gif" [clock seconds] 1 -static }
@@ -70,6 +75,24 @@ proc getbooks {} {
     set data [$d values bookName]
     $d close
     return [json_create "books" $data]
+}
+proc getusers {} {
+    set file_name "users.dbf"
+    dbf d -open $file_name
+    set NAMES [$d values NAME]
+    set PASSES [$d values PASS]
+   
+    set json {}
+    foreach name $NAMES {
+        set rowid [searchUtilsStrict $NAMES $name]
+        set PASS [$d get $rowid PASS]
+        set name $name
+
+        lappend json [subst {"name":"$name", "pass":"$PASS"}] ","
+    }
+
+    return \[[string range $json 0 end-1]\] 
+    $d close
 }
 
 #==================================
@@ -110,12 +133,26 @@ proc takeusersbooks {datavar query headers} {
     set list [request $data(postdata)]
     takeBookList [lindex $list 0]
 }
+proc userrequests {datavar query headers} {
+    upvar $datavar data
+    parray data
+    set list [request $data(postdata)]
+    getuserrequests [lindex $list 0]
+}
 proc updateusersbooks {datavar query headers} {
     upvar $datavar data
     parray data
     set list [request $data(postdata)]
     updateBookList [lindex $list 0] [lindex $list 1]
 }
+proc getfines {datavar query headers} {
+    upvar $datavar data
+    parray data
+    set list [request $data(postdata)]
+    getFines [lindex $list 0] [lindex $list 1]
+}
+
+
 
 
 

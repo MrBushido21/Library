@@ -9,7 +9,7 @@ proc reg {nameValue passValue} {
       dbf d -open $file_name
       set data [$d values NAME]
       if {[lsearch -exact $data $nameValue] == -1} {
-            $d update end NAME $nameValue PASS $passValue
+            $d update end NAME $nameValue PASSWORD $passValue STATUS "user"
             $d close       
         } else {
            return "A user with this name already exists, please think of another username"  
@@ -17,18 +17,16 @@ proc reg {nameValue passValue} {
     } else {
       dbf d -create $file_name -codepage "LDID/38"
       $d add NAME String 50
-      $d add PASS String 50
+      $d add PASSWORD String 50
       $d add BOOKS String 250
       $d add FINES String 250
-      $d insert end $nameValue $passValue ""
+      $d add REQUESTS String 250
+      $d add STATUS String 9
+      $d add PASS String 1
+      $d insert end $nameValue $passValue "" "" "" "admin" "0"
       $d close
     }     
 }
-
-
-
-
-# default codepage "LDID/87" ( 87 - system ANSI, 38/101 - cp866, 201 - cp1251 ) */
 
 
 

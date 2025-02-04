@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>librarian page</h1>
+    <div>Users:</div>
+    <div id="container" style="display: flex; flex-direction: column; row-gap: 10px;"></div>
+    <script>
+        let container = document.getElementById("container")
+
+
+
+        async function authorise(path, name, bookname, requestContainer) {
+            try {
+                const response = await
+                    fetch(path, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ bookname: bookname, username: name })
+                    })
+
+                    getUsersRequests("/userrequests", name, requestContainer)
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function getUsersRequests(path, name, requestContainer) {
+            try {
+                const response = await
+                    fetch(path, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username: name })
+                    })
+
+                let data = await response.json();
+
+                data.requests.map(request => {
+                        const div = document.createElement("div")
+                        const btn = document.createElement("button")
+                        div.innerText = request
+                        btn.innerText = "Yes"
+                        requestContainer.appendChild(div).appendChild(btn)
+
+                        btn.addEventListener("click", async () => authorise("/usersbooks", name, request, requestContainer))
+                })
+
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        window.onload = async function () {
+            try {
+                const response = await
+                fetch('/getusers')
+                if (response.ok) {
+                let data = await response.json();
+                container.innerHTML = ""
+                if (data.length == 0) {
+                    container.innerText = "not found"
+                } else {
+                    data.map(user => {
+                        const div = document.createElement("div")
+                        const span = document.createElement("span")
+                        const btn = document.createElement("button")
+                        const requestContainer = document.createElement("div")
+                        div.innerText = `Username: ${user.name} `
+                        span.innerText = ` PASS: ${user.pass == 1 ? "Yes" : "No"} `
+                        btn.innerText = " Show requests"
+                        container.appendChild(div).appendChild(span).appendChild(btn).insertAdjacentElement("afterend", requestContainer)
+
+                        btn.addEventListener("click", async () => getUsersRequests("/userrequests", user.name, requestContainer))
+                    })
+                }
+
+            } else {
+                console.error(error);
+            }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    </script>
+</body>
+</html>
