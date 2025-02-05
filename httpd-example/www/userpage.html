@@ -54,7 +54,20 @@
         let usersBooksContainer = document.getElementById("usersBooksContainer")
         let usersFinesContainer = document.getElementById("usersFinesContainer")
 
-
+        async function createrequest(bookname) {
+            try {
+                const response = await
+                    fetch("/createrequest", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ bookname: bookname, username: localStorage.getItem("username") })
+                    }) 
+            } catch (error) {
+                console.error(error);              
+            }
+        }
         async function drawUsersBooks(path, name) {
             try {
                 const response = await
@@ -164,7 +177,7 @@
                         btn.innerText = "Take"
                         container.appendChild(div).appendChild(btn)
 
-                        btn.addEventListener("click", async () => drawUsersBooks("/usersbooks", name))
+                        btn.addEventListener("click", async () => createrequest(name))
                     })
                 }
 

@@ -44,7 +44,8 @@
                     })
 
                 let data = await response.json();
-
+                
+                requestContainer.innerHTML = "" 
                 data.requests.map(request => {
                         const div = document.createElement("div")
                         const btn = document.createElement("button")

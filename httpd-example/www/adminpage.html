@@ -7,5 +7,41 @@
 </head>
 <body>
     <h1>ADMIN PAGE</h1>
+
+
+
+    <script>
+        window.onload = async function () {
+            try {
+                const response = await
+                fetch('/getbooks')
+                if (response.ok) {
+                let data = await response.json();
+                container.innerHTML = ""
+                if (data.length == 0) {
+                    container.innerText = "not found"
+                } else {
+                    data.map(user => {
+                        const div = document.createElement("div")
+                        const span = document.createElement("span")
+                        const btn = document.createElement("button")
+                        const requestContainer = document.createElement("div")
+                        div.innerText = `Username: ${user.name} `
+                        span.innerText = ` PASS: ${user.pass == 1 ? "Yes" : "No"} `
+                        btn.innerText = " Show requests"
+                        container.appendChild(div).appendChild(span).appendChild(btn).insertAdjacentElement("afterend", requestContainer)
+
+                        btn.addEventListener("click", async () => getUsersRequests("/userrequests", user.name, requestContainer))
+                    })
+                }
+
+            } else {
+                console.error(error);
+            }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    </script>
 </body>
 </html>

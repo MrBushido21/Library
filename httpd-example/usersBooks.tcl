@@ -78,7 +78,7 @@ proc updateBookList {bookname username} {
     set rowid [searchUtilsStrict $data $username]
     set field [$d get $rowid BOOKS]
 
-    set index [searchUtilsStrict $field $bookname]
+    set index [searchUtils $field $bookname]
     set newField [lreplace $field $index $index]
     $d update $rowid BOOKS $newField
 
@@ -111,4 +111,23 @@ proc getFines {bookname username} {
     
     $d close
     return [json_create "fines" $fines]
+}
+
+proc createRequest {bookname username} {
+    set file_name "users.dbf"
+    dbf d -open $file_name
+
+    set data [$d values NAME]
+    set rowid [searchUtilsStrict $data $username]
+    set requests [$d get $rowid REQUESTS]
+
+     if {$requests eq ""} {
+        $d update $rowid REQUESTS \{$bookname\}
+    }
+
+    if {$requests ne "" && [lsearch -exact $requests $bookname] == -1} {
+        lappend requests $bookname
+        $d update $rowid REQUESTS $requests
+    }
+    return 1
 }

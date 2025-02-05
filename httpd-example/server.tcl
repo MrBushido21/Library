@@ -40,6 +40,7 @@ proc handler { op sock } {
                 "usersbooks"        {httpd return $sock [usersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "updateusersbooks"  {httpd return $sock [updateusersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "getfines"          {httpd return $sock [getfines data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "createrequest"     {httpd return $sock [createrequest data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "takeusersbooks"    {httpd return $sock [takeusersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "userrequests"      {httpd return $sock [userrequests data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "getbooks"          {httpd return $sock [getbooks] -mimetype "text/html"}
@@ -131,7 +132,7 @@ proc takeusersbooks {datavar query headers} {
     upvar $datavar data
     parray data
     set list [request $data(postdata)]
-    takeBookList [lindex $list 0]
+    takeBookList [lindex $list 1]
 }
 proc userrequests {datavar query headers} {
     upvar $datavar data
@@ -150,6 +151,12 @@ proc getfines {datavar query headers} {
     parray data
     set list [request $data(postdata)]
     getFines [lindex $list 0] [lindex $list 1]
+}
+proc createrequest {datavar query headers} {
+    upvar $datavar data
+    parray data
+    set list [request $data(postdata)]
+    createRequest [lindex $list 0] [lindex $list 1]
 }
 
 
