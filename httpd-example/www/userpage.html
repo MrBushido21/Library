@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>USER</title>
 </head>
 
 <body>
@@ -95,10 +95,10 @@
                     usersBooksContainer.appendChild(div).appendChild(spanC)
                         .insertAdjacentElement("afterend", spanB).insertAdjacentElement("afterend", btnBack)
 
-                    const timers = {}; // Объект для хранения интервалов по книгам
+                    const timers = {}; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
                     async function checkTime(targetTime, bookname) {
-                        if (timers[bookname]) return; // Если таймер уже есть, не создаём новый
+                        if (timers[bookname]) return; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
                         const target = targetTime.split(":");
                         const targetDate = new Date();
@@ -110,21 +110,21 @@
                                 alert(`Time to get back book ${bookname}`);
                                 drawUsersFines("/getfines", bookname);
                                 drawUsersBooks("/updateusersbooks", book.name);
-                                clearInterval(timers[bookname]); // Останавливаем таймер
-                                delete timers[bookname]; // Удаляем из объекта
+                                clearInterval(timers[bookname]); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                                delete timers[bookname]; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                             }
                         }, 1000);
                     }
                     
                     btnBack.addEventListener("click", () => {
-                        if (timers[book.name]) { // Если таймер существует, останавливаем его
+                        if (timers[book.name]) { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
                             clearInterval(timers[book.name]);
                             delete timers[book.name];
                         }
-                        drawUsersBooks("/updateusersbooks", book.name); // Обновляем список
+                        drawUsersBooks("/updateusersbooks", book.name); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     });
 
-                    // Запуск таймера только если его ещё нет
+                    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ
                     if (!timers[book.name]) {
                         checkTime(book.backTime, book.name);
                     }
@@ -167,17 +167,17 @@
             if (response.ok) {
                 let data = await response.json();
                 container.innerHTML = ""
-                if (data.books.length == 0) {
+                if (data.length == 0) {
                     container.innerText = "not found"
                 } else {
-                    data.books.map(name => {
+                    data.map(book => {
                         const div = document.createElement("div")
                         const btn = document.createElement("button")
-                        div.innerText = name
+                        div.innerText = book.name
                         btn.innerText = "Take"
                         container.appendChild(div).appendChild(btn)
 
-                        btn.addEventListener("click", async () => createrequest(name))
+                        btn.addEventListener("click", async () => createrequest(book.name))
                     })
                 }
 

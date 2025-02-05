@@ -3,24 +3,21 @@ package require json
 source utils.tcl
 source json.tcl
 
-proc getusers {} {
-    set file_name "users.dbf"
+# $d add id String 2
+# $d add bookText String 100
+# $d add bookName String 50
+# $d add author String 50
+# $d add date String 10
+
+proc deleteBook {bookName} {
+    set file_name "books.dbf"
     dbf d -open $file_name
-    set NAMES [$d values NAME]
-    set PASSES [$d values PASS]
-   
-    set json {}
-    foreach name $NAMES {
-        set rowid [searchUtilsStrict $NAMES $name]
-        set PASS [$d get $rowid PASS]
-        set name $name
 
-        lappend json [subst {"name":"$name", "pass":"$PASS"}] ","
-    }
-
-    return \[[string range $json 0 end-1]\] 
-    $d close
+    set data [$d values bookName]
+    set rowid [searchUtilsStrict $data $bookName]
+    puts [$d deleted $rowid]
 }
 
-puts [getusers]
+puts [deleteBook "Harry Potter"]
+
 

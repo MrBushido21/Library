@@ -3,14 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ADMIN</title>
 </head>
+
+<style>
+    .box {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+    .box button {
+        max-width: 100px;
+    }
+    .box input {
+        max-width: 350px;
+    }
+</style>
 <body>
     <h1>ADMIN PAGE</h1>
-
+    <div style="display: flex; flex-direction: column; row-gap: 10px;">
+        <input id="name" type="text" placeholder="Create name">
+        <input id="text" type="text" placeholder="Create text">
+        <input id="author" type="text" placeholder="Create author">
+        <input id="date" type="text" placeholder="Create date">
+        <button id="createbook">Create book</button>
+    </div>
+    <br>
+    <br>
+    <div id="container" style="display: flex; flex-direction: column; row-gap: 10px;"></div>
 
 
     <script>
+        let name = document.getElementById("name")
+        let text = document.getElementById("text")
+        let author = document.getElementById("author")
+        let date = document.getElementById("date")
+        let createbook = document.getElementById("createbook")
+
+        async function editBooks(bookName, inputNameValue, inputTextValue, inputAuthorValue, inputDateValue) {
+            try {
+                const response = await
+                    fetch("/editbooks", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ bookname: bookName, inputNameValue: inputNameValue, inputTextValue:inputTextValue, 
+                        inputAuthorValue:inputAuthorValue, inputDateValue:inputDateValue })
+                    })
+
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        //====================
+        async function createBook(inputNameValue, inputTextValue, inputAuthorValue, inputDateValue) {
+            try {
+                const response = await
+                    fetch("/createbook", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ inputNameValue: inputNameValue, inputTextValue:inputTextValue, 
+                        inputAuthorValue:inputAuthorValue, inputDateValue:inputDateValue })
+                    })
+
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        createbook.addEventListener("click", async () => createBook(name.value, text.value, author.value, date.value))
+        //=================
+        async function deleteBook(bookName) {
+            try {
+                const response = await
+                    fetch("/deletebook", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ bookname: bookName })
+                    })
+
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
         window.onload = async function () {
             try {
                 const response = await
@@ -21,17 +103,36 @@
                 if (data.length == 0) {
                     container.innerText = "not found"
                 } else {
-                    data.map(user => {
+                    data.map(book => {
                         const div = document.createElement("div")
-                        const span = document.createElement("span")
-                        const btn = document.createElement("button")
-                        const requestContainer = document.createElement("div")
-                        div.innerText = `Username: ${user.name} `
-                        span.innerText = ` PASS: ${user.pass == 1 ? "Yes" : "No"} `
-                        btn.innerText = " Show requests"
-                        container.appendChild(div).appendChild(span).appendChild(btn).insertAdjacentElement("afterend", requestContainer)
+                        div.className = "box"
+                        const spanName = document.createElement("span")
+                        const inputName = document.createElement("input")
+                        const spanText = document.createElement("span")
+                        const inputText = document.createElement("input")
+                        const spanAuthor = document.createElement("span")
+                        const inputAuthor = document.createElement("input")
+                        const spanDate = document.createElement("span")
+                        const inputDate = document.createElement("input")
+                        const btnEdit = document.createElement("button")
+                        const btnDeleted = document.createElement("button")
 
-                        btn.addEventListener("click", async () => getUsersRequests("/userrequests", user.name, requestContainer))
+                        spanName.innerText = ` Name: ${book.name} `
+                        spanText.innerText = ` Text: ${book.text} `
+                        spanAuthor.innerText = ` Author: ${book.author} `
+                        spanDate.innerText = ` Date: ${book.date} `
+                        btnEdit.innerText = "Edit"
+                        btnDeleted.innerText = "Deleted book"
+                        container.appendChild(div).appendChild(spanName).insertAdjacentElement("afterend", inputName)
+                        .insertAdjacentElement("afterend", spanText).insertAdjacentElement("afterend", inputText)
+                        .insertAdjacentElement("afterend", spanAuthor).insertAdjacentElement("afterend", inputAuthor)
+                        .insertAdjacentElement("afterend", spanDate).insertAdjacentElement("afterend", inputDate)
+                        .insertAdjacentElement("afterend", btnEdit)  
+                        .insertAdjacentElement("afterend", btnDeleted)  
+
+                        
+                        btnEdit.addEventListener("click", async () => editBooks(book.name, inputName.value, inputText.value, inputAuthor.value, inputDate.value))
+                        btnEdit.addEventListener("click", async () => deleteBook(book.name))
                     })
                 }
 
