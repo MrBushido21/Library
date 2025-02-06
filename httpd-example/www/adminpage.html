@@ -21,6 +21,7 @@
 </style>
 <body>
     <h1>ADMIN PAGE</h1>
+    <h4>Create book:</h4>
     <div style="display: flex; flex-direction: column; row-gap: 10px;">
         <input id="name" type="text" placeholder="Create name">
         <input id="text" type="text" placeholder="Create text">
@@ -30,7 +31,16 @@
     </div>
     <br>
     <br>
+    <h4>Create librarian:</h4>
+    <div style="display: flex; flex-direction: column; row-gap: 10px;">
+        <input id="username" type="text" placeholder="Create username">
+        <input id="pass" type="text" placeholder="Create pass">
+        <button id="createlibrarian">Create librarian</button>
+    </div>
+    <br>
+    <br>
     <div id="container" style="display: flex; flex-direction: column; row-gap: 10px;"></div>
+    <div id="containerusers" style="display: flex; flex-direction: column; row-gap: 10px;"></div>
 
 
     <script>
@@ -40,7 +50,12 @@
         let date = document.getElementById("date")
         let createbook = document.getElementById("createbook")
 
-        async function editBooks(bookName, inputNameValue, inputTextValue, inputAuthorValue, inputDateValue) {
+        let username = document.getElementById("username")
+        let pass = document.getElementById("pass")
+        let createlibrarian = document.getElementById("createlibrarian")
+        let containerusers = document.getElementById("containerusers")
+
+        async function editBooks(path, bookName, inputNameValue, inputTextValue, inputAuthorValue, inputDateValue) {
             try {
                 const response = await
                     fetch("/editbooks", {
@@ -77,15 +92,15 @@
         }
         createbook.addEventListener("click", async () => createBook(name.value, text.value, author.value, date.value))
         //=================
-        async function deleteBook(bookName) {
+        async function deleted(path, name) {
             try {
                 const response = await
-                    fetch("/deletebook", {
+                    fetch(path, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ bookname: bookName })
+                        body: JSON.stringify({ name: name })
                     })
 
 
@@ -93,6 +108,60 @@
                 console.error(error);
             }
         }
+        //================================
+        async function createLibrarian(username, pass) {
+            try {
+                const response = await
+                    fetch("/createlibrarian", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username: username, pass: pass })
+                    })
+
+
+            } catch (error) {
+                console.error(error);
+            } 
+        }
+        createlibrarian.addEventListener("click", async () => createLibrarian(username.value, pass.value))
+        //===================
+        async function getUsers() {
+            try {
+                const response = await
+                fetch('/getusers')
+                if (response.ok) {
+                let data = await response.json();
+                containerusers.innerHTML = ""
+                if (data.length == 0) {
+                    containerusers.innerText = "not found"
+                } else {
+                    data.map(user => {
+                        if (user.status != "admin") {
+                            const div = document.createElement("div")
+                        const span = document.createElement("span")
+                        const btn = document.createElement("button")
+                        const btnBan = document.createElement("button")
+                        div.innerText = `Username: ${user.name} `
+                        span.innerText = ` Status: ${user.status} `
+                        btn.innerText = "Deleted"
+                        btnBan.innerText = user.banstatus == "Ban" ? "Unban" : "Ban"
+                        containerusers.appendChild(div).appendChild(span).insertAdjacentElement("afterend", btn).insertAdjacentElement("afterend", btnBan)
+                        btn.addEventListener("click", async () => deleted("/deleteduser", user.name)) 
+                        btnBan.addEventListener("click", async () => deleted("/banuser", user.name)) 
+                        }   
+                    })
+                }
+
+            } else {
+                console.error(error);
+            }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        //======================
         window.onload = async function () {
             try {
                 const response = await
@@ -132,7 +201,7 @@
 
                         
                         btnEdit.addEventListener("click", async () => editBooks(book.name, inputName.value, inputText.value, inputAuthor.value, inputDate.value))
-                        btnEdit.addEventListener("click", async () => deleteBook(book.name))
+                        btnDeleted.addEventListener("click", async () => deleted("/deletebook", book.name))
                     })
                 }
 
@@ -142,6 +211,7 @@
             } catch (error) {
                 console.log(error);
             }
+            getUsers()
         }
     </script>
 </body>

@@ -22,8 +22,9 @@ proc reg {nameValue passValue} {
       $d add FINES String 250
       $d add REQUESTS String 250
       $d add STATUS String 9
+      $d add BANSTATUS String 9
       $d add PASS String 1
-      $d insert end $nameValue $passValue "" "" "" "admin" "0"
+      $d insert end $nameValue $passValue "" "" "" "admin" "" "0"
       $d close
     }     
 }

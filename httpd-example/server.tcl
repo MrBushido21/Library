@@ -45,7 +45,11 @@ proc handler { op sock } {
                 "takeusersbooks"    {httpd return $sock [takeusersbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "userrequests"      {httpd return $sock [userrequests data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "editbooks"         {httpd return $sock [editbooks data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "deletebook"        {httpd return $sock [deletebook data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "createbook"        {httpd return $sock [createbook data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "createlibrarian"   {httpd return $sock [createlibrarian data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "deleteduser"       {httpd return $sock [deleteduser data [array get query] [httpd headers $sock]] -mimetype "text/json"}
+                "banuser"           {httpd return $sock [banuser data [array get query] [httpd headers $sock]] -mimetype "text/json"}
                 "getbooks"          {httpd return $sock [getbooks] -mimetype "text/html"}
                 "getusers"          {httpd return $sock [getusers] -mimetype "text/html"}
                 ""                  {httpd return $sock [filecontent index.html] -mimetype "text/html"}
@@ -76,14 +80,19 @@ proc request {data} {
 proc getbooks {} {
     set file_name "books.dbf"
     dbf d -open $file_name
-    set texts [$d values bookText]
     set bookNames [$d values bookName]
-    set authors [$d values author]
-    set dates [$d values date]
-   
+        
+    set noDeletedBooks {}
+    set total [lindex [$d info records] 0]
+    for {set i 0} {$i < $total} {incr i} {
+        if {![$d deleted $i] == 1} {
+            lappend noDeletedBooks [lindex [$d record $i] 1]
+        }
+    } 
+
     set json {}
-    foreach name $bookNames {
-        set rowid [searchUtilsStrict $bookNames $name]
+    foreach name $noDeletedBooks {
+        set rowid [searchUtilsStrict $noDeletedBooks $name]
         set text [$d get $rowid bookText]
         set author [$d get $rowid author]
         set date [$d get $rowid date]
@@ -92,22 +101,30 @@ proc getbooks {} {
         lappend json [subst {"name":"$name", "text":"$text", "author":"$author", "date":"$date"}] ","
     }
 
-    return \[[string range $json 0 end-1]\] 
+    return \[[string range $json 0 end-1]\]  
     $d close
 }
 proc getusers {} {
     set file_name "users.dbf"
     dbf d -open $file_name
     set NAMES [$d values NAME]
-    set PASSES [$d values PASS]
-   
+
+    set noDeletedUsers {}
+    set total [lindex [$d info records] 0]
+    for {set i 0} {$i < $total} {incr i} {
+        if {![$d deleted $i] == 1} {
+            lappend noDeletedUsers [lindex [$d record $i] 0]
+        }
+    }
     set json {}
-    foreach name $NAMES {
-        set rowid [searchUtilsStrict $NAMES $name]
+    foreach name $noDeletedUsers {
+        set rowid [searchUtilsStrict $noDeletedUsers $name]
         set PASS [$d get $rowid PASS]
+        set STATUS [$d get $rowid STATUS]
+        set BANSTATUS [$d get $rowid BANSTATUS]
         set name $name
 
-        lappend json [subst {"name":"$name", "pass":"$PASS"}] ","
+        lappend json [subst {"name":"$name", "pass":"$PASS", "status": "$STATUS", "banstatus": "$BANSTATUS"}] ","
     }
 
     return \[[string range $json 0 end-1]\] 
@@ -182,11 +199,35 @@ proc editbooks {datavar query headers} {
     set list [request $data(postdata)]
     editBooks [lindex $list 0] [lindex $list 1] [lindex $list 2] [lindex $list 3] [lindex $list 4]
 }
+proc deletebook {datavar query headers} {
+    upvar $datavar data
+    parray data
+    set list [request $data(postdata)]
+    deleteBook [lindex $list 0]
+}
 proc createbook {datavar query headers} {
     upvar $datavar data
     parray data
     set list [request $data(postdata)]
     createBook [lindex $list 0] [lindex $list 1] [lindex $list 2] [lindex $list 3]
+}
+proc createlibrarian {datavar query headers} {
+    upvar $datavar data
+    parray data
+    set list [request $data(postdata)]
+    createLibrarian [lindex $list 0] [lindex $list 1]
+}
+proc deleteduser {datavar query headers} {
+    upvar $datavar data
+    parray data
+    set list [request $data(postdata)]
+    deletedUser [lindex $list 0]
+}
+proc banuser {datavar query headers} {
+    upvar $datavar data
+    parray data
+    set list [request $data(postdata)]
+    banUser [lindex $list 0]
 }
 
 

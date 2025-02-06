@@ -73,7 +73,8 @@
                     container.innerText = "not found"
                 } else {
                     data.map(user => {
-                        const div = document.createElement("div")
+                        if (user.status != "admin" && user.status != "librarian") {
+                            const div = document.createElement("div")
                         const span = document.createElement("span")
                         const btn = document.createElement("button")
                         const requestContainer = document.createElement("div")
@@ -83,6 +84,8 @@
                         container.appendChild(div).appendChild(span).appendChild(btn).insertAdjacentElement("afterend", requestContainer)
 
                         btn.addEventListener("click", async () => getUsersRequests("/userrequests", user.name, requestContainer))
+                        }
+                        
                     })
                 }
 

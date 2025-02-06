@@ -25,15 +25,44 @@ proc editBooks {bookName inputNameValue inputTextValue inputAuthorValue inputDat
 proc createBook {inputNameValue inputTextValue inputAuthorValue inputDateValue} {
     set file_name "books.dbf"
      dbf d -open $file_name
-    $d update end id [expr {[llength [$d values bookName]] + 1}] bookName $inputNameValue bookText $inputTextValue author $inputAuthorValue date $inputDateValue 
+    $d update end bookName $inputNameValue bookText $inputTextValue author $inputAuthorValue date $inputDateValue 
     $d close
 }
 
 proc deleteBook {bookName} {
-    set file_name "books.dbf"
+   set file_name "books.dbf"
     dbf d -open $file_name
+    set bookNames [$d values bookName]    
+    set rowid [searchUtilsStrict $bookNames $bookName]
+    $d deleted $rowid true
+    $d close
+}
 
-    set data [$d values bookName]
-    set rowid [searchUtilsStrict $data $bookName]
-    $d deleted $rowid [true]
+proc createLibrarian {name pass} {
+    set file_name "users.dbf"
+    dbf d -open $file_name
+    $d update end NAME $name PASSWORD $pass STATUS "librarian"
+    $d close
+}
+proc deletedUser {name} {
+    set file_name "users.dbf"
+    dbf d -open $file_name
+    set users [$d values NAME]    
+    set rowid [searchUtilsStrict $users $name]
+    $d deleted $rowid true
+    $d close
+}
+proc banUser {name} {
+    set file_name "users.dbf"
+    dbf d -open $file_name
+    set users [$d values NAME]    
+    set rowid [searchUtilsStrict $users $name]
+    set banstatus [$d get $rowid BANSTATUS]
+    if {$banstatus eq ""} {
+        $d update $rowid BANSTATUS "Ban"
+    } else {
+       $d update $rowid BANSTATUS "" 
+    }
+    
+    $d close
 }

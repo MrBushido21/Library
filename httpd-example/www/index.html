@@ -51,17 +51,15 @@
         function rout(name, status) {
             localStorage.setItem("username", name)
             localStorage.setItem("status", status)
-            switch (status.trim()) {
-                case "user":
-                    window.location.href = "userpage.html"
-                    break;
-                case "librarian": 
-                    window.location.href = "librarianpage.html"
-                case "admin": 
-                    window.location.href = "adminpage.html"
-                default:
-                    // window.location.href = "userpage.html"
-                    break;
+
+            if (status.trim() == "user") {
+                window.location.href = "userpage.html"
+            }
+            if (status.trim() == "librarian") {
+                window.location.href = "librarianpage.html"
+            }
+            if (status.trim() == "admin") {
+                window.location.href = "adminpage.html"
             }
             logSpan.textContent = "succes"
         }
@@ -92,7 +90,6 @@
                         if (result.length > 10) {
                             span.textContent = result                            
                         } else {
-                            console.log(result == 1);
                             if (result == 1) {
                                 let status = "user"
                                 rout(userValue, status)
