@@ -10,6 +10,18 @@ proc sort {index decreasing} {
       for {set i 0} {$i < $quantity} {incr i} {
             lappend records [$d record $i]
       }
-      return [json_create "books" [sortUtils $records $index $decreasing]]
+      set sirtedList [sortUtils $records $index $decreasing]
+      set json {}
+      foreach name $sirtedList {
+            set rowid [searchUtilsStrict $sirtedList $name]
+            set text [$d get $rowid bookText]
+            set author [$d get $rowid author]
+            set date [$d get $rowid date]
+            set name $name
+
+            lappend json [subst {"name":"$name", "text":"$text", "author":"$author", "date":"$date"}] ","
+      }
+
+      return \[[string range $json 0 end-1]\]
       $d close
 }

@@ -11,9 +11,20 @@ proc searchBook {bookName field} {
       set result {}
       foreach number $rowid {
             set row [$d record $number]
-            lappend result [lindex $row 2]
+            lappend result [lindex $row 1]
       } 
-      return [json_create "books" $result]
+      set json {}
+      foreach name $result {
+            set rowid [searchUtilsStrict $result $name]
+            set text [$d get $rowid bookText]
+            set author [$d get $rowid author]
+            set date [$d get $rowid date]
+            set name $name
+
+            lappend json [subst {"name":"$name", "text":"$text", "author":"$author", "date":"$date"}] ","
+      }
+
+      return \[[string range $json 0 end-1]\]
       $d close
 }
 

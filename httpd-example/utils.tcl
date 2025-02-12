@@ -62,7 +62,7 @@ proc sortUtils {records index decreasing} {
       
       set books {}
       foreach list $sortedRecords {
-            lappend books [lindex $list 2]
+            lappend books [lindex $list 1]
       }
       return $books
 }
